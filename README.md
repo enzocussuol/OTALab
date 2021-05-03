@@ -1,4 +1,4 @@
-# Upload Over the Air de Código Fonte .ino para Dispositivos Genéricos
+# Upload Over the Air de Código Fonte .ino para Múltiplos Dispositivos
 
 ## Introdução
 

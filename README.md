@@ -37,7 +37,11 @@ Além disso, o arduino-cli, e consequentemente o script, requer que a plataforma
 
 `arduino-cli core install <plataforma>`
 
-Onde o parâmetro plataforma irá depender do dispositivo. Para verificar a lista de todas as plataformas aceitas pelo arduino-cli, basta rodar:
+Onde o parâmetro plataforma irá depender do dispositivo. Por exemplo, para o ESP8266, o comando seria:
+
+`arduino-cli core install esp8266:esp8266`
+
+Para verificar a lista de todas as plataformas aceitas pelo arduino-cli, basta rodar:
 
 `arduino-cli board listall`
 

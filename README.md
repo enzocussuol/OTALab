@@ -18,14 +18,6 @@ Com a porta presente na rede, o script têm caminho livre para continuar, uma ve
 
 O principal componente que permite o funcionamento do script é o software arduino-cli. Esse software permite ao usuário realizar uma série de atividades com placas compatíveis com o Arduino por meio da linha de comando. Disponível para instalação em [arduino-cli](https://github.com/arduino/arduino-cli).
 
-O arduino-cli, e consequentemente o script, requer que a plataforma do dispositivo em questão esteja instalada. Isso pode ser feito por meio do comando:
-
-`arduino-cli core install arduino:avr`
-
-Para verificar a lista de todas as plataformas aceitas pelo arduino-cli, basta rodar:
-
-`arduino-cli board listall`
-
 Caso o usuário não esteja trabalhando com dispositivos nativos da plataforma Arduino, tais como o ESP32 e o ESP8266, é necessário fazer com que o arduino-cli reconheça esse dispositivo. Para isso, é preciso adicionar os pacotes desses dispositivos no arquivo de configuração do arduino-cli. Caso este arquivo ainda não exista, crie-o com:
 
 `arduino-cli config init`
@@ -37,9 +29,17 @@ additional_urls:
     [https://arduino.esp8266.com/stable/package_esp8266com_index.json]
 ```
 
-Agora, basta atualizar o núcleo do arduino-cli com o comando:
+Agora, deve-se atualizar o núcleo do arduino-cli com o comando:
 
 `arduino-cli core update-index`
+
+Além disso, o arduino-cli, e consequentemente o script, requer que a plataforma do dispositivo em questão esteja instalada. Isso pode ser feito por meio do comando:
+
+`arduino-cli core install <plataforma>`
+
+Onde o parâmetro plataforma irá depender do dispositivo. Para verificar a lista de todas as plataformas aceitas pelo arduino-cli, basta rodar:
+
+`arduino-cli board listall`
 
 Mais informações sobre o arduino-cli em [documentação arduino-cli](https://arduino.github.io/arduino-cli/latest/getting-started/) e [tutorial arduino-cli](https://create.arduino.cc/projecthub/B45i/getting-started-with-arduino-cli-7652a5).
 

@@ -59,7 +59,7 @@ Feito todos os requisitos, basta executar o comando para rodar o script de fato.
 
 Por exemplo, se quiséssemos enviar o código fonte OTABlink.ino (código hipotético que faz piscar um LED a cada x segundos) para um esp8266 modelo d1_mini cujo chip possui id 499b6d, faríamos:
 
-`sh script.sh esp8266:499b6d OTABlink esp8266:esp8266:d1_mini`
+`sh script.sh esp8266-499b6d OTABlink esp8266:esp8266:d1_mini`
 
 Detalhe: o arquivo .ino deve estar no mesmo diretório do script. Após a execução, em caso de sucesso, o novo código será armazenado no dispositivo. Além disso, será criada uma pasta com o nome do projeto, onde irá se encontrar uma cópia do arquivo .ino, um arquivo .ino.bin e uma pasta build, com informações sobre a compilação do .ino.
 

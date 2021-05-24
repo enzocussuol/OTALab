@@ -1,14 +1,12 @@
 #!/bin/bash
 
-# INCOMPLETO: FALTA RESOLVER A SITUACAO DO NOME DA PORTA
-# NAO EXECUTAR!
+# Envia um codigo para todos os dispositivos ativos na rede
+# $1 representa o nome do projeto (escolhido pelo usuario)
 
-while read linha # Le cada linha do arquivo dispositivos.txt
+numAtivos="$(jq length ~/ProjetoOTA/Relatorios/ativos.json)" # Obtem o numero de dispositivos ativos
+
+# Loop entre cada dispositivo i ativo
+for counter in $(seq 0 ($numAtivos-1));
 do
-    IFS=' ' read -ra ADDR <<< $linha # Pega cada parte da linha separado por espaco
-    for i in "${ADDR[@]}" # Chama enviaCodigo.sh mandando a primeira parte da linha (nome do dispositivo na rede)
-    do
-        bash enviaCodigo.sh $i $1 $2 # FALTA RESOLVER: $2 COMO NOME DA PORTA!!!
-        break
-    done
-done < "dispositivos.txt"
+    bash enviaCodigo.sh $counter $1 # Envia o codigo para o dispositivo i
+done

@@ -9,16 +9,17 @@
     using namespace std;
 
     class Dispositivo{
-        String nome;
-        String placa;
-        IPAddress ip;
+        private:
+            String nome;
+            String placa;
+            IPAddress ip;
 
-        public:
-            Dispositivo(int);
             String getNome() const;
             String getPlaca() const;
             IPAddress getIp() const;
             void setIp(IPAddress);
+        public:
+            Dispositivo(int);
             void start();
             void handle();
     };

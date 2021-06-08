@@ -22,6 +22,9 @@ mkdir $2/build # Cria pasta dentro do projeto que tem os arquivos de compilacao
 cp DispositivoOTAWS.cpp $2/
 cp DispositivoOTAWS.h $2/
 
+cp Sensor.cpp $2/
+cp Sensor.h $2/
+
 cp $2.ino $2/ # Move o arquivo para dentro da pasta do projeto
 
 echo "Compilando..."

@@ -20,10 +20,25 @@ unsigned long previousTime = 0;
 const long timeoutTime = 2000;
 
 Dispositivo::Dispositivo(int id){
-    if(id == 1){
+    this->sensores = new std::list<Sensor*>;
+
+    Sensor* sensorUmidadeTemperatura = new Sensor("DHT11");
+    // Sensor* sensorRGB = new Sensor("TCS34725");
+    Sensor* sensorPoeira = new Sensor("DSM501A");
+    // Sensor* sensorToque = new Sensor("IEFSR");
+
+    if(id == esp8266D1Mini){
         this->nome = "esp8266D1Mini";
         this->placa = "esp8266:esp8266:d1_mini";
-    }else if(id == 2){
+
+        sensorUmidadeTemperatura->getConexoes()->insert({"Data", "D3"});
+
+        sensorPoeira->getConexoes()->insert({"PM2.5", "D4"});
+        sensorPoeira->getConexoes()->insert({"PM1.0", "D5"});
+
+        this->sensores->push_back(sensorUmidadeTemperatura);
+        this->sensores->push_back(sensorPoeira);
+    }else if(id == esp8266NodeMCU){
         this->nome = "esp8266NodeMCU";
         this->placa = "esp8266:esp8266:nodemcuv2";
     }else exit(EXIT_FAILURE);
@@ -45,8 +60,13 @@ void Dispositivo::setIp(IPAddress ip){
     this->ip = ip;
 }
 
+std::list<Sensor*>* Dispositivo::getSensores() const{
+    return this->sensores;
+}
+
 void Dispositivo::start(){
     Serial.begin(115200);
+
     Serial.println("Booting...");
 
     WiFi.mode(WIFI_STA);
@@ -145,18 +165,54 @@ void Dispositivo::handle(){
                         // Display the JSON web page
                         client.println("{");
                         
-                        client.print("\"nome\": \"");
+                        client.print("\t\"nome\": \"");
                         client.print(this->getNome());
                         client.println("\",");
 
-                        client.print("\"placa\": \"");
+                        client.print("\t\"placa\": \"");
                         client.print(this->getPlaca());
                         client.println("\",");
 
-                        client.print("\"ip\": \"");
+                        client.print("\t\"ip\": \"");
                         client.print(this->getIp());
-                        client.println("\"");
+                        client.println("\",");
+
+                        unsigned int cont1 = 0, cont2 = 0;
+
+                        client.println("\t\"sensores\": [");
                         
+                        for(auto it = this->sensores->begin(); it != this->sensores->end(); ++it){
+                            client.println("\t\t{");
+                            client.print("\t\t\t\"nome\": \"");
+                            client.print((*it)->getNome());
+                            client.println("\",");
+
+                            client.println("\t\t\t\"conexoes\": [");
+
+                            for(auto it2 = (*it)->getConexoes()->begin(); it2 != (*it)->getConexoes()->end(); ++it2){
+                                client.println("\t\t\t\t{");
+                                client.print("\t\t\t\t\t\"");
+                                client.print(it2->first);
+                                client.print("\": \"");
+                                client.print(it2->second);
+                                client.println("\"");
+                                client.print("\t\t\t\t}");
+
+                                if(cont2 < (*it)->getConexoes()->size() - 1) client.println(",");
+                                else client.println("");
+                                cont2++;
+                            }
+                            cont2 = 0;
+
+                            client.println("\t\t\t]");
+                            client.print("\t\t}");
+
+                            if(cont1 < this->sensores->size() - 1) client.println(",");
+                            else client.println("");
+                            cont1++;
+                        }
+                        
+                        client.println("\t]");
                         client.println("}");
                         
                         // The HTTP response ends with another blank line

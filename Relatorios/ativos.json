@@ -1,0 +1,27 @@
+{
+  "nome": "esp8266D1Mini",
+  "placa": "esp8266:esp8266:d1_mini",
+  "ip": "192.168.86.32",
+  "sensores": [
+    {
+      "nome": "DHT11",
+      "conexoes": [
+        {
+          "Data": "D3"
+        }
+      ]
+    },
+    {
+      "nome": "DSM501A",
+      "conexoes": [
+        {
+          "PM1.0": "D5"
+        },
+        {
+          "PM2.5": "D4"
+        }
+      ]
+    }
+  ],
+  "id": 0
+}

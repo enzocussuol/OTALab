@@ -35,3 +35,33 @@ E na função loop, chamar:
 Essas duas funções irão lidar com os procedimentos de conexão por baixo dos panos. Outras funções serão futuramente implementadas, tais como funções para obter quais sensores estão conectados ao dispositivo, etc.
 
 O arquivo [OTABlink.ino](https://github.com/enzocussuol/OTA-Multiplos-Dispositivos/blob/main/OTABlink.ino) fornece um exemplo de um arquivo .ino que implementa a biblioteca "DispositivoOTAWS" corretamente.
+
+### 2.2. Utilizando os Scripts
+
+Para o correto funcionamento do sistema, os scripts devem ser executados em uma ordem correta. Os próximos tópicos irão explicar o que cada script faz, os quais devem ser executados na ordem em que aparecem nos tópicos.
+
+#### 2.2.1. geraArquivosIps.sh
+
+Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede.
+
+#### 2.2.2. detectaDispositivos.sh
+
+Esse script também gera um arquivo .txt dentro da pasta Relatorios com todos os ips ativos na rede, isto é, que estão de fatos conectados.
+
+#### 2.2.3. verificaDisponibilidade.sh
+
+Aqui, o script irá gerar dois arquivos. Primeiro, há uma filtragem para considerar apenas dispositivos de Internet das Coisas (momentâneamente, o script está considerando apenas ESPs). Depois, é gerado, novamente na pasta Relatorios, um arquivo ativos.json, que irá conter uma lista de dispositivos ativos no formato .json, onde cada dispositivo recebe um id na ordem em que foi inserido no arquivo e um arquivo inativos.txt, que irá conter uma lista de dispositivos inativos, sem id's.
+
+#### 2.2.4. enviaCodigo.sh e enviaTodos.sh
+
+Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código. A compilação é realizada a partir do software (arduino-cli)[https://github.com/arduino/arduino-cli] e o envio é realizado pelo script python (espota)[https://github.com/esp8266/Arduino/blob/master/tools/espota.py].
+
+O script enviaCodigo.sh é parâmetrizado e deve ser executado na linha de comando na forma:
+
+`bash enviaCodigo.sh <id> <nomeProjeto>`
+
+Onde <id> é o id do dispositivo em ativos.json para o qual o código está sendo enviado e <nomeProjeto> é o nome do projeto do usuário, por exemplo, OTABlink.
+
+Ao final do script, existirá uma pasta com o nome do projeto definido pelo usuário.
+  
+Caso seja escolhido o script enviaTodos.sh, basta passar somente o nome do projeto como parâmetro.

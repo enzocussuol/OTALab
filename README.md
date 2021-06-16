@@ -65,3 +65,7 @@ Onde \<id\> é o id do dispositivo em ativos.json para o qual o código está se
 Ao final do script, existirá uma pasta com o nome do projeto definido pelo usuário.
   
 Caso seja escolhido o script enviaTodos.sh, basta passar somente o nome do projeto como parâmetro.
+
+### 3. Próximos Passos
+
+O sistema ainda está incompleto. Os próximos passos são: 1) Realizar uma validação do código antes do envio; 2) Testar fisicamente o sistema assim como adicionar novos dispositivos suportados; 3) Elaborar uma interface gráfica (web) com o usuário.

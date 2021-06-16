@@ -34,4 +34,4 @@ E na função loop, chamar:
 
 Essas duas funções irão lidar com os procedimentos de conexão por baixo dos panos. Outras funções serão futuramente implementadas, tais como funções para obter quais sensores estão conectados ao dispositivo, etc.
 
-O arquivo [OTABlink.ino]() fornece um exemplo de um arquivo .ino que implementa a biblioteca "DispositivoOTAWS" corretamente.
+O arquivo [OTABlink.ino](https://github.com/enzocussuol/OTA-Multiplos-Dispositivos/blob/main/OTABlink.ino) fornece um exemplo de um arquivo .ino que implementa a biblioteca "DispositivoOTAWS" corretamente.

@@ -60,7 +60,7 @@ O script enviaCodigo.sh é parâmetrizado e deve ser executado na linha de coman
 
 `bash enviaCodigo.sh <id> <nomeProjeto>`
 
-Onde <id> é o id do dispositivo em ativos.json para o qual o código está sendo enviado e <nomeProjeto> é o nome do projeto do usuário, por exemplo, OTABlink.
+Onde \<id\> é o id do dispositivo em ativos.json para o qual o código está sendo enviado e \<nomeProjeto\> é o nome do projeto do usuário, por exemplo, OTABlink.
 
 Ao final do script, existirá uma pasta com o nome do projeto definido pelo usuário.
   

@@ -1,1 +1,1 @@
-Wemos D1 Mini - ESP826 (esp8266D1Mini)
+Wemos D1 Mini - ESP8266 (esp8266D1Mini)

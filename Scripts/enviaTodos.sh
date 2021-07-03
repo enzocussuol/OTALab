@@ -6,7 +6,9 @@
 numAtivos="$(jq length ~/ProjetoOTA/Relatorios/ativos.json)" # Obtem o numero de dispositivos ativos
 
 # Loop entre cada dispositivo i ativo
-for counter in $(seq 0 ($numAtivos-1));
+echo $numAtivos
+
+for ((counter=0; counter < numAtivos; counter++));
 do
-    bash enviaCodigo.sh $counter $1 # Envia o codigo para o dispositivo i
+    bash ~/ProjetoOTA/Scripts/enviaCodigo.sh $counter $1 # Envia o codigo para o dispositivo i
 done

@@ -5,6 +5,7 @@
     #include <ESP8266mDNS.h>
     #include <WiFiUdp.h>
     #include <ArduinoOTA.h>
+    #include <PubSubClient.h>
     #include <list>
     #include "Sensor.h"
 

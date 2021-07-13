@@ -19,25 +19,16 @@ unsigned long previousTime = 0;
 // Define timeout time in milliseconds (example: 2000ms = 2s)
 const long timeoutTime = 2000;
 
+WiFiClient clienteWiFi;
+PubSubClient clienteMQTT(clienteWiFi);
+IPAddress servidor(192, 168, 86, 41);
+
 Dispositivo::Dispositivo(int id){
     this->sensores = new std::list<Sensor*>;
-
-    Sensor* sensorUmidadeTemperatura = new Sensor("DHT11");
-    // Sensor* sensorRGB = new Sensor("TCS34725");
-    Sensor* sensorPoeira = new Sensor("DSM501A");
-    // Sensor* sensorToque = new Sensor("IEFSR");
 
     if(id == esp8266D1Mini){
         this->nome = "esp8266D1Mini";
         this->placa = "esp8266:esp8266:d1_mini";
-
-        sensorUmidadeTemperatura->getConexoes()->insert({"Data", "D3"});
-
-        sensorPoeira->getConexoes()->insert({"PM2.5", "D4"});
-        sensorPoeira->getConexoes()->insert({"PM1.0", "D5"});
-
-        this->sensores->push_back(sensorUmidadeTemperatura);
-        this->sensores->push_back(sensorPoeira);
     }else if(id == esp8266NodeMCU){
         this->nome = "esp8266NodeMCU";
         this->placa = "esp8266:esp8266:nodemcuv2";
@@ -64,11 +55,7 @@ std::list<Sensor*>* Dispositivo::getSensores() const{
     return this->sensores;
 }
 
-void Dispositivo::start(){
-    Serial.begin(115200);
-
-    Serial.println("Booting...");
-
+void inicializaWiFi(){
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
 
@@ -83,9 +70,9 @@ void Dispositivo::start(){
     Serial.println(ssid);
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
+}
 
-    this->setIp(WiFi.localIP());
-
+void inicializaOTA(){
     // Port defaults to 8266
     // ArduinoOTA.setPort(8266);
 
@@ -131,8 +118,53 @@ void Dispositivo::start(){
     }
     });
     ArduinoOTA.begin();
+}
+
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  for (int i=0;i<length;i++) {
+    Serial.print((char)payload[i]);
+  }
+  Serial.println();
+}
+
+void Dispositivo::start(){
+    Serial.begin(115200);
+    Serial.println("Booting...");
+
+    inicializaWiFi();
+
+    this->setIp(WiFi.localIP());
+
+    inicializaOTA();
+
+    clienteMQTT.setServer(servidor, 1883);
+    clienteMQTT.setCallback(callback);
 
     server.begin();
+}
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!clienteMQTT.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (clienteMQTT.connect("arduinoClient")) {
+      Serial.println("connected");
+      // Once connected, publish an announcement...
+      clienteMQTT.publish("teste", "hello world");
+      // ... and resubscribe
+      clienteMQTT.subscribe("teste");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(clienteMQTT.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
 }
 
 void Dispositivo::handle(){
@@ -234,4 +266,7 @@ void Dispositivo::handle(){
         Serial.println("Client disconnected.");
         Serial.println("");
     }
+
+    if(!clienteMQTT.connected()) reconnect();
+    clienteMQTT.loop();
 }

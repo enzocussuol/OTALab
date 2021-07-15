@@ -19,11 +19,16 @@ mkdir $2 # Cria pasta para o projeto
 mkdir $2/build # Cria pasta dentro do projeto que tem os arquivos de compilacao
 
 # Copia as bibliotecas necessarias para atualizacao via OTA para dentro da pasta do projeto
-cp DispositivoOTAWS.cpp $2/
-cp DispositivoOTAWS.h $2/
-
-cp Sensor.cpp $2/
-cp Sensor.h $2/
+cp Biblioteca/OTA.h $2/
+cp Biblioteca/OTA.cpp $2/
+cp Biblioteca/WebServer.h $2/
+cp Biblioteca/WebServer.cpp $2/
+cp Biblioteca/MQTT.h $2/
+cp Biblioteca/MQTT.cpp $2/
+cp Biblioteca/Sensor.h $2/
+cp Biblioteca/Sensor.cpp $2/
+cp Biblioteca/Dispositivo.h $2/
+cp Biblioteca/Dispositivo.cpp $2/
 
 cp $2.ino $2/ # Move o arquivo para dentro da pasta do projeto
 

@@ -1,12 +1,13 @@
-#ifndef DISPOSITIVOOTAWS_H
-    #define DISPOSITIVOOTAWS_H
+#ifndef DISPOSITIVO_H
+    #define DISPOSITIVO_H
 
-    #include <ESP8266WiFi.h>
-    #include <ESP8266mDNS.h>
-    #include <WiFiUdp.h>
-    #include <ArduinoOTA.h>
-    #include <PubSubClient.h>
+    class Dispositivo;
+
     #include <list>
+
+    #include "OTA.h"
+    #include "WebServer.h"
+    #include "MQTT.h"
     #include "Sensor.h"
 
     #define esp8266D1Mini 1
@@ -20,12 +21,12 @@
             std::list<Sensor*>* sensores;
         public:
             Dispositivo(int);
+            void setupDispositivo();
+            void handleDispositivo();
             String getNome() const;
             String getPlaca() const;
             IPAddress getIp() const;
             void setIp(IPAddress);
             std::list<Sensor*>* getSensores() const;
-            void start();
-            void handle();
     };
 #endif

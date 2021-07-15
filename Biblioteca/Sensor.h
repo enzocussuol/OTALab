@@ -1,6 +1,8 @@
 #ifndef SENSOR_H
     #define SENSOR_H
 
+    class Sensor;
+
     #include <Arduino.h>
     #include <map>
 

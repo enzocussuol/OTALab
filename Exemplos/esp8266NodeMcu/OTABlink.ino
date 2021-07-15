@@ -1,15 +1,15 @@
-#include "DispositivoOTAWS.h"
+#include "Dispositivo.h"
 
 Dispositivo* dispositivo = new Dispositivo(esp8266NodeMCU);
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
-  dispositivo->start();
+  dispositivo->setupDispositivo();
 }
 
 void loop() {  
-  dispositivo->handle();
+  dispositivo->handleDispositivo();
     
   digitalWrite(LED_BUILTIN, LOW);
   delay(5000);

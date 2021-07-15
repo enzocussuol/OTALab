@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <DHT.h>
 #include <ThingSpeak.h>
-#include "DispositivoOTAWS.h"
+#include "Dispositivo.h"
 
 #define DHTPIN D3
 #define DHTTYPE DHT11
@@ -23,12 +23,12 @@ void setup() {
 
   ThingSpeak.begin(client);
 
-  dispositivo->start();
+  dispositivo->setupDispositivo();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  dispositivo->handle();
+  dispositivo->handleDispositivo();
 
   float h = dht.readHumidity();
   float t = dht.readTemperature();

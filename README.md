@@ -54,7 +54,7 @@ Para utilizar a biblioteca, o usuário deve inserir em seu código:
 
 `#include "DispositivoOTAWS"`
 
-Os scripts garantirão que os arquivos .h e .cpp irão parar na mesma pasta do código. Futuramente, será abordada a questão da instalação da biblioteca.
+Os scripts garantirão que os arquivos .h e .cpp irão parar na mesma pasta do código. Futuramente, essa questão será repensada para que seja possível instalar a biblioteca.
 
 Feito isso, é necessário criar um objeto para representar um dispositivo. Isso pode ser feito com:
 

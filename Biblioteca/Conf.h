@@ -1,12 +1,12 @@
 #ifndef CONF_H
     #define CONF_H
 
-    #define NOME_WIFI "Claudio"
-    #define SENHA_WIFI "adgj1234"
+    #define NOME_WIFI XXXXX
+    #define SENHA_WIFI XXXXX
 
-    #define IP_SERVIDOR 1921688641
+    #define IP_SERVIDOR XXXXX
 
     //Topicos nos quais o dispositivo se inscreve
-    #define TOPICO_1 "teste"
+    #define TOPICO_1 XXXXX
     //...
 #endif

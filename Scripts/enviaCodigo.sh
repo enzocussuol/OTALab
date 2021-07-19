@@ -29,6 +29,7 @@ cp Biblioteca/Sensor.h $2/
 cp Biblioteca/Sensor.cpp $2/
 cp Biblioteca/Dispositivo.h $2/
 cp Biblioteca/Dispositivo.cpp $2/
+cp Biblioteca/Conf.h $2/
 
 cp $2.ino $2/ # Move o arquivo para dentro da pasta do projeto
 

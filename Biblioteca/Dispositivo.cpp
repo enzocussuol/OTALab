@@ -38,14 +38,14 @@ void Dispositivo::setupDispositivo(){
     this->setIp(WiFi.localIP());
 
     setupOTA();
-    setupMQTT();
     setupWebServer();
+    // setupMQTT();
 }
 
 void Dispositivo::handleDispositivo(){
     handleOTA();
     handleWebServer(this);
-    handleMQTT();
+    // handleMQTT();
 }
 
 String Dispositivo::getNome() const{

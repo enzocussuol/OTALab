@@ -46,6 +46,24 @@ Além disso, outro software utilizado foi o [jq](https://stedolan.github.io/jq/)
 
 ### 2.2. Bibliotecas Externas
 
+O uso de bibliotecas externas segue o mesmo padrão da Arduino IDE. Para instalar bibliotecas que já não estão inclusas no núcleo do arduino-cli, deve-se executar o comando:
+
+`arduino-cli lib install <nomeBiblioteca>`
+
+Para pesquisar as bibliotecas disponíveis para instalação na internet, basta fazer:
+
+`arduino-cli lib search <nomeBiblioteca>`
+
+Para implementar o MQTT, foi necessário instalar a biblioteca PubSubClient, então, deve ser feito:
+
+`arduino-cli lib install "PubSubClient"`
+
+Outras bibliotecas potencialmente deverão ser instaladas para funcionamento do sistema, por exemplo, suponhamos que desejamos utilizar o sensor DHT11 e enviar os dados medidos para o ThingSpeak. Nesse caso, deveríamos instalar as duas bibliotecas necessárias para fazer isso, ou seja:
+
+`arduino-cli lib install "ThingSpeak"`
+
+`arduino-cli lib install "DHT sensor library"`
+
 ## 3. Uso
 
 ### 3.1. Utilizando as Bibliotecas

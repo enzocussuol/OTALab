@@ -38,6 +38,10 @@ Feito isso, basta rodar o comando:
 
 `arduino-cli core update-index`
 
+Além disso, outro software utilizado foi o [jq](https://stedolan.github.io/jq/), um processador de json para linha de comando. Para instalá-lo, basta rodar:
+
+`sudo apt-get install jq`
+
 ## 3. Uso
 
 ### 3.1. Utilizando as Bibliotecas

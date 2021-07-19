@@ -1,12 +1,7 @@
 #include "Dispositivo.h"
 
-#ifndef STASSID
-    #define STASSID "Claudio"
-    #define STAPSK "adgj1234"
-#endif
-
-const char* ssid = STASSID;
-const char* password = STAPSK;
+const char* ssid = NOME_WIFI;
+const char* password = SENHA_WIFI;
 
 Dispositivo::Dispositivo(int id){
     this->sensores = new std::list<Sensor*>;

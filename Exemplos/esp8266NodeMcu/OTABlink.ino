@@ -3,6 +3,9 @@
 Dispositivo* dispositivo = new Dispositivo(esp8266NodeMCU);
 
 void setup() {
+  Serial.begin(115200);
+  Serial.println("Booting...");
+
   pinMode(LED_BUILTIN, OUTPUT);
 
   dispositivo->setupDispositivo();

@@ -2,7 +2,7 @@
 
 WiFiClient clienteWiFi;
 PubSubClient clienteMQTT(clienteWiFi);
-IPAddress servidor(192, 168, 86, 41);
+IPAddress servidor(IP_SERVIDOR);
 
 void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print("Message arrived [");
@@ -22,9 +22,9 @@ void reconnect() {
         if (clienteMQTT.connect("arduinoClient")) {
             Serial.println("connected");
             // Once connected, publish an announcement...
-            clienteMQTT.publish("teste", "hello world");
+            clienteMQTT.publish(TOPICO_1, "hello world");
             // ... and resubscribe
-            clienteMQTT.subscribe("teste");
+            clienteMQTT.subscribe(TOPICO_1);
         } else {
             Serial.print("failed, rc=");
             Serial.print(clienteMQTT.state());

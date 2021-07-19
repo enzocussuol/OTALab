@@ -5,6 +5,7 @@
 
     #include <list>
 
+    #include "Conf.h"
     #include "OTA.h"
     #include "WebServer.h"
     #include "MQTT.h"

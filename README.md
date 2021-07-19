@@ -46,7 +46,7 @@ Além disso, outro software utilizado foi o [jq](https://stedolan.github.io/jq/)
 
 ### 2.2. Bibliotecas Externas
 
-O uso de bibliotecas externas segue o mesmo padrão da Arduino IDE. Para instalar bibliotecas que já não estão inclusas no núcleo do arduino-cli, deve-se executar o comando:
+O uso de bibliotecas externas segue o mesmo padrão da Arduino IDE. Para instalar bibliotecas que não estão inclusas no núcleo do arduino-cli, deve-se executar o comando:
 
 `arduino-cli lib install <nomeBiblioteca>`
 

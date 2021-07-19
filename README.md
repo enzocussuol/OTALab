@@ -15,10 +15,12 @@ Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [ardu
 Abra-o em qualquer editor de texto e crie, caso não existir, o campo "additional_urls:", dentro de "board_manager".
 Dentro de "additional_urls", irão ser inseridas as URLs para as placas que o usuário deseja. No caso dessa aplicação, para instalar os pacotes para o ESP8266 e o ESP32, o arquivo ficaria assim:
 
-`board_manager:
+```
+board_manager:
   additional_urls: 
     - https://arduino.esp8266.com/stable/package_esp8266com_index.json
-    - https://dl.espressif.com/dl/package_esp32_index.json`
+    - https://dl.espressif.com/dl/package_esp32_index.json
+```
 
 ## 3. Uso
 

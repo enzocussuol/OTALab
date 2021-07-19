@@ -22,6 +22,10 @@ board_manager:
     - https://dl.espressif.com/dl/package_esp32_index.json
 ```
 
+Feito isso, basta rodar o comando:
+
+`arduino-cli core update-index`
+
 ## 3. Uso
 
 ### 3.1. Utilizando as Bibliotecas

@@ -13,6 +13,7 @@ Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [ardu
 Resumindo e especificando o passo a passo do link acima para o caso dos dois [dispositivos suportados](https://github.com/enzocussuol/OTA-Multiplos-Dispositivos/blob/main/dispositivosSuportados.txt) até então, faça:
 
 `arduino-cli core install esp8266:esp8266`
+
 `arduino-cli core install esp32:esp32`
 
 Feito isso, para checar as placas instaladas, basta rodar:

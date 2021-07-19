@@ -50,13 +50,11 @@ Além disso, outro software utilizado foi o [jq](https://stedolan.github.io/jq/)
 
 Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca "DispositivoOTAWS" disponibilizada aqui. Essa biblioteca inclui todos os arquivos com extensão .h e .cpp fornecidos.
 
-Há duas maneiras de incluir a biblioteca no código. O primeiro caso é simplesmente trabalhar com o .ino ou .cpp na mesma pasta dos arquivos .h e .cpp que estão neste repositório. Dessa forma, basta que o usuário insira em seu código a linha:
+Para utilizar a biblioteca, o usuário deve inserir em seu código:
 
 `#include "DispositivoOTAWS"`
 
-Um segundo caso seria comprimir os arquivos .h e .cpp em um .zip e instalar, por meio da ferramenta de [instalação de bibliotecas da Arduino IDE](https://www.robocore.net/tutoriais/adicionando-bibliotecas-na-ide-arduino#:~:text=Dispon%C3%ADvel%20na%20IDE%20do%20Arduino,Include%20Library). Dessa forma, o usuário deve inserir a linha:
-
-`#include <DispositivoOTAWS>`
+Os scripts garantirão que os arquivos .h e .cpp irão parar na mesma pasta do código. Futuramente, será abordada a questão da instalação da biblioteca.
 
 Feito isso, é necessário criar um objeto para representar um dispositivo. Isso pode ser feito com:
 

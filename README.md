@@ -68,13 +68,7 @@ Feito tudo isso, a instalação está completa e a aplicação está pronta para
 
 Antes de mais nada, o usuário deve preencher o arquivo Conf.h com os dados pessoais da rede de sua casa. Os nomes das variáveis são auto-explicativos, por exemplo, NOME_WIFI é o nome da rede, etc. Os campos IP_SERVIDOR e os tópicos nos quais o dispositivo de inscreve podem ser ignorados por enquanto, pois, nesta versão, o MQTT ainda não está sendo implementado.
 
-### 3.2. O Primeiro Envio
-
-É importante que o primeiro envio do código para o dispositivo seja realizado via cabo. Isso se deve ao fato de que as bibliotecas precisam reconhecer o dispositivo na rede para que seja possível eventualmente enviar código por essa rede para esse dispositivo.
-
-Após esse envio via cabo, que pode também ser realizado a partir da Arduino IDE ou pelo arduino-cli, o envio pode ser realizado via OTA normalmente a partir dos scripts fornecidos.
-
-### 3.3. Utilizando as Bibliotecas
+### 3.2. Utilizando as Bibliotecas
 
 Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca/ e inclui todos os arquivos .h e .cpp necessários.
 
@@ -101,6 +95,12 @@ E na função loop, chamar:
 Essas duas funções irão lidar com os procedimentos de conexão e processamento por baixo dos panos. Outras funções serão futuramente implementadas, tais como funções para obter quais sensores estão conectados ao dispositivo, etc.
 
 Na pasta Exemplos/ estão arquivos que implementam a biblioteca corretamente, assim, o usuário pode se basear neles para implementar seu próprio código.
+
+### 3.3. O Primeiro Envio
+
+É importante que o primeiro envio do código para o dispositivo seja realizado via cabo. Isso se deve ao fato de que as bibliotecas precisam reconhecer o dispositivo na rede para que seja possível eventualmente enviar código por essa rede para esse dispositivo.
+
+Após esse envio via cabo, que pode também ser realizado a partir da Arduino IDE ou pelo arduino-cli, o envio pode ser realizado via OTA normalmente a partir dos scripts fornecidos.
 
 ### 3.4. Utilizando os Scripts
 

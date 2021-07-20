@@ -64,11 +64,17 @@ Feito tudo isso, a instalação está completa e a aplicação está pronta para
 
 ## 3. Uso
 
-### 3.1. O arquivo de configuração Conf.h
+### 3.1. O arquivo de Configuração Conf.h
 
 Antes de mais nada, o usuário deve preencher o arquivo Conf.h com os dados pessoais da rede de sua casa. Os nomes das variáveis são auto-explicativos, por exemplo, NOME_WIFI é o nome da rede, etc. Os campos IP_SERVIDOR e os tópicos nos quais o dispositivo de inscreve podem ser ignorados por enquanto, pois, nesta versão, o MQTT ainda não está sendo implementado.
 
-### 3.2. Utilizando as Bibliotecas
+### 3.2. O primeiro Envio
+
+É importante que o primeiro envio do código para o dispositivo seja realizado via cabo. Isso se deve ao fato de que as bibliotecas precisam reconhecer o dispositivo na rede para que seja possível eventualmente enviar código por essa rede para esse dispositivo.
+
+Após esse envio via cabo, que pode também ser realizado a partir da Arduino IDE ou pelo arduino-cli, o envio pode ser realizado via OTA normalmente a partir dos scripts fornecidos.
+
+### 3.3. Utilizando as Bibliotecas
 
 Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca/ e inclui todos os arquivos .h e .cpp necessários.
 
@@ -96,25 +102,25 @@ Essas duas funções irão lidar com os procedimentos de conexão e processament
 
 Na pasta Exemplos/ estão arquivos que implementam a biblioteca corretamente, assim, o usuário pode se basear neles para implementar seu próprio código.
 
-### 3.3. Utilizando os Scripts
+### 3.4. Utilizando os Scripts
 
 Para o correto funcionamento do sistema, os scripts devem ser executados em uma ordem correta. Os próximos tópicos irão explicar o que cada script faz, os quais devem ser executados na ordem em que aparecem aqui.
 
-#### 3.3.1. geraArquivosIps.sh
+#### 3.4.1. geraArquivosIps.sh
 
 Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede. Ele recebe como parâmetro os 3 primeiros campos do IP da rede na forma de uma string. Deve ser executado assim:
 
 `bash geraArquivoIps.sh xx.xx.xx`
 
-#### 3.3.2. detectaDispositivos.sh
+#### 3.4.2. detectaDispositivos.sh
 
 Esse script também gera um arquivo .txt dentro da pasta Relatorios com todos os ips ativos na rede, isto é, que estão de fatos conectados.
 
-#### 3.3.3. verificaDisponibilidade.sh
+#### 3.4.3. verificaDisponibilidade.sh
 
 Aqui, o script irá gerar dois arquivos. Primeiro, há uma filtragem para considerar apenas dispositivos de Internet das Coisas (momentâneamente, o script está considerando apenas ESPs). Depois, é gerado, novamente na pasta Relatorios, um arquivo ativos.json, que irá conter uma lista de dispositivos ativos no formato .json, onde cada dispositivo recebe um id na ordem em que foi inserido no arquivo e um arquivo inativos.txt, que irá conter uma lista de dispositivos inativos, sem id's.
 
-#### 3.3.4. enviaCodigo.sh e enviaTodos.sh
+#### 3.4.4. enviaCodigo.sh e enviaTodos.sh
 
 Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código. A compilação é realizada a partir do software.
 

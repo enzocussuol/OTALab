@@ -44,6 +44,16 @@ Além disso, outro software utilizado foi o [jq](https://stedolan.github.io/jq/)
 
 `sudo apt-get install jq`
 
+### 2.2. Instalação de Bibliotecas
+
+O arduino-cli também permite a instalação de bibliotecas externas, assim como a Arduino IDE. Essas bibliotecas vão parar no mesmo repositório (.arduino15/staging/libraries). Para obter ajuda sobre como gerenciar bibliotecas com o arduino-cli, rode:
+
+`arduino-cli lib --help`
+
+Com relação a biblioteca fornecida nesse repositório, apenas uma biblioteca externa deve ser instalada, a que fornece os mecanismos para implementação do protocolo MQTT. Logo, esta deve estar instalada. Caso ainda não esteja, basta executar:
+
+`arduino-cli lib install "PubSubClient"`
+
 ## 3. Uso
 
 ### 3.1. Utilizando as Bibliotecas

@@ -68,7 +68,7 @@ Feito tudo isso, a instalação está completa e a aplicação está pronta para
 
 Antes de mais nada, o usuário deve preencher o arquivo Conf.h com os dados pessoais da rede de sua casa. Os nomes das variáveis são auto-explicativos, por exemplo, NOME_WIFI é o nome da rede, etc. Os campos IP_SERVIDOR e os tópicos nos quais o dispositivo de inscreve podem ser ignorados por enquanto, pois, nesta versão, o MQTT ainda não está sendo implementado.
 
-### 3.2. O primeiro Envio
+### 3.2. O Primeiro Envio
 
 É importante que o primeiro envio do código para o dispositivo seja realizado via cabo. Isso se deve ao fato de que as bibliotecas precisam reconhecer o dispositivo na rede para que seja possível eventualmente enviar código por essa rede para esse dispositivo.
 

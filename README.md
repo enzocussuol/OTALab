@@ -58,9 +58,9 @@ Bibliotecas adicionais irão depender de cada projeto e cabe ao usuário instal�
 
 ### 2.3. Diretório
 
-Momentaneamente, é necessário que o usuário crie, em sua pasta pessoal, uma pasta chamada "ProjetoOTA". O código fornecido por esse repositório deve então ser inserido dentro dessa pasta para que os scripts funcionem corretamente.
+Momentaneamente, é necessário que o usuário crie, em sua pasta pessoal, uma pasta chamada "ProjetoOTA". O código fornecido por esse repositório deve então ser inserido dentro dessa pasta para que os scripts funcionem corretamente. Esse comportamento irá mudar futuramente.
 
-Esse comportamento irá mudar futuramente.
+Feito tudo isso, a instalação está completa e a aplicação está pronta para ser utilizada.
 
 ## 3. Uso
 

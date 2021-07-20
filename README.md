@@ -106,11 +106,13 @@ Após esse envio via cabo, que pode também ser realizado a partir da Arduino ID
 
 Para o correto funcionamento do sistema, os scripts devem ser executados em uma ordem correta. Os próximos tópicos irão explicar o que cada script faz, os quais devem ser executados na ordem em que aparecem aqui.
 
+Importante: os scripts devem ser executados de dentro da pasta ProjetoOTA/!
+
 #### 3.4.1. geraArquivosIps.sh
 
 Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede. Ele recebe como parâmetro os 3 primeiros campos do IP da rede na forma de uma string. Deve ser executado assim:
 
-`bash geraArquivoIps.sh xx.xx.xx`
+`bash Scripts/geraArquivoIps.sh xx.xx.xx`
 
 #### 3.4.2. detectaDispositivos.sh
 
@@ -126,7 +128,7 @@ Esses dois scripts realizam de fato o envio do código para o dispositivo via OT
 
 O script enviaCodigo.sh é parâmetrizado e deve ser executado na linha de comando na forma:
 
-`bash enviaCodigo.sh <id> <nomeProjeto>`
+`bash Scripts/enviaCodigo.sh <id> <nomeProjeto>`
 
 Onde \<id\> é o id do dispositivo em ativos.json para o qual o código está sendo enviado e \<nomeProjeto\> é o nome do projeto do usuário, por exemplo, OTABlink.
 

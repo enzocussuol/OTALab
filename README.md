@@ -50,9 +50,11 @@ O arduino-cli também permite a instalação de bibliotecas externas, assim como
 
 `arduino-cli lib --help`
 
-Com relação a biblioteca fornecida nesse repositório, apenas uma biblioteca externa deve ser instalada, a que fornece os mecanismos para implementação do protocolo MQTT. Logo, esta deve estar instalada. Caso ainda não esteja, basta executar:
+Com relação a biblioteca fornecida nesse repositório, apenas uma biblioteca externa deve ser instalada, a que fornece os mecanismos para implementação do protocolo MQTT. Caso já não esteja, basta executar:
 
 `arduino-cli lib install "PubSubClient"`
+
+Bibliotecas adicionais irão depender de cada projeto e cabe ao usuário instalá-las quando for necessário. Lembrando que isso pode ser feito tanto pela Arduino IDE quanto pelo arduino-cli.
 
 ## 3. Uso
 

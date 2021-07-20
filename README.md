@@ -102,7 +102,9 @@ Para o correto funcionamento do sistema, os scripts devem ser executados em uma 
 
 #### 3.3.1. geraArquivosIps.sh
 
-Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede.
+Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede. Ele recebe como parâmetro os 3 primeiros campos do IP da rede na forma de uma string. Deve ser executado assim:
+
+`bash geraArquivoIps.sh xx.xx.xx`
 
 #### 3.3.2. detectaDispositivos.sh
 
@@ -114,7 +116,7 @@ Aqui, o script irá gerar dois arquivos. Primeiro, há uma filtragem para consid
 
 #### 3.3.4. enviaCodigo.sh e enviaTodos.sh
 
-Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código. A compilação é realizada a partir do software [arduino-cli](https://github.com/arduino/arduino-cli) e o envio é realizado pelo script python [espota](https://github.com/esp8266/Arduino/blob/master/tools/espota.py).
+Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código. A compilação é realizada a partir do software.
 
 O script enviaCodigo.sh é parâmetrizado e deve ser executado na linha de comando na forma:
 
@@ -128,4 +130,13 @@ Caso seja escolhido o script enviaTodos.sh, basta passar somente o nome do proje
 
 ### 4. Próximos Passos
 
-O sistema ainda está incompleto. Os próximos passos são: 1) Realizar uma validação do código antes do envio; 2) Testar fisicamente o sistema assim como adicionar novos dispositivos suportados; 3) Elaborar uma interface gráfica (web) com o usuário.
+O sistema ainda está incompleto. Os próximos passos são:
+
+<!--ts-->
+* Realizar uma validação do código antes do envio
+* Testar fisicamente o sistema assim como adicionar novos dispositivos suportados
+* Elaborar uma interface gráfica (web) com o usuário
+* Atualizar os scripts para que a biblioteca seja instalada, retirando a obrigação do código estar no mesmo diretório que ela
+* Automatizar o processo de instalação da aplicação
+* Implementar de fato o MQTT
+<!--te-->

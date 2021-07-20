@@ -27,7 +27,7 @@ O resultado deve ser uma série de placas para o ESP8266 e para o ESP32. Agora, 
 `arduino-cli config init`
 
 Esse comando irá gerar um arquivo chamado arduino-cli.yaml, que pode ser encontrado na pasta oculta .arduino15. Abra-o em qualquer editor de texto e crie, caso não existir, o campo "additional_urls:", dentro de "board_manager".
-Dentro de "additional_urls", irão ser inseridas as URLs para as placas que o usuário deseja. No caso dessa aplicação, para instalar os pacotes para o ESP8266 e o ESP32, o arquivo ficaria assim:
+Dentro de "additional_urls", irão ser inseridas as URLs para as placas que o usuário deseja. No caso dessa aplicação o arquivo ficaria assim:
 
 ```
 board_manager:

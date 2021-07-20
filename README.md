@@ -56,6 +56,12 @@ Com relação a implementação da biblioteca fornecida nesse repositório, apen
 
 Bibliotecas adicionais irão depender de cada projeto e cabe ao usuário instalá-las quando for necessário. Lembrando que isso pode ser feito tanto pela Arduino IDE quanto pelo arduino-cli.
 
+### 2.3. Diretório
+
+Momentaneamente, é necessário que o usuário crie, em sua pasta pessoal, uma pasta chamada "ProjetoOTA". O código fornecido por esse repositório deve então ser inserido dentro dessa pasta para que os scripts funcionem corretamente.
+
+Esse comportamento irá mudar futuramente.
+
 ## 3. Uso
 
 ### 3.1. Utilizando as Bibliotecas

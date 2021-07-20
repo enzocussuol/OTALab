@@ -138,5 +138,5 @@ O sistema ainda está incompleto. Os próximos passos são:
 * Elaborar uma interface gráfica (web) com o usuário
 * Atualizar os scripts para que a biblioteca seja instalada, retirando a obrigação do código estar no mesmo diretório que ela
 * Automatizar o processo de instalação da aplicação
-* Implementar de fato o MQTT
+* Implementar de fato o MQTT para gerenciar os sensores que estão acoplados nos dispositivos
 <!--te-->

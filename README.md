@@ -64,9 +64,13 @@ Feito tudo isso, a instalação está completa e a aplicação está pronta para
 
 ## 3. Uso
 
-### 3.1. Utilizando as Bibliotecas
+### 3.1. O arquivo de configuração Conf.h
 
-Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca "DispositivoOTAWS" disponibilizada aqui. Essa biblioteca inclui todos os arquivos com extensão .h e .cpp fornecidos.
+Antes de mais nada, o usuário deve preencher o arquivo Conf.h com os dados pessoais da rede de sua casa. Os nomes das variáveis são auto-explicativos, por exemplo, NOME_WIFI é o nome da rede, etc. Os campos IP_SERVIDOR e os tópicos nos quais o dispositivo de inscreve podem ser ignorados por enquanto, pois, nesta versão, o MQTT ainda não está sendo implementado.
+
+### 3.2. Utilizando as Bibliotecas
+
+Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca/ e inclui todos os arquivos .h e .cpp necessários.
 
 Para utilizar a biblioteca, o usuário deve inserir em seu código:
 
@@ -88,27 +92,27 @@ E na função loop, chamar:
 
 `dispositivo->handle();`
 
-Essas duas funções irão lidar com os procedimentos de conexão por baixo dos panos. Outras funções serão futuramente implementadas, tais como funções para obter quais sensores estão conectados ao dispositivo, etc.
+Essas duas funções irão lidar com os procedimentos de conexão e processamento por baixo dos panos. Outras funções serão futuramente implementadas, tais como funções para obter quais sensores estão conectados ao dispositivo, etc.
 
-Na pasta Exemplos então arquivos que implementam a biblioteca corretamente.
+Na pasta Exemplos/ estão arquivos que implementam a biblioteca corretamente, assim, o usuário pode se basear neles para implementar seu próprio código.
 
-### 3.2. Utilizando os Scripts
+### 3.3. Utilizando os Scripts
 
-Para o correto funcionamento do sistema, os scripts devem ser executados em uma ordem correta. Os próximos tópicos irão explicar o que cada script faz, os quais devem ser executados na ordem em que aparecem nos tópicos.
+Para o correto funcionamento do sistema, os scripts devem ser executados em uma ordem correta. Os próximos tópicos irão explicar o que cada script faz, os quais devem ser executados na ordem em que aparecem aqui.
 
-#### 3.2.1. geraArquivosIps.sh
+#### 3.3.1. geraArquivosIps.sh
 
 Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede.
 
-#### 3.2.2. detectaDispositivos.sh
+#### 3.3.2. detectaDispositivos.sh
 
 Esse script também gera um arquivo .txt dentro da pasta Relatorios com todos os ips ativos na rede, isto é, que estão de fatos conectados.
 
-#### 3.2.3. verificaDisponibilidade.sh
+#### 3.3.3. verificaDisponibilidade.sh
 
 Aqui, o script irá gerar dois arquivos. Primeiro, há uma filtragem para considerar apenas dispositivos de Internet das Coisas (momentâneamente, o script está considerando apenas ESPs). Depois, é gerado, novamente na pasta Relatorios, um arquivo ativos.json, que irá conter uma lista de dispositivos ativos no formato .json, onde cada dispositivo recebe um id na ordem em que foi inserido no arquivo e um arquivo inativos.txt, que irá conter uma lista de dispositivos inativos, sem id's.
 
-#### 3.2.4. enviaCodigo.sh e enviaTodos.sh
+#### 3.3.4. enviaCodigo.sh e enviaTodos.sh
 
 Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código. A compilação é realizada a partir do software [arduino-cli](https://github.com/arduino/arduino-cli) e o envio é realizado pelo script python [espota](https://github.com/esp8266/Arduino/blob/master/tools/espota.py).
 

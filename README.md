@@ -12,17 +12,7 @@ Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [ardu
 
 É necessário que o arduino-cli seja instalado, ver [instalação arduino-cli](https://arduino.github.io/arduino-cli/latest/installation/). Tendo instalado o software, deve-se realizar alguns passos adicionais. O ESP8266 e o ESP32 não são placas originalmente suportadas pelo arduino-cli, logo, devem ainda ser instalados núcleos para essas placas, visto que elas são de produções de terceiros (recomenda-se ver [instalação placas terceirizadas no arduino-cli](https://create.arduino.cc/projecthub/B45i/getting-started-with-arduino-cli-7652a5)).
 
-Resumindo e especificando o passo a passo do link acima para o caso dos dois [dispositivos suportados](https://github.com/enzocussuol/OTA-Multiplos-Dispositivos/blob/main/dispositivosSuportados.txt) até então, faça:
-
-`arduino-cli core install esp8266:esp8266`
-
-`arduino-cli core install esp32:esp32`
-
-Feito isso, para checar as placas instaladas, basta rodar:
-
-`arduino-cli board listall`
-
-O resultado deve ser uma série de placas para o ESP8266 e para o ESP32. Agora, devem ser adicionados os pacotes necessários para essas placas funcionarem corretamente. É necessário inserir esses pacotes no arquivo de configuração do arduino-cli, logo, caso este ainda não tenha sido criado, faça:
+Dito isso, devem ser adicionados os pacotes necessários para essas placas funcionarem corretamente. É necessário inserir esses pacotes no arquivo de configuração do arduino-cli, logo, caso este ainda não tenha sido criado, faça:
 
 `arduino-cli config init`
 
@@ -39,6 +29,18 @@ board_manager:
 Feito isso, basta rodar o comando:
 
 `arduino-cli core update-index`
+
+Agora, instale de fato as placas com os comandos:
+
+`arduino-cli core install esp8266:esp8266`
+
+`arduino-cli core install esp32:esp32`
+
+[ara checar as placas instaladas, basta rodar:
+
+`arduino-cli board listall`
+
+O resultado deve ser uma série de placas para o ESP8266 e para o ESP32.
 
 Além disso, outro software utilizado foi o [jq](https://stedolan.github.io/jq/), um processador de json para linha de comando. Para instalá-lo, basta rodar:
 

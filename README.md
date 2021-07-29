@@ -12,17 +12,7 @@ Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [ardu
 
 É necessário que o arduino-cli seja instalado, ver [instalação arduino-cli](https://arduino.github.io/arduino-cli/latest/installation/). Tendo instalado o software, deve-se realizar alguns passos adicionais. O ESP8266 e o ESP32 não são placas originalmente suportadas pelo arduino-cli, logo, devem ainda ser instalados núcleos para essas placas, visto que elas são de produções de terceiros (recomenda-se ver [instalação placas terceirizadas no arduino-cli](https://create.arduino.cc/projecthub/B45i/getting-started-with-arduino-cli-7652a5)).
 
-Resumindo e especificando o passo a passo do link acima para o caso dos dois [dispositivos suportados](https://github.com/enzocussuol/OTA-Multiplos-Dispositivos/blob/main/dispositivosSuportados.txt) até então, faça:
-
-`arduino-cli core install esp8266:esp8266`
-
-`arduino-cli core install esp32:esp32`
-
-Feito isso, para checar as placas instaladas, basta rodar:
-
-`arduino-cli board listall`
-
-O resultado deve ser uma série de placas para o ESP8266 e para o ESP32. Agora, devem ser adicionados os pacotes necessários para essas placas funcionarem corretamente. É necessário inserir esses pacotes no arquivo de configuração do arduino-cli, logo, caso este ainda não tenha sido criado, faça:
+Dito isso, devem ser adicionados os pacotes necessários para essas placas funcionarem corretamente. É necessário inserir esses pacotes no arquivo de configuração do arduino-cli, logo, caso este ainda não tenha sido criado, faça:
 
 `arduino-cli config init`
 
@@ -39,6 +29,18 @@ board_manager:
 Feito isso, basta rodar o comando:
 
 `arduino-cli core update-index`
+
+Agora, instale de fato as placas com os comandos:
+
+`arduino-cli core install esp8266:esp8266`
+
+`arduino-cli core install esp32:esp32`
+
+[ara checar as placas instaladas, basta rodar:
+
+`arduino-cli board listall`
+
+O resultado deve ser uma série de placas para o ESP8266 e para o ESP32.
 
 Além disso, outro software utilizado foi o [jq](https://stedolan.github.io/jq/), um processador de json para linha de comando. Para instalá-lo, basta rodar:
 
@@ -64,7 +66,7 @@ Feito tudo isso, a instalação está completa e a aplicação está pronta para
 
 ## 3. Uso
 
-### 3.1. O arquivo de configuração Conf.h
+### 3.1. O arquivo de Configuração Conf.h
 
 Antes de mais nada, o usuário deve preencher o arquivo Conf.h com os dados pessoais da rede de sua casa. Os nomes das variáveis são auto-explicativos, por exemplo, NOME_WIFI é o nome da rede, etc. Os campos IP_SERVIDOR e os tópicos nos quais o dispositivo de inscreve podem ser ignorados por enquanto, pois, nesta versão, o MQTT ainda não está sendo implementado.
 
@@ -96,29 +98,39 @@ Essas duas funções irão lidar com os procedimentos de conexão e processament
 
 Na pasta Exemplos/ estão arquivos que implementam a biblioteca corretamente, assim, o usuário pode se basear neles para implementar seu próprio código.
 
-### 3.3. Utilizando os Scripts
+### 3.3. O Primeiro Envio
+
+É importante que o primeiro envio do código para o dispositivo seja realizado via cabo. Isso se deve ao fato de que as bibliotecas precisam reconhecer o dispositivo na rede para que seja possível eventualmente enviar código por essa rede para esse dispositivo.
+
+Após esse envio via cabo, que pode também ser realizado a partir da Arduino IDE ou pelo arduino-cli, o envio pode ser realizado via OTA normalmente a partir dos scripts fornecidos.
+
+### 3.4. Utilizando os Scripts
 
 Para o correto funcionamento do sistema, os scripts devem ser executados em uma ordem correta. Os próximos tópicos irão explicar o que cada script faz, os quais devem ser executados na ordem em que aparecem aqui.
 
-#### 3.3.1. geraArquivosIps.sh
+Importante: os scripts devem ser executados de dentro da pasta ProjetoOTA/!
 
-Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede.
+#### 3.4.1. geraArquivosIps.sh
 
-#### 3.3.2. detectaDispositivos.sh
+Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede. Ele recebe como parâmetro os 3 primeiros campos do IP da rede na forma de uma string. Deve ser executado assim:
+
+`bash Scripts/geraArquivoIps.sh xx.xx.xx`
+
+#### 3.4.2. detectaDispositivos.sh
 
 Esse script também gera um arquivo .txt dentro da pasta Relatorios com todos os ips ativos na rede, isto é, que estão de fatos conectados.
 
-#### 3.3.3. verificaDisponibilidade.sh
+#### 3.4.3. verificaDisponibilidade.sh
 
 Aqui, o script irá gerar dois arquivos. Primeiro, há uma filtragem para considerar apenas dispositivos de Internet das Coisas (momentâneamente, o script está considerando apenas ESPs). Depois, é gerado, novamente na pasta Relatorios, um arquivo ativos.json, que irá conter uma lista de dispositivos ativos no formato .json, onde cada dispositivo recebe um id na ordem em que foi inserido no arquivo e um arquivo inativos.txt, que irá conter uma lista de dispositivos inativos, sem id's.
 
-#### 3.3.4. enviaCodigo.sh e enviaTodos.sh
+#### 3.4.4. enviaCodigo.sh e enviaTodos.sh
 
-Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código. A compilação é realizada a partir do software [arduino-cli](https://github.com/arduino/arduino-cli) e o envio é realizado pelo script python [espota](https://github.com/esp8266/Arduino/blob/master/tools/espota.py).
+Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código. A compilação é realizada a partir do software.
 
 O script enviaCodigo.sh é parâmetrizado e deve ser executado na linha de comando na forma:
 
-`bash enviaCodigo.sh <id> <nomeProjeto>`
+`bash Scripts/enviaCodigo.sh <id> <nomeProjeto>`
 
 Onde \<id\> é o id do dispositivo em ativos.json para o qual o código está sendo enviado e \<nomeProjeto\> é o nome do projeto do usuário, por exemplo, OTABlink.
 
@@ -128,4 +140,13 @@ Caso seja escolhido o script enviaTodos.sh, basta passar somente o nome do proje
 
 ### 4. Próximos Passos
 
-O sistema ainda está incompleto. Os próximos passos são: 1) Realizar uma validação do código antes do envio; 2) Testar fisicamente o sistema assim como adicionar novos dispositivos suportados; 3) Elaborar uma interface gráfica (web) com o usuário.
+O sistema ainda está incompleto. Os próximos passos são:
+
+<!--ts-->
+* Realizar uma validação do código antes do envio
+* Testar fisicamente o sistema assim como adicionar novos dispositivos suportados
+* Elaborar uma interface gráfica (web) com o usuário
+* Atualizar os scripts para que a biblioteca seja instalada, retirando a obrigação do código estar no mesmo diretório que ela
+* Automatizar o processo de instalação da aplicação
+* Implementar de fato o MQTT para gerenciar os sensores que estão acoplados nos dispositivos
+<!--te-->

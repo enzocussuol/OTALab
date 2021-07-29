@@ -5,8 +5,11 @@
 # $2 representa o nome do projeto (escolhido pelo usuario)
 
 # Obtem o ip e a placa do dispositivo a partir do seu indice
-IP="$(echo $(jq ".[$1] | .ip" ~/ProjetoOTA/Relatorios/ativos.json))"
-placa="$(echo $(jq ".[$1] | .placa" ~/ProjetoOTA/Relatorios/ativos.json))"
+MyPath=$(pwd)
+AtivosPath="$MyPath/Relatorios/ativos.json"
+
+IP="$(echo $(jq ".[$1] | .ip" $AtivosPath))"
+placa="$(echo $(jq ".[$1] | .placa" $AtivosPath))"
 
 # Remove as aspas das strings ip e placa
 IP="$(echo $IP | sed 's/"//g')"

@@ -1,46 +1,51 @@
-// #include "MQTT.h"
+#include "MQTT.h"
 
-// WiFiClient clienteWiFi;
-// PubSubClient clienteMQTT(clienteWiFi);
-// IPAddress servidor(IP_SERVIDOR);
+WiFiClient clienteWiFi;
+PubSubClient clienteMQTT(clienteWiFi);
+IPAddress servidor(192, 168, 86, 41);
 
-// void callback(char* topic, byte* payload, unsigned int length) {
-//     Serial.print("Message arrived [");
-//     Serial.print(topic);
-//     Serial.print("] ");
-//     for (int i=0;i<length;i++) {
-//         Serial.print((char)payload[i]);
-//     }
-//     Serial.println();
-// }
+void callback(char* topic, byte* payload, unsigned int length) {
+    std::string mensagem = "";
+    for(int i = 0; i < (int)length; i++) mensagem += (char)payload[i];
 
-// void reconnect() {
-//     // Loop until we're reconnected
-//     while (!clienteMQTT.connected()) {
-//         Serial.print("Attempting MQTT connection...");
-//         // Attempt to connect
-//         if (clienteMQTT.connect("arduinoClient")) {
-//             Serial.println("connected");
-//             // Once connected, publish an announcement...
-//             clienteMQTT.publish(TOPICO_1, "hello world");
-//             // ... and resubscribe
-//             clienteMQTT.subscribe(TOPICO_1);
-//         } else {
-//             Serial.print("failed, rc=");
-//             Serial.print(clienteMQTT.state());
-//             Serial.println(" try again in 5 seconds");
-//             // Wait 5 seconds before retrying
-//             delay(5000);
-//         }
-//     }
-// }
+    if(!mensagem.compare("Are you alive?")){
+        String ipString = clienteWiFi.localIP().toString();
+        int tamIpString = ipString.length();
+        
+        char ipCharArray[tamIpString];
+        ipString.toCharArray(ipCharArray, tamIpString);
 
-// void setupMQTT(){
-//     clienteMQTT.setServer(servidor, 1883);
-//     clienteMQTT.setCallback(callback);
-// }
+        clienteMQTT.publish("inTopic", ipCharArray);
+    }
+}
 
-// void handleMQTT(){
-//     if(!clienteMQTT.connected()) reconnect();
-//     clienteMQTT.loop();
-// }
+void reconnect() {
+    // Loop until we're reconnected
+    while (!clienteMQTT.connected()) {
+        Serial.print("Attempting MQTT connection...");
+        // Attempt to connect
+        if (clienteMQTT.connect("arduinoClient")) {
+            Serial.println("connected");
+            // Once connected, publish an announcement...
+            clienteMQTT.publish("inTopic", "Hello World!");
+            // ... and resubscribe
+            clienteMQTT.subscribe("outTopic");
+        } else {
+            Serial.print("failed, rc=");
+            Serial.print(clienteMQTT.state());
+            Serial.println(" try again in 5 seconds");
+            // Wait 5 seconds before retrying
+            delay(5000);
+        }
+    }
+}
+
+void setupMQTT(){
+    clienteMQTT.setServer(servidor, 1883);
+    clienteMQTT.setCallback(callback);
+}
+
+void handleMQTT(){
+    if(!clienteMQTT.connected()) reconnect();
+    clienteMQTT.loop();
+}

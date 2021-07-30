@@ -39,13 +39,13 @@ void Dispositivo::setupDispositivo(){
 
     setupOTA();
     setupWebServer();
-    // setupMQTT();
+    setupMQTT();
 }
 
 void Dispositivo::handleDispositivo(){
     handleOTA();
     handleWebServer(this);
-    // handleMQTT();
+    handleMQTT();
 }
 
 String Dispositivo::getNome() const{

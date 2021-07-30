@@ -1,11 +1,13 @@
-// #ifndef MQTT_H
-//     #define MQTT_H
+#ifndef MQTT_H
+    #define MQTT_H
 
-//     #include <PubSubClient.h>
-//     #include <ESP8266WiFi.h>
+    #include <PubSubClient.h>
+    #include <ESP8266WiFi.h>
+    #include <string>
 
-//     #include "Conf.h"
+    #include "Conf.h"
+    #include "Dispositivo.h"
 
-//     void setupMQTT();
-//     void handleMQTT();
-// #endif
+    void setupMQTT();
+    void handleMQTT();
+#endif

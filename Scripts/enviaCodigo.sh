@@ -4,10 +4,11 @@
 # $1 representa o indice do dispositivo no arquivo ativos.json
 # $2 representa o nome do projeto (escolhido pelo usuario)
 
-# Obtem o ip e a placa do dispositivo a partir do seu indice
 MyPath=$(pwd)
 AtivosPath="$MyPath/Relatorios/ativos.json"
+espotaPath="$MyPath/Scripts/espota.py"
 
+# Obtem o ip e a placa do dispositivo a partir do seu indice
 IP="$(echo $(jq ".[$1] | .ip" $AtivosPath))"
 placa="$(echo $(jq ".[$1] | .placa" $AtivosPath))"
 
@@ -44,4 +45,4 @@ mv $2/build/$2.ino.bin $2/ # Move o .bin da pasta de build para a pasta do proje
 
 echo "Enviando..."
 
-python espota.py -d -i $IP -f $2/$2.ino.bin # Carrega o codigo para o microcontrolador via OTA
+python $espotaPath -d -i $IP -f $2/$2.ino.bin # Carrega o codigo para o microcontrolador via OTA

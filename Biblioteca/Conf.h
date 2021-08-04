@@ -1,7 +1,7 @@
 #ifndef CONF_H
     #define CONF_H
 
-    #define NOME_WIFI XXXXX
-    #define SENHA_WIFI XXXXX
-    #define IP_BROKER XXXXX
+    #define NOME_WIFI "Claudio"
+    #define SENHA_WIFI "adgj1234"
+    #define IP_BROKER "192.168.86.41"
 #endif

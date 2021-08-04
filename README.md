@@ -78,6 +78,8 @@ Uma outra opção seria clonar esse repositório em uma pasta com o nome OTA-Mul
 
 ### 3.1. O arquivo de Configuração Conf.h
 
+O primeiro passo para o usuário utilizar o sistema é inserir seus dados internos dentro do arquivo de configuração. Futuramente, pretende-se melhorar essa parte para tornar a experiência do usuário mais agradável.
+
 Esse arquivo está dentro da pasta Biblioteca. Aqui, o usuário deve inserir o nome da sua rede WiFi, a senha dessa rede e o IP do broker escolhido. Todos os campos devem estar entre aspas duplas, pois serão interpretados como strings. Por exemplo, seu minha rede WiFi se chama teste, a senha é 123 e o IP do meu broker é 123.123.123.123, o arquivo Conf.h deve ser modificado para:
 
 ```

@@ -3,10 +3,5 @@
 
     #define NOME_WIFI XXXXX
     #define SENHA_WIFI XXXXX
-
-    #define IP_SERVIDOR XXXXX
-
-    //Topicos nos quais o dispositivo se inscreve
-    #define TOPICO_1 XXXXX
-    //...
+    #define IP_BROKER XXXXX
 #endif

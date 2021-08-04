@@ -2,7 +2,7 @@
 
 ## 1. Introdução
 
-Este repositório tem a finalidade de fornecer um conjunto de ferramentas para possibilitar, controlar e monitorar remotamente o envio e a execução de códigos fontes .ino ou .cpp para microprocessadores/microcontroladores que suportem o acoplamento de sensores. Os scripts são desenvolvidos em Shell, logo, devem ser rodados em um ambiente Linux.
+Este repositório tem a finalidade de fornecer um conjunto de ferramentas para possibilitar, controlar e monitorar remotamente o envio e a execução de códigos fontes .ino ou .cpp para microprocessadores/microcontroladores que suportem o acoplamento de sensores. O sistema é desenvolvido para ser executado em um ambiente Linux.
 
 ## 2. Instalação / Dependências
 
@@ -58,9 +58,15 @@ Com relação a implementação da biblioteca fornecida nesse repositório, apen
 
 Bibliotecas adicionais irão depender de cada projeto e cabe ao usuário instalá-las quando for necessário. Lembrando que isso pode ser feito tanto pela Arduino IDE quanto pelo arduino-cli.
 
-### 2.3. Diretório
+### 2.3. Broker MQTT
 
-Para que o sistema funcione corretamente, é recomendável que o usuário baixe os arquivos deste repositório na forma de um .zip, pelo próprio GitHub. Feito isso, bsata descompactar o .zip em sua pasta pessoal no Linux.
+Como já dito, o sistema faz uso do [protocolo MQTT](https://www.hitecnologia.com.br/blog/o-que-e-protocolo-mqtt/) para se comunicar com os dispositivos. Para isso, é necessário que exista um broker no qual tanto os dispositivos quanto os scripts se conectarão. No presente momento, qualquer broker público irá servir, mas, é recomendável a utilização do [mosquitto](https://mosquitto.org/).
+
+Tudo que o usuário precisa é saber o IP do broker. No caso do mosquitto, o IP será o da própria máquina.
+
+### 2.4. Diretório
+
+Para que o sistema funcione corretamente, é recomendável que o usuário baixe os arquivos deste repositório na forma de um .zip, pelo próprio GitHub. Feito isso, basta descompactar o .zip em sua pasta pessoal no Linux.
 
 É importante que o usuário não faça alterações nos nomes das pastas, pois isso pode acarretar em problemas no sistema em geral.
 
@@ -72,11 +78,19 @@ Uma outra opção seria clonar esse repositório em uma pasta com o nome OTA-Mul
 
 ### 3.1. O arquivo de Configuração Conf.h
 
-Antes de mais nada, o usuário deve preencher o arquivo Conf.h com os dados pessoais da rede de sua casa. Os nomes das variáveis são auto-explicativos, por exemplo, NOME_WIFI é o nome da rede, etc. Os campos IP_SERVIDOR e os tópicos nos quais o dispositivo de inscreve podem ser ignorados por enquanto, pois, nesta versão, o MQTT ainda não está sendo implementado.
+O primeiro passo para o usuário utilizar o sistema é inserir seus dados internos dentro do arquivo de configuração. Futuramente, pretende-se melhorar essa parte para tornar a experiência do usuário mais agradável.
+
+Esse arquivo está dentro da pasta Biblioteca. Aqui, o usuário deve inserir o nome da sua rede WiFi, a senha dessa rede e o IP do broker escolhido. Todos os campos devem estar entre aspas duplas, pois serão interpretados como strings. Por exemplo, se a minha rede WiFi se chama teste, a senha é 123 e o IP do meu broker é 123.123.123.123, o arquivo Conf.h deve ser modificado para:
+
+```
+  NOME_WIFI "teste"
+  SENHA_WIFI "123"
+  IP_BROKER "123.123.123.123"
+```
 
 ### 3.2. Utilizando as Bibliotecas
 
-Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca/ e inclui todos os arquivos .h e .cpp necessários.
+Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca e inclui todos os arquivos .h e .cpp necessários.
 
 Para utilizar a biblioteca, o usuário deve inserir em seu código:
 
@@ -100,7 +114,7 @@ E na função loop, chamar:
 
 Essas duas funções irão lidar com os procedimentos de conexão e processamento por baixo dos panos. Outras funções serão futuramente implementadas, tais como funções para obter quais sensores estão conectados ao dispositivo, etc.
 
-Na pasta Exemplos/ estão arquivos que implementam a biblioteca corretamente, assim, o usuário pode se basear neles para implementar seu próprio código.
+Na pasta Exemplos estão arquivos que implementam a biblioteca corretamente, assim, o usuário pode se basear neles para implementar seu próprio código.
 
 ### 3.3. O Primeiro Envio
 
@@ -112,25 +126,23 @@ Após esse envio via cabo, que pode também ser realizado a partir da Arduino ID
 
 Para o correto funcionamento do sistema, os scripts devem ser executados em uma ordem correta. Os próximos tópicos irão explicar o que cada script faz, os quais devem ser executados na ordem em que aparecem aqui.
 
-Importante: os scripts devem ser executados de dentro da pasta ProjetoOTA/!
+#### 3.4.1. descobreDispositivos.py
 
-#### 3.4.1. geraArquivosIps.sh
+Esse script se baseia em detectar os dispositivos na rede a partir do protocolo MQTT. Ele irá se conectar à um broker, o qual os dispositivos também devem estar conectados, e os enviar uma mensagem perguntando se estão vivos. Feito isso, ele irá esperar 1 segundo por respostas. Se um dispositivo escutou a mensagem, ele irá enviar de volta seu IP, que será guardado em um arquivo chamado dispositivos.txt, armazenado na pasta Relatorios. Sua execução é feita com:
 
-Esse script simplesmente gera um arquivo .txt dentro da pasta Relatorios com todos os ips possíveis de uma determinada rede. Ele recebe como parâmetro os 3 primeiros campos do IP da rede na forma de uma string. Deve ser executado assim:
+`python3 descobreDispositivos.py <IPBroker>`
 
-`bash Scripts/geraArquivoIps.sh xx.xx.xx`
+Onde \<ipBroker\> é o mesmo IP do broker inserido no arquivo Conf.h.
 
-#### 3.4.2. detectaDispositivos.sh
+#### 3.4.2. difereAtivosInativos.sh
 
-Esse script também gera um arquivo .txt dentro da pasta Relatorios com todos os ips ativos na rede, isto é, que estão de fatos conectados.
+Esse script simplesmente vai ler o arquivo dispositivos.txt, e, para cada IP dentro dele, ou seja, para cada dispositivo, ele vai pingar nesse IP. Se o IP responder, o dispositivo está ativo naquele momento, e será inserido em um arquivo ativos.json, no formato JSON. Se não, ele irá ser inserido em um arquivo inativos.txt. Ambos esses arquivos estarão na pasta Relatorios. O script pode ser executado com:
 
-#### 3.4.3. verificaDisponibilidade.sh
+`bash difereAtivosInativos.sh`
 
-Aqui, o script irá gerar dois arquivos. Primeiro, há uma filtragem para considerar apenas dispositivos de Internet das Coisas (momentâneamente, o script está considerando apenas ESPs). Depois, é gerado, novamente na pasta Relatorios, um arquivo ativos.json, que irá conter uma lista de dispositivos ativos no formato .json, onde cada dispositivo recebe um id na ordem em que foi inserido no arquivo e um arquivo inativos.txt, que irá conter uma lista de dispositivos inativos, sem id's.
+#### 3.4.3. enviaCodigo.sh e enviaTodos.sh
 
-#### 3.4.4. enviaCodigo.sh e enviaTodos.sh
-
-Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código. A compilação é realizada a partir do software.
+Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código para o dispositivo escolhido.
 
 O script enviaCodigo.sh é parâmetrizado e deve ser executado na linha de comando na forma:
 
@@ -150,7 +162,8 @@ O sistema ainda está incompleto. Os próximos passos são:
 * Realizar uma validação do código antes do envio
 * Testar fisicamente o sistema assim como adicionar novos dispositivos suportados
 * Elaborar uma interface gráfica (web) com o usuário
-* Atualizar os scripts para que a biblioteca seja instalada, retirando a obrigação do código estar no mesmo diretório que ela
+* Atualizar os scripts para que a biblioteca seja instalada, retirando a obrigação do código do usuário estar no mesmo diretório que ela
 * Automatizar o processo de instalação da aplicação
 * Implementar de fato o MQTT para gerenciar os sensores que estão acoplados nos dispositivos
+* Resolver a questão do arquivo de configuração para dados pessoais do usuário
 <!--te-->

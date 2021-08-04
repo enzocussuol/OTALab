@@ -8,7 +8,7 @@ Este repositório tem a finalidade de fornecer um conjunto de ferramentas para p
 
 ### 2.1. Softwares Necessários
 
-Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [arduino-cli](https://github.com/arduino/arduino-cli), uma ferramenta disponibilizada pela própria empresa que possibilita a gerência de placas Arduino a partir da linha de comando; 2) [espota](https://github.com/esp8266/Arduino/blob/master/tools/espota.py), um script python que realiza o envio de código via Over the Air para ESPs. O arquivo espota.py já está incluso na forma de uma cópia do original nesse repositório, logo, o usuário não precisa se preocupar com isso.
+Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [arduino-cli](https://github.com/arduino/arduino-cli), uma ferramenta disponibilizada pela própria marca que possibilita a gerência de placas Arduino a partir da linha de comando; 2) [espota](https://github.com/esp8266/Arduino/blob/master/tools/espota.py), um script python que realiza o envio de código via Over the Air para ESPs. O arquivo espota.py já está incluso na forma de uma cópia do original nesse repositório, logo, o usuário não precisa se preocupar com isso.
 
 É necessário que o arduino-cli seja instalado, ver [instalação arduino-cli](https://arduino.github.io/arduino-cli/latest/installation/). Tendo instalado o software, deve-se realizar alguns passos adicionais. O ESP8266 e o ESP32 não são placas originalmente suportadas pelo arduino-cli, logo, devem ainda ser instalados núcleos para essas placas, visto que elas são de produções de terceiros (recomenda-se ver [instalação placas terceirizadas no arduino-cli](https://create.arduino.cc/projecthub/B45i/getting-started-with-arduino-cli-7652a5)).
 
@@ -36,7 +36,7 @@ Agora, instale de fato as placas com os comandos:
 
 `arduino-cli core install esp32:esp32`
 
-[ara checar as placas instaladas, basta rodar:
+Para checar as placas instaladas, basta rodar:
 
 `arduino-cli board listall`
 
@@ -60,9 +60,13 @@ Bibliotecas adicionais irão depender de cada projeto e cabe ao usuário instal�
 
 ### 2.3. Diretório
 
-Momentaneamente, é necessário que o usuário crie, em sua pasta pessoal, uma pasta chamada "ProjetoOTA". O código fornecido por esse repositório deve então ser inserido dentro dessa pasta para que os scripts funcionem corretamente. Esse comportamento irá mudar futuramente.
+Para que o sistema funcione corretamente, é recomendável que o usuário baixe os arquivos deste repositório na forma de um .zip, pelo próprio GitHub. Feito isso, bsata descompactar o .zip em sua pasta pessoal no Linux.
 
-Feito tudo isso, a instalação está completa e a aplicação está pronta para ser utilizada.
+É importante que o usuário não faça alterações nos nomes das pastas, pois isso pode acarretar em problemas no sistema em geral.
+
+Uma outra opção seria clonar esse repositório em uma pasta com o nome OTA-Multiplos-Dispositivos, localizada na pasta pessoal. Isso poderia ser feito com o comando:
+
+`git clone https://github.com/enzocussuol/OTA-Multiplos-Dispositivos/`
 
 ## 3. Uso
 

@@ -23,11 +23,11 @@ def on_message(client, userdata, message):
     arqDisp.write(str(message.payload.decode("utf-8")) + "\n")
 
 try:
-    os.remove("~/OTA-Multiplos-Dispositivos/Relatorios/dispositivos.txt")
+    os.remove(os.path.expanduser("~/OTA-Multiplos-Dispositivos/Relatorios/dispositivos.txt"))
 except:
     print("Nao foi possivel remover o arquivo dispositivos.txt (ja nao existe)")
-    
-arqDisp = open("~/OTA-Multiplos-Dispositivos/Relatorios/dispositivos.txt", "a")
+
+arqDisp = open(os.path.expanduser("~/OTA-Multiplos-Dispositivos/Relatorios/dispositivos.txt"), "a")
 
 client = mqttClient.Client("Python3")
 # client.username_pw_set(user, password=password)

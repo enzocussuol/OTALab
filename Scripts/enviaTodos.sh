@@ -2,8 +2,8 @@
 
 # Envia um codigo para todos os dispositivos ativos na rede
 # $1 representa o nome do projeto (escolhido pelo usuario)
-AtivosPath="~/OTA-Multiplos-Dispositivos/Relatorios/ativos.json"
-EnviaCodPath="~/OTA-Multiplos-Dispositivos/Scripts/enviaCodigo.sh"
+AtivosPath="/home/${USER}/OTA-Multiplos-Dispositivos/Relatorios/ativos.json"
+EnviaCodPath="/home/${USER}/OTA-Multiplos-Dispositivos/Scripts/enviaCodigo.sh"
 
 numAtivos="$(jq length $AtivosPath)" # Obtem o numero de dispositivos ativos
 

@@ -4,8 +4,8 @@
 # $1 representa o indice do dispositivo no arquivo ativos.json
 # $2 representa o nome do projeto (escolhido pelo usuario)
 
-AtivosPath="~/OTA-Multiplos-Dispositivos/Relatorios/ativos.json"
-espotaPath="~/OTA-Multiplos-Dispositivos/Scripts/espota.py"
+AtivosPath="/home/${USER}/OTA-Multiplos-Dispositivos/Relatorios/ativos.json"
+espotaPath="/home/${USER}/OTA-Multiplos-Dispositivos/Scripts/espota.py"
 
 # Obtem o ip e a placa do dispositivo a partir do seu indice
 IP="$(echo $(jq ".[$1] | .ip" $AtivosPath))"

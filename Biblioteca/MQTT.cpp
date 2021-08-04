@@ -2,7 +2,7 @@
 
 WiFiClient clienteWiFi;
 PubSubClient clienteMQTT(clienteWiFi);
-IPAddress servidor(192, 168, 86, 41);
+IPAddress broker;
 
 void callback(char* topic, byte* payload, unsigned int length) {
     std::string mensagem = "";
@@ -12,10 +12,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
         String ipString = clienteWiFi.localIP().toString();
         int tamIpString = ipString.length();
         
-        char ipCharArray[tamIpString];
-        ipString.toCharArray(ipCharArray, tamIpString);
+        char ipCharArray[tamIpString+1];
+        ipString.toCharArray(ipCharArray, tamIpString+1);
 
-        clienteMQTT.publish("inTopic", ipCharArray);
+        clienteMQTT.publish("Inicializacao/inTopic", ipCharArray);
     }
 }
 
@@ -26,10 +26,8 @@ void reconnect() {
         // Attempt to connect
         if (clienteMQTT.connect("arduinoClient")) {
             Serial.println("connected");
-            // Once connected, publish an announcement...
-            clienteMQTT.publish("inTopic", "Hello World!");
-            // ... and resubscribe
-            clienteMQTT.subscribe("outTopic");
+
+            clienteMQTT.subscribe("Inicializacao/outTopic");
         } else {
             Serial.print("failed, rc=");
             Serial.print(clienteMQTT.state());
@@ -41,7 +39,8 @@ void reconnect() {
 }
 
 void setupMQTT(){
-    clienteMQTT.setServer(servidor, 1883);
+    broker.fromString(IP_BROKER);
+    clienteMQTT.setServer(broker, 1883);
     clienteMQTT.setCallback(callback);
 }
 

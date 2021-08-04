@@ -1,8 +1,9 @@
 import paho.mqtt.client as mqttClient
 import time
 import os
+import sys
 
-IP_BROKER = "192.168.86.41" # IP do broker
+IP_BROKER = sys.argv[1] # IP do broker
 PORTA = 1883 # Numero da porta
 # USER = ""
 # PASSWORD = ""

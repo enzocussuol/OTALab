@@ -2,7 +2,7 @@
 
 ## 1. Introdução
 
-Este repositório tem a finalidade de fornecer um conjunto de ferramentas para possibilitar, controlar e monitorar remotamente o envio e a execução de códigos fontes .ino ou .cpp para microprocessadores/microcontroladores que suportem o acoplamento de sensores. Os scripts são desenvolvidos em Shell, logo, devem ser rodados em um ambiente Linux.
+Este repositório tem a finalidade de fornecer um conjunto de ferramentas para possibilitar, controlar e monitorar remotamente o envio e a execução de códigos fontes .ino ou .cpp para microprocessadores/microcontroladores que suportem o acoplamento de sensores. O sistema é desenvolvido para ser executado em um ambiente Linux.
 
 ## 2. Instalação / Dependências
 
@@ -60,11 +60,13 @@ Bibliotecas adicionais irão depender de cada projeto e cabe ao usuário instal�
 
 ### 2.3. Broker MQTT
 
+Como já dito, o sistema faz uso do [protocolo MQTT](https://www.hitecnologia.com.br/blog/o-que-e-protocolo-mqtt/) para se comunicar com os dispositivos. Para isso, é necessário que exista um broker no qual tanto os dispositivos quanto os scripts se conectarão. No presente momento, qualquer broker público irá servir, mas, é recomendável a utilização do [mosquitto](https://mosquitto.org/).
 
+Tudo que o usuário precisa é saber o IP do broker. No caso do mosquitto, o IP será o da própria máquina.
 
 ### 2.4. Diretório
 
-Para que o sistema funcione corretamente, é recomendável que o usuário baixe os arquivos deste repositório na forma de um .zip, pelo próprio GitHub. Feito isso, bsata descompactar o .zip em sua pasta pessoal no Linux.
+Para que o sistema funcione corretamente, é recomendável que o usuário baixe os arquivos deste repositório na forma de um .zip, pelo próprio GitHub. Feito isso, basta descompactar o .zip em sua pasta pessoal no Linux.
 
 É importante que o usuário não faça alterações nos nomes das pastas, pois isso pode acarretar em problemas no sistema em geral.
 
@@ -76,11 +78,17 @@ Uma outra opção seria clonar esse repositório em uma pasta com o nome OTA-Mul
 
 ### 3.1. O arquivo de Configuração Conf.h
 
-Esse arquivo ainda está incompleto. A ideia é fazer um único arquivo de configuração onde o usuário consiga colocar todos seus dados pessoais, e o sistema possa funcionar a partir disso. Por enquanto, é necessário que o usuário insira seus dados no próprio código, com excessão do nome e da senha do WiFi.
+Esse arquivo está dentro da pasta Biblioteca. Aqui, o usuário deve inserir o nome da sua rede WiFi, a senha dessa rede e o IP do broker escolhido. Todos os campos devem estar entre aspas duplas, pois serão interpretados como strings. Por exemplo, seu minha rede WiFi se chama teste, a senha é 123 e o IP do meu broker é 123.123.123.123, o arquivo Conf.h deve ser modificado para:
+
+```
+  NOME_WIFI "teste"
+  SENHA_WIFI "123"
+  IP_BROKER "123.123.123.123"
+```
 
 ### 3.2. Utilizando as Bibliotecas
 
-Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca/ e inclui todos os arquivos .h e .cpp necessários.
+Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca e inclui todos os arquivos .h e .cpp necessários.
 
 Para utilizar a biblioteca, o usuário deve inserir em seu código:
 
@@ -118,9 +126,11 @@ Para o correto funcionamento do sistema, os scripts devem ser executados em uma 
 
 #### 3.4.1. descobreDispositivos.py
 
-Esse script se baseia em detectar os dispositivos na rede a partir do protocolo MQTT. Ele irá se conectar à um broker, o qual os dispositivos também devem estar conectados, e os enviar uma mensagem perguntando se estão vivos. Feito isso, ele irá esperar por 1 segundo (o usuário pode modificar esse tempo) por respostas. Se um dispositivo escutou a mensagem, ele irá enviar de volta seu IP, que será guardado em um arquivo chamado dispositivos.txt, armazenado na pasta Relatorios. Sua execução é feita com:
+Esse script se baseia em detectar os dispositivos na rede a partir do protocolo MQTT. Ele irá se conectar à um broker, o qual os dispositivos também devem estar conectados, e os enviar uma mensagem perguntando se estão vivos. Feito isso, ele irá esperar 1 segundo por respostas. Se um dispositivo escutou a mensagem, ele irá enviar de volta seu IP, que será guardado em um arquivo chamado dispositivos.txt, armazenado na pasta Relatorios. Sua execução é feita com:
 
-`python3 descobreDispositivos.py`
+`python3 descobreDispositivos.py <IPBroker>`
+
+Onde \<ipBroker\> é o mesmo IP do broker inserido no arquivo Conf.h.
 
 #### 3.4.2. difereAtivosInativos.sh
 

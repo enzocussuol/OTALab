@@ -62,7 +62,7 @@ Bibliotecas adicionais irão depender de cada projeto e cabe ao usuário instal�
 
 Como já dito, o sistema faz uso do [protocolo MQTT](https://www.hitecnologia.com.br/blog/o-que-e-protocolo-mqtt/) para se comunicar com os dispositivos. Para isso, é necessário que exista um broker no qual tanto os dispositivos quanto os scripts se conectarão. No presente momento, qualquer broker público irá servir, mas, é recomendável a utilização do [mosquitto](https://mosquitto.org/).
 
-Tudo que o usuário precisa é saber o IP do broker. No caso do mosquitto, o IP será o da própria máquina.
+Tudo que o usuário precisa é saber o IP do broker. No caso do mosquitto, o IP será o da própria máquina (127.0.0.1).
 
 ### 2.4. Diretório
 

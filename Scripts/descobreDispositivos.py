@@ -22,7 +22,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     arqDisp.write(str(message.payload.decode("utf-8")) + "\n")
 
-pathDisp = os.path.expanduser("/home/enzo/OTA-Multiplos-Dispositivos/Relatorios/dispositivos.txt")
+pathDisp = "/home/" + os.environ.get("USER") + "/OTA-Multiplos-Dispositivos/Relatorios/dispositivos.txt"
 
 try:
     os.remove(pathDisp)

@@ -166,4 +166,5 @@ O sistema ainda está incompleto. Os próximos passos são:
 * Automatizar o processo de instalação da aplicação
 * Implementar de fato o MQTT para gerenciar os sensores que estão acoplados nos dispositivos
 * Resolver a questão do arquivo de configuração para dados pessoais do usuário
+* Fazer com que o upload do usuário vá parar no servidor
 <!--te-->

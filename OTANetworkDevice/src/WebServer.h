@@ -3,8 +3,8 @@
 
     #include <ESP8266WiFi.h>
 
-    #include "Dispositivo.h"
+    #include "OTANetworkDevice.h"
 
     void setupWebServer();
-    void handleWebServer(Dispositivo*);
+    void handleWebServer(OTANetworkDevice*);
 #endif

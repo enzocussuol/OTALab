@@ -1,7 +1,7 @@
-#ifndef DISPOSITIVO_H
-    #define DISPOSITIVO_H
+#ifndef OTANETWORKDEVICE_H
+    #define OTANETWORKDEVICE_H
 
-    class Dispositivo;
+    class OTANetworkDevice;
 
     #include <list>
 
@@ -14,16 +14,16 @@
     #define esp8266D1Mini 1
     #define esp8266NodeMCU 2
 
-    class Dispositivo{
+    class OTANetworkDevice{
         private:
             String nome;
             String placa;
             IPAddress ip;
             std::list<Sensor*>* sensores;
         public:
-            Dispositivo(int);
-            void setupDispositivo();
-            void handleDispositivo();
+            OTANetworkDevice(int);
+            void setup();
+            void handle();
             String getNome() const;
             String getPlaca() const;
             IPAddress getIp() const;

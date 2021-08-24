@@ -1,9 +1,9 @@
-#include "Dispositivo.h"
+#include "OTANetworkDevice.h"
 
 const char* ssid = NOME_WIFI;
 const char* password = SENHA_WIFI;
 
-Dispositivo::Dispositivo(int id){
+OTANetworkDevice::OTANetworkDevice(int id){
     this->sensores = new std::list<Sensor*>;
 
     if(id == esp8266D1Mini){
@@ -32,7 +32,7 @@ static void inicializaWiFi(){
     Serial.println(WiFi.localIP());
 }
 
-void Dispositivo::setupDispositivo(){
+void OTANetworkDevice::setup(){
     inicializaWiFi();
 
     this->setIp(WiFi.localIP());
@@ -42,28 +42,28 @@ void Dispositivo::setupDispositivo(){
     setupMQTT();
 }
 
-void Dispositivo::handleDispositivo(){
+void OTANetworkDevice::handle(){
     handleOTA();
     handleWebServer(this);
     handleMQTT();
 }
 
-String Dispositivo::getNome() const{
+String OTANetworkDevice::getNome() const{
     return this->nome;
 }
 
-String Dispositivo::getPlaca() const{
+String OTANetworkDevice::getPlaca() const{
     return this->placa;
 }
 
-IPAddress Dispositivo::getIp() const{
+IPAddress OTANetworkDevice::getIp() const{
     return this->ip;
 }
 
-void Dispositivo::setIp(IPAddress ip){
+void OTANetworkDevice::setIp(IPAddress ip){
     this->ip = ip;
 }
 
-std::list<Sensor*>* Dispositivo::getSensores() const{
+std::list<Sensor*>* OTANetworkDevice::getSensores() const{
     return this->sensores;
 }

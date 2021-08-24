@@ -15,7 +15,7 @@ void setupWebServer(){
     webServer.begin();
 }
 
-static void displayJSON(WiFiClient client, Dispositivo* dispositivo){
+static void displayJSON(WiFiClient client, OTANetworkDevice* dispositivo){
     client.println("{");
                         
     client.print("\t\"nome\": \"");
@@ -69,7 +69,7 @@ static void displayJSON(WiFiClient client, Dispositivo* dispositivo){
     client.println("}");
 }
 
-void handleWebServer(Dispositivo* dispositivo){
+void handleWebServer(OTANetworkDevice* dispositivo){
     WiFiClient client = webServer.available();   // Listen for incoming clients
 
     if (client) {                             // If a new client connects,

@@ -6,7 +6,6 @@
     #include <string>
 
     #include "Conf.h"
-    #include "Dispositivo.h"
 
     void setupMQTT();
     void handleMQTT();

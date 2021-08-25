@@ -9,6 +9,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
     for(int i = 0; i < (int)length; i++) mensagem += (char)payload[i];
 
     if(!mensagem.compare("Are you alive?")){
+        Serial.println("Recebi um sinal de vida!");
+
         String ipString = clienteWiFi.localIP().toString();
         int tamIpString = ipString.length();
         

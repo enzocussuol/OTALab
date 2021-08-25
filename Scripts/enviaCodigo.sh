@@ -4,8 +4,8 @@
 # $1 representa o indice do dispositivo no arquivo ativos.json
 # $2 representa o nome do projeto (escolhido pelo usuario)
 
-AtivosPath="/home/${USER}/OTA-Multiplos-Dispositivos/Relatorios/ativos.json"
-espotaPath="/home/${USER}/OTA-Multiplos-Dispositivos/Scripts/espota.py"
+AtivosPath="/home/${USER}/OTANetwork/Relatorios/ativos.json"
+espotaPath="/home/${USER}/OTANetwork/Scripts/espota.py"
 
 # Obtem o ip e a placa do dispositivo a partir do seu indice
 IP="$(echo $(jq ".[$1] | .ip" $AtivosPath))"
@@ -20,19 +20,6 @@ echo $placa
 
 mkdir $2 # Cria pasta para o projeto
 mkdir $2/build # Cria pasta dentro do projeto que tem os arquivos de compilacao
-
-# Copia as bibliotecas necessarias para atualizacao via OTA para dentro da pasta do projeto
-cp Biblioteca/OTA.h $2/
-cp Biblioteca/OTA.cpp $2/
-cp Biblioteca/WebServer.h $2/
-cp Biblioteca/WebServer.cpp $2/
-cp Biblioteca/MQTT.h $2/
-cp Biblioteca/MQTT.cpp $2/
-cp Biblioteca/Sensor.h $2/
-cp Biblioteca/Sensor.cpp $2/
-cp Biblioteca/Dispositivo.h $2/
-cp Biblioteca/Dispositivo.cpp $2/
-cp Biblioteca/Conf.h $2/
 
 cp $2.ino $2/ # Move o arquivo para dentro da pasta do projeto
 

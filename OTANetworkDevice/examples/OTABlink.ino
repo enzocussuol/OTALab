@@ -3,6 +3,9 @@
 OTANetworkDevice* dispositivo = new OTANetworkDevice(esp8266D1Mini);
 
 void setup(){
+    Serial.begin(115200);
+    Serial.println("Comecando...");
+    
     pinMode(LED_BUILTIN, OUTPUT);
 
     dispositivo->setup();

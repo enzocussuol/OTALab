@@ -7,7 +7,7 @@ IP_BROKER = sys.argv[1] # IP do broker
 PORTA = 1883 # Numero da porta
 # USER = ""
 # PASSWORD = ""
-MAX_TEMPO_RESPOSTA = 1 # Espera por respostas por no maximo x segundos
+MAX_TEMPO_RESPOSTA = 15 # Espera por respostas por no maximo x segundos
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -22,7 +22,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, message):
     arqDisp.write(str(message.payload.decode("utf-8")) + "\n")
 
-pathDisp = "/home/" + os.environ.get("USER") + "/OTA-Multiplos-Dispositivos/Relatorios/dispositivos.txt"
+pathDisp = "/home/" + os.environ.get("USER") + "/OTANetwork/Relatorios/dispositivos.txt"
 
 try:
     os.remove(pathDisp)

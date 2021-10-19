@@ -6,6 +6,7 @@
     #include <string>
 
     #include "Conf.h"
+    #include "OTANetworkDevice.h"
 
     void setupMQTT();
     void handleMQTT();

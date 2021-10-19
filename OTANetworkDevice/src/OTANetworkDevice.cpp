@@ -45,7 +45,7 @@ void OTANetworkDevice::setup(){
 void OTANetworkDevice::handle(){
     handleOTA();
     handleWebServer(this);
-    handleMQTT();
+    handleMQTT(this);
 }
 
 String OTANetworkDevice::getNome() const{

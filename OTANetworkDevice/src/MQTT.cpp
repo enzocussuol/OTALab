@@ -21,12 +21,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
     }
 }
 
-void reconnect() {
+void reconnect(OTANetworkDevice* dispositivo) {
     // Loop until we're reconnected
     while (!clienteMQTT.connected()) {
         Serial.print("Attempting MQTT connection...");
         // Attempt to connect
-        if (clienteMQTT.connect("arduinoClient")) {
+        if (clienteMQTT.connect(dispositivo->getIp().toString())) {
             Serial.println("connected");
 
             clienteMQTT.subscribe("Inicializacao/outTopic");
@@ -46,7 +46,7 @@ void setupMQTT(){
     clienteMQTT.setCallback(callback);
 }
 
-void handleMQTT(){
-    if(!clienteMQTT.connected()) reconnect();
+void handleMQTT(OTANetworkDevice* dispositivo){
+    if(!clienteMQTT.connected()) reconnect(dispositivo);
     clienteMQTT.loop();
 }

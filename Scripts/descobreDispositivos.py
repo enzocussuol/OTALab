@@ -7,7 +7,7 @@ IP_BROKER = sys.argv[1] # IP do broker
 PORTA = 1883 # Numero da porta
 # USER = ""
 # PASSWORD = ""
-MAX_TEMPO_RESPOSTA = 30 # Espera por respostas por no maximo x segundos
+MAX_TEMPO_RESPOSTA = 60 # Espera por respostas por no maximo x segundos
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -16,6 +16,8 @@ def on_connect(client, userdata, flags, rc):
         client.subscribe("Inicializacao/inTopic")
 
         client.publish("Inicializacao/outTopic", "Are you alive?")
+
+        print("Enviando pedido de reconhecimento. Esperando por respostas...")
     else:
         print("Connection failed")
 

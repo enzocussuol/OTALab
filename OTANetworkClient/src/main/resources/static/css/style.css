@@ -1,0 +1,32 @@
+body{
+	background-color: whitesmoke;
+	word-break: break-word;
+}
+
+.caixaPrincipal{
+	text-align: center;
+	margin: 20px;
+}
+
+.caixaUpload{
+	width: 25%;
+	margin-left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.selecioneArquivo, .selecioneDispositivos{
+	margin: 20px;
+}
+
+.caixaDispositivos{
+	margin-bottom: 20px;
+	padding: 10px;
+}
+
+.caixaDispositivo:hover{
+	cursor: pointer;
+}
+
+#idDispositivo{
+	display: none;
+}

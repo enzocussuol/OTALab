@@ -8,7 +8,7 @@ DispPath="/home/${USER}/OTANetwork/Relatorios/dispositivos.txt"
 rm $AtivosPath
 rm $InativosPath
 
-echo "[" >> "$AtivosPath"
+echo "{\"dispositivos\":[" >> "$AtivosPath"
 
 vetorAtivos=()
 
@@ -40,6 +40,6 @@ do
     fi
 done
 
-echo "]" >> "$AtivosPath"
+echo "]}" >> "$AtivosPath"
 
 rm aux.json # Remove o arquivo auxiliar

@@ -7,9 +7,13 @@
 AtivosPath="/home/${USER}/OTANetwork/Relatorios/ativos.json"
 espotaPath="/home/${USER}/OTANetwork/Scripts/espota.py"
 
+cat $AtivosPath | jq .[] > aux.json
+
 # Obtem o ip e a placa do dispositivo a partir do seu indice
-IP="$(echo $(jq ".[$1] | .ip" $AtivosPath))"
-placa="$(echo $(jq ".[$1] | .placa" $AtivosPath))"
+IP="$(echo $(jq ".[$1] | .ip" aux.json))"
+placa="$(echo $(jq ".[$1] | .placa" aux.json))"
+
+rm aux.json
 
 # Remove as aspas das strings ip e placa
 IP="$(echo $IP | sed 's/"//g')"

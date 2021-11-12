@@ -1,0 +1,30 @@
+body{
+	background-color: whitesmoke;
+	word-break: break-word;
+}
+
+.caixaPrincipal{
+	text-align: center;
+	margin: 20px;
+}
+
+.cadastreDispositivo{
+	margin-bottom: 10px;
+}
+
+.formCadastro{
+	margin-top: 20px;
+	text-align: start;
+	width: 30%;
+	margin-left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.seletorSensores{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.botaoCadastrar{
+	margin-top: 15px;
+}

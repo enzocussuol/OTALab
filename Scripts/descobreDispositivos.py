@@ -7,7 +7,7 @@ IP_BROKER = sys.argv[1] # IP do broker
 PORTA = 1883 # Numero da porta
 # USER = ""
 # PASSWORD = ""
-MAX_TEMPO_RESPOSTA = 60 # Espera por respostas por no maximo x segundos
+MAX_TEMPO_RESPOSTA = 10 # Espera por respostas por no maximo x segundos
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:

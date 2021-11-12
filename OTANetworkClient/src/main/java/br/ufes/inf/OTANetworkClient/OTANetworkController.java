@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 public class OTANetworkController {
 	private Catalogo catalogo = new Catalogo();
 	
-	@GetMapping("/OTANetwork")
+	@GetMapping("/OTANetworkClient")
 	public String getIndex(Model model) {
 		try {
 			Path arquivoDispositivosAtivos = Path.of("/home/enzo/OTANetwork/Relatorios/ativos.json");

@@ -5,25 +5,32 @@
 
     #include <list>
 
-    #include "Conf.h"
     #include "OTA.h"
     #include "WebServer.h"
     #include "MQTT.h"
     #include "Sensor.h"
 
-    #define esp8266D1Mini 1
-    #define esp8266NodeMCU 2
-
     class OTANetworkDevice{
         private:
+            String WiFiNetworkName;
+            String WiFiNetworkPassword;
+            String brokerIP;
+
             String nome;
             String placa;
             IPAddress ip;
             std::list<Sensor*>* sensores;
         public:
-            OTANetworkDevice(int);
+            OTANetworkDevice();
+
             void setup();
             void handle();
+
+            void setWiFiNetworkName(String);
+            void setWiFiNetworkPassword(String);
+            String getBrokerIP() const;
+            void setBrokerIP(String);
+
             String getNome() const;
             String getPlaca() const;
             IPAddress getIp() const;

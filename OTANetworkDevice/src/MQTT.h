@@ -5,9 +5,8 @@
     #include <ESP8266WiFi.h>
     #include <string>
 
-    #include "Conf.h"
     #include "OTANetworkDevice.h"
 
-    void setupMQTT();
-    void handleMQTT();
+    void setupMQTT(String);
+    void handleMQTT(OTANetworkDevice*);
 #endif

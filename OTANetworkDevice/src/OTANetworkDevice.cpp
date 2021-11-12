@@ -1,23 +1,12 @@
 #include "OTANetworkDevice.h"
 
-const char* ssid = NOME_WIFI;
-const char* password = SENHA_WIFI;
-
-OTANetworkDevice::OTANetworkDevice(int id){
+OTANetworkDevice::OTANetworkDevice(){
     this->sensores = new std::list<Sensor*>;
-
-    if(id == esp8266D1Mini){
-        this->nome = "esp8266D1Mini";
-        this->placa = "esp8266:esp8266:d1_mini";
-    }else if(id == esp8266NodeMCU){
-        this->nome = "esp8266NodeMCU";
-        this->placa = "esp8266:esp8266:nodemcuv2";
-    }else exit(EXIT_FAILURE);
 }
 
-static void inicializaWiFi(){
+void OTANetworkDevice::setup(){
     WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, password);
+    WiFi.begin(this->WiFiNetworkName, this->WiFiNetworkPassword);
 
     while (WiFi.waitForConnectResult() != WL_CONNECTED) {
         Serial.println("Connection Failed! Rebooting...");
@@ -27,25 +16,37 @@ static void inicializaWiFi(){
 
     Serial.println("");
     Serial.print("Connected to ");
-    Serial.println(ssid);
+    Serial.println(this->WiFiNetworkName);
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
-}
-
-void OTANetworkDevice::setup(){
-    inicializaWiFi();
 
     this->setIp(WiFi.localIP());
 
     setupOTA();
     setupWebServer();
-    setupMQTT();
+    setupMQTT(this->brokerIP);
 }
 
 void OTANetworkDevice::handle(){
     handleOTA();
     handleWebServer(this);
     handleMQTT(this);
+}
+
+void OTANetworkDevice::setWiFiNetworkName(String WiFiNetworkName){
+    this->WiFiNetworkName = WiFiNetworkName;
+}
+
+void OTANetworkDevice::setWiFiNetworkPassword(String WiFiNetworkPassword){
+    this->WiFiNetworkPassword = WiFiNetworkPassword;
+}
+
+String OTANetworkDevice::getBrokerIP() const{
+    return this->brokerIP;
+}
+
+void OTANetworkDevice::setBrokerIP(String brokerIP){
+    this->brokerIP = brokerIP;
 }
 
 String OTANetworkDevice::getNome() const{

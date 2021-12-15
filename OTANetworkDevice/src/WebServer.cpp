@@ -19,54 +19,9 @@ static void displayJSON(WiFiClient client, OTANetworkDevice* dispositivo){
     client.println("{");
                         
     client.print("\t\"nome\": \"");
-    client.print(dispositivo->getNome());
-    client.println("\",");
-
-    client.print("\t\"placa\": \"");
-    client.print(dispositivo->getPlaca());
-    client.println("\",");
-
-    client.print("\t\"ip\": \"");
-    client.print(dispositivo->getIp());
-    client.println("\",");
-
-    unsigned int cont1 = 0, cont2 = 0;
-
-    client.println("\t\"sensores\": [");
-    
-    for(auto it = dispositivo->getSensores()->begin(); it != dispositivo->getSensores()->end(); ++it){
-        client.println("\t\t{");
-        client.print("\t\t\t\"nome\": \"");
-        client.print((*it)->getNome());
-        client.println("\",");
-
-        client.println("\t\t\t\"conexoes\": [");
-
-        for(auto it2 = (*it)->getConexoes()->begin(); it2 != (*it)->getConexoes()->end(); ++it2){
-            client.println("\t\t\t\t{");
-            client.print("\t\t\t\t\t\"");
-            client.print(it2->first);
-            client.print("\": \"");
-            client.print(it2->second);
-            client.println("\"");
-            client.print("\t\t\t\t}");
-
-            if(cont2 < (*it)->getConexoes()->size() - 1) client.println(",");
-            else client.println("");
-            cont2++;
-        }
-        cont2 = 0;
-
-        client.println("\t\t\t]");
-        client.print("\t\t}");
-
-        if(cont1 < dispositivo->getSensores()->size() - 1) client.println(",");
-        else client.println("");
-        cont1++;
-    }
-    
-    client.println("\t]");
-    client.println("}");
+    client.print(dispositivo->getName());
+    client.println("\"");
+    client.print("}");
 }
 
 void handleWebServer(OTANetworkDevice* dispositivo){

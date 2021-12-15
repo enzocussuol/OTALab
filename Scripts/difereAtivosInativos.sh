@@ -4,6 +4,7 @@
 AtivosPath="/home/${USER}/OTANetwork/Relatorios/ativos.json"
 InativosPath="/home/${USER}/OTANetwork/Relatorios/inativos.txt"
 DispPath="/home/${USER}/OTANetwork/Relatorios/dispositivos.txt"
+DispsPath="/home/${USER}/OTANetwork/Dispositivos/"
 
 rm $AtivosPath
 rm $InativosPath
@@ -21,7 +22,15 @@ do
         curl $dispositivo > aux.json # Pega o conteudo json que esta no webserver do dispositivo, ja que ele esta ativo
         if [ $? -eq 0 ] # Se o conteudo foi obtido com sucesso, adiciona o dispositivo ao arquivo de ativos
         then
-            vetorAtivos+=("$(echo "$(jq ".id += $i" aux.json)")")
+            nomeDispositivo=$(jq ".nome" aux.json)
+            nomeDispositivo="$(echo $nomeDispositivo | sed 's/"//g')"
+            
+            cp $DispsPath$nomeDispositivo.json aux.json
+            
+            echo "$(jq ". += {\"id\":$i}" aux.json)" > aux.json
+            echo "$(jq ". += {\"ip\":\"$dispositivo\"}" aux.json)" > aux.json
+
+            vetorAtivos+=("$(cat aux.json)")
             let "i++" # Incrementa o contador, ja que foi adicionado um dispositivo ativo
         fi
     else # Se foi retornado diferente de 0, o dispositivo esta inativo

@@ -1,0 +1,1 @@
+{"nome":"esp8266_DHT11","descricao":"Um esp8266 com o sensor dht11 acoplado","placa":"esp8266:esp8266:d1_mini","sensores":["DTH11"],"porta":"ttyUSB0"}

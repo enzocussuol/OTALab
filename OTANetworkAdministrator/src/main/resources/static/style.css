@@ -12,12 +12,9 @@ body{
 	margin-bottom: 10px;
 }
 
-.formCadastro{
+.formCadastro, .formConfiguracaoRede{
 	margin-top: 20px;
 	text-align: start;
-	width: 30%;
-	margin-left: 50%;
-	transform: translate(-50%, 0);
 }
 
 .seletorSensores{
@@ -27,4 +24,11 @@ body{
 
 .botaoCadastrar{
 	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.caixaConfiguracoesAtuais{
+	text-align: start;
+	padding: 10px;
+	margin-top: 10px;
 }

@@ -13,36 +13,67 @@
   </head>
   <body>
   	<div class="caixaPrincipal">
-  		<h1 class="cadastreDispositivo">Cadastre um novo dispositivo!</h1>
-  		<h4>Ao cadastrar um dispositivo, um código padrão de registro será enviado à ele.</h4>
-  		<h4>Certifique-se de que o dispositivo está conectado ao host via cabo por uma porta USB.</h4>
-  		
-  		<form class="formCadastro" th:action="@{/OTANetworkAdmin}" th:object="${dispositivo}" method="POST">
-  			<div class="mb-3">
-			  <label for="exampleFormControlInput1" class="form-label">Nome</label>
-			  <input th:field="*{nome}" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Um nome qualquer para o dispositivo...">
-			</div>
-			<div class="mb-3">
-			  <label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
-			  <textarea th:field=*{descricao} class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Uma descrição qualquer para o dispositivo..."></textarea>
-			</div>
-			<select th:field=*{placa} class="form-select" aria-label="Default select example">
-			  <option th:value="Placa" th:text="Placa" selected></option>
-			  <option th:value="'esp8266:esp8266:d1_mini'" th:text="'esp8266:esp8266:d1_mini'"></option>
-			  <option th:value="'esp8266:esp8266:nodemcuv2'" th:text="'esp8266:esp8266:nodemcuv2'"></option>
-			</select>
-			<select th:field=*{sensores} class="form-select seletorSensores" multiple aria-label="multiple select example">
-			  <option th:value="Sensores" th:text="Sensores" selected></option>
-			  <option th:value="DTH11" th:text="DHT11"></option>
-			  <option th:value="Dsm501a" th:text="Dsm501a"></option>
-			  <option th:value="TCS34725" th:text="TCS34725"></option>
-			</select>
-			<select th:field=*{porta} class="form-select" aria-label="Default select example">
-			  <option th:value="Porta" th:text="Porta" selected></option>
-			  <option th:each="porta: ${portas}" th:value="${porta}" th:text="${porta}"></option>
-			</select>
-			<button type="submit" class="btn btn-secondary botaoCadastrar">Cadastrar</button>
-  		</form>
+  		<h1 class="cadastreDispositivo">Página de administração da OTA Network!</h1>
+  		<div class="container">
+	  		<div class="row">
+	  			<div class="col-5">
+	  				<h2>Defina a configuração geral da rede (WiFi e Broker MQTT)</h2>
+	  				<form class="formConfiguracaoRede" th:action="@{/handleConfiguracaoRede}" th:object="${novaConfiguracao}" method="POST">
+	  					<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">Nome da rede WiFi</label>
+						  <input th:field="*{nomeWiFi}" type="text" class="form-control" id="exampleFormControlInput1">
+						</div>
+						<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">Senha da rede WiFi</label>
+						  <input th:field="*{senhaWiFi}" type="text" class="form-control" id="exampleFormControlInput1">
+						</div>
+						<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">IP do Broker MQTT</label>
+						  <input th:field="*{ipBroker}" type="text" class="form-control" id="exampleFormControlInput1">
+						</div>
+						<button type="submit" class="btn btn-secondary botaoDefinir">Definir</button>
+	  				</form>
+	  				<h3>Configuração atual</h3>
+	  				<div class="caixaConfiguracoesAtuais">
+	  					<h5>Nome da rede WiFi: <span th:text="${configuracao.nomeWiFi}"></span></h5>
+	  					<h5>Senha da rede WiFi: <span th:text="${configuracao.senhaWiFi}"></span></h5>
+	  					<h5>IP do Broker MQTT: <span th:text="${configuracao.ipBroker}"></span></h5 >
+	  				</div>
+	  			</div>
+		  		<div class="col">
+		  			<h2>Cadastre um novo dispositivo</h2>
+		  			<form class="formCadastro" th:action="@{/OTANetworkAdmin}" th:object="${dispositivo}" method="POST">
+			  			<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">Nome</label>
+						  <input th:field="*{nome}" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Um nome qualquer para o dispositivo...">
+						</div>
+						<div class="mb-3">
+						  <label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
+						  <textarea th:field=*{descricao} class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Uma descrição qualquer para o dispositivo..."></textarea>
+						</div>
+						<select th:field=*{placa} class="form-select" aria-label="Default select example">
+						  <option th:value="Placa" th:text="Placa" selected></option>
+						  <option th:value="'esp8266:esp8266:d1_mini'" th:text="'esp8266:esp8266:d1_mini'"></option>
+						  <option th:value="'esp8266:esp8266:nodemcuv2'" th:text="'esp8266:esp8266:nodemcuv2'"></option>
+						</select>
+						<select th:field=*{sensores} class="form-select seletorSensores" multiple aria-label="multiple select example">
+						  <option th:value="Sensores" th:text="Sensores" selected></option>
+						  <option th:value="DTH11" th:text="DHT11"></option>
+						  <option th:value="Dsm501a" th:text="Dsm501a"></option>
+						  <option th:value="TCS34725" th:text="TCS34725"></option>
+						</select>
+						<select th:field=*{porta} class="form-select" aria-label="Default select example">
+						  <option th:value="Porta" th:text="Porta" selected></option>
+						  <option th:each="porta: ${portas}" th:value="${porta}" th:text="${porta}"></option>
+						</select>
+						<button type="submit" class="btn btn-secondary botaoCadastrar">Cadastrar</button>
+			  		</form>
+		  			
+		  			<h4>Ao cadastrar um dispositivo, um código padrão de registro será enviado à ele.</h4>
+		  			<h4>Certifique-se de que o dispositivo está conectado ao host via cabo por uma porta USB.</h4>
+		  		</div>
+		  	</div>
+	  	</div>
   	</div>
 	
     <!-- Optional JavaScript; choose one of the two! -->

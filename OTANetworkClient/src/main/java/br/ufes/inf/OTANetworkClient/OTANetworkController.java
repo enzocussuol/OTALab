@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,8 @@ public class OTANetworkController {
 	
 	@PostMapping("/upload")
 	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file,
-											@RequestParam("idDispositivo") String idDispositivo) throws IOException, InterruptedException{
+											@RequestParam("idDispositivo") String idDispositivo,
+											@RequestParam("nomeDispositivo") String nomeDispositivo) throws IOException, InterruptedException{
 		System.out.println("Upload realizado!");
 		
 		String fileName = file.getOriginalFilename();
@@ -88,6 +90,20 @@ public class OTANetworkController {
 		
 		ArrayList<String> command = new ArrayList<String>();
 		
+		command.add("bash");
+		command.add("Scripts/injetaInformacoes.sh");
+		
+		Scanner scanner = new Scanner(new File("/home/enzo/OTANetwork/configuracaoGeralRede.conf"));
+		command.add(scanner.nextLine());
+		command.add(scanner.nextLine());
+		command.add(scanner.nextLine());
+		scanner.close();
+		
+		command.add(nomeDispositivo);
+		command.add("Uploads/" + fileName);
+		this.runProcess(command);
+		
+		command.clear();
 		command.add("cp");
 		command.add("Uploads/" + fileName);
 		command.add(".");

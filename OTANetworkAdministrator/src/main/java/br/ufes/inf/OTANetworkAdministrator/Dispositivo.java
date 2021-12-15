@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Dispositivo {
 	private String nome;
-	private ArrayList<String> descricao = new ArrayList<String>();
+	private String descricao;
 	private String placa;
 	private ArrayList<String> sensores = new ArrayList<String>();
 	private String porta;
@@ -15,10 +15,10 @@ public class Dispositivo {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public ArrayList<String> getDescricao() {
+	public String getDescricao() {
 		return descricao;
 	}
-	public void setDescricao(ArrayList<String> descricao) {
+	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 	public String getPlaca() {
@@ -39,12 +39,8 @@ public class Dispositivo {
 		String str = "";
 		
 		str += this.nome + "\n";
-		
-		for(int i = 0; i < this.descricao.size(); i++) {
-			str += this.descricao.get(i);
-		}
-		
-		str += "\n" + this.placa + "\n";		
+		str += this.descricao + "\n";
+		str += "\n" + this.placa + "\n";	
 		
 		for(int i = 0; i < this.sensores.size(); i++) {
 			str += this.sensores.get(i) + " ";

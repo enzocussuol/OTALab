@@ -24,11 +24,12 @@
   			<div class="row d-flex justify-content-center caixaDispositivos">
   				<div class="col-3" th:each="dispositivo: ${dispositivos}">
   					<div class="card bg-light mb-3 caixaDispositivo" style="max-width: 18rem;">
-					  <div class="card-header"><h5 th:text="${dispositivo.nome}"></h5></div>
+					  <div class="card-header"><h5 id="nomeDispositivo" th:text="${dispositivo.nome}"></h5></div>
 					  <div class="card-body">
 					    <h5 class="card-title" th:text="${dispositivo.ip}"></h5>
 					    <p class="card-text" id="idDispositivo" th:text="${dispositivo.id}"></p>
-					    <p class="card-text">Clique no botão abaixo para enviar o arquivo para este dispositivo!</p>
+					    <p class="card-text" th:text="${dispositivo.descricao}"></p>
+					    <p class="card-text" th:text="${dispositivo.placa}"></p>
 					    <button onclick="uploadFile()" class="btn btn-secondary">Upload</button>
 					  </div>
 					</div>

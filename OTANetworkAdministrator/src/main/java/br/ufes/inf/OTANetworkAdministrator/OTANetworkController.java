@@ -1,7 +1,9 @@
 package br.ufes.inf.OTANetworkAdministrator;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -13,9 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.fazecast.jSerialComm.SerialPort;
+import com.google.gson.Gson;
 
 @Controller
 public class OTANetworkController {
+	Configuracao configuracao = new Configuracao();
+	
 	@GetMapping("/OTANetworkAdmin")
 	public String getIndex(Model model) {
 		SerialPort[] portas = SerialPort.getCommPorts();
@@ -23,10 +28,24 @@ public class OTANetworkController {
 		
 		for(SerialPort porta: portas) nomesPortas.add(porta.getSystemPortName());
 		
+		model.addAttribute("novaConfiguracao", new Configuracao(true));
+		model.addAttribute("configuracao", this.configuracao);
 		model.addAttribute("dispositivo", new Dispositivo());
 		model.addAttribute("portas", nomesPortas);
 		
 		return "index";
+	}
+	
+	@PostMapping("/handleConfiguracaoRede")
+	public String handleConfiguracaoRede(@ModelAttribute Configuracao novaConfiguracao, Model model) throws IOException {
+		this.configuracao = novaConfiguracao;
+		BufferedWriter writer = new BufferedWriter(new FileWriter("/home/enzo/OTANetwork/configuracaoGeralRede.conf"));
+		writer.write(novaConfiguracao.toString());
+		
+		writer.flush();
+		writer.close();
+		
+		return this.getIndex(model);
 	}
 	
 	private void runProcess(ArrayList<String> command) throws IOException, InterruptedException {
@@ -59,9 +78,34 @@ public class OTANetworkController {
 	@PostMapping("/OTANetworkAdmin")
 	public String handleRegistro(@ModelAttribute Dispositivo dispositivo, Model model) throws IOException, InterruptedException{
 		System.out.println("Iniciando cadastro do dispositivo...");
+		System.out.println("Nome: " + dispositivo.getNome());
+		
+		Gson gson = new Gson();
+		FileWriter writer = new FileWriter("/home/enzo/OTANetwork/Dispositivos/" + dispositivo.getNome() + ".json");
+		
+		gson.toJson(dispositivo, writer);
+		
+		writer.flush();
+		writer.close();
 		
 		ArrayList<String> command = new ArrayList<String>();
 		
+		command.add("cp");
+		command.add("OTATemplate.ino");
+		command.add("OTADefault/OTADefault.ino");
+		this.runProcess(command);
+		
+		command.clear();
+		command.add("bash");
+		command.add("Scripts/injetaInformacoes.sh");
+		command.add(this.configuracao.getNomeWiFi());
+		command.add(this.configuracao.getSenhaWiFi());
+		command.add(this.configuracao.getIpBroker());
+		command.add(dispositivo.getNome());
+		command.add("OTADefault/OTADefault.ino");
+		this.runProcess(command);
+		
+		command.clear();
 		command.add("arduino-cli");
 		command.add("compile");
 		command.add("-b");

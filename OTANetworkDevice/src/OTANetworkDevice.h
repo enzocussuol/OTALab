@@ -1,40 +1,32 @@
 #ifndef OTANETWORKDEVICE_H
     #define OTANETWORKDEVICE_H
 
+    #define WIFI_NETWORK_NAME ""
+    #define WIFI_NETWORK_PASSWORD ""
+    #define BROKER_IP ""
+    #define DEVICE_NAME ""
+
     class OTANetworkDevice;
 
-    #include <list>
-
     #include "OTA.h"
-    #include "WebServer.h"
     #include "MQTT.h"
-    #include "Sensor.h"
+    #include "WebServer.h"
 
     class OTANetworkDevice{
         private:
-            String WiFiNetworkName;
-            String WiFiNetworkPassword;
+            const char* WiFiNetworkName;
+            const char* WiFiNetworkPassword;
             String brokerIP;
-
-            String nome;
-            String placa;
-            IPAddress ip;
-            std::list<Sensor*>* sensores;
+            String name;
         public:
-            OTANetworkDevice();
-
             void setup();
             void handle();
-
-            void setWiFiNetworkName(String);
-            void setWiFiNetworkPassword(String);
-            String getBrokerIP() const;
+            
+            void setWiFiNetworkName(const char*);
+            void setWiFiNetworkPassword(const char*);
             void setBrokerIP(String);
+            void setName(String);
 
-            String getNome() const;
-            String getPlaca() const;
-            IPAddress getIp() const;
-            void setIp(IPAddress);
-            std::list<Sensor*>* getSensores() const;
+            String getName() const;
     };
 #endif

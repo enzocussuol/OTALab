@@ -74,6 +74,8 @@ O primeiro passo é cadastrar os dispositivos, para isso, deve-se subir o site d
 
 Esse comando irá colocar o site do administrador no ar. Ele pode ser acessado pela url *localhost:8888*.
 
+![Página de administração vazia](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaAdministracaoVazia.png)
+
 ### 3.2. Utilizando as Bibliotecas
 
 Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca e inclui todos os arquivos .h e .cpp necessários.

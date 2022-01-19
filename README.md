@@ -94,7 +94,15 @@ Os dispositivos ativos serão mostrados na página do usuário, para isso, deve-
 
 Esse comando irá colocar o site do usuário no ar. Ele pode ser acessado pela url *localhost:9999*.
 
-![Página de usuário vazia]()
+![Página de usuário vazia](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaClienteVazia.png)
+
+Note que nenhum dispositivo aparece. Isso se deve ao fato de que eles devem ser reconhecidos antes. Dentro da pasta Scripts, basta rodar:
+
+`bash atualizaDispositivos.sh <IP_BROKER>`
+
+Esse script irá atualizar os dispositivos ativos e os inserir dentro da pasta Relatorios. A ideia é que o administrador programe esse script para rodar a cada x unidades de tempo. Agora, ao atualizar a página o usuário deve ser capaz de ver os dispositivos que estão vivos:
+
+![Página de usuário preenchida](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaClientePreenchida.png)
 
 ### 3.2. Utilizando as Bibliotecas
 

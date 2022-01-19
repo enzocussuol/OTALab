@@ -112,55 +112,20 @@ Esse script irá atualizar os dispositivos ativos e os inserir dentro da pasta R
 
 Feito isso, o código-fonte deve conter o seguinte template:
 
-### 3.3. O Primeiro Envio
+![Template para envio de código-fonte](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/OTATemplate.png)
 
-É importante que o primeiro envio do código para o dispositivo seja realizado via cabo. Isso se deve ao fato de que as bibliotecas precisam reconhecer o dispositivo na rede para que seja possível eventualmente enviar código por essa rede para esse dispositivo.
+As macros em maiúsculo serão substituidas de acordo com o dispositivo escolhido em tempo de compilação pelo sistema.
 
-Após esse envio via cabo, que pode também ser realizado a partir da Arduino IDE ou pelo arduino-cli, o envio pode ser realizado via OTA normalmente a partir dos scripts fornecidos.
-
-### 3.4. Utilizando os Scripts
-
-Para o correto funcionamento do sistema, os scripts devem ser executados em uma ordem correta. Os próximos tópicos irão explicar o que cada script faz, os quais devem ser executados na ordem em que aparecem aqui.
-
-#### 3.4.1. descobreDispositivos.py
-
-Esse script se baseia em detectar os dispositivos na rede a partir do protocolo MQTT. Ele irá se conectar à um broker, o qual os dispositivos também devem estar conectados, e os enviar uma mensagem perguntando se estão vivos. Feito isso, ele irá esperar 1 segundo por respostas. Se um dispositivo escutou a mensagem, ele irá enviar de volta seu IP, que será guardado em um arquivo chamado dispositivos.txt, armazenado na pasta Relatorios. Sua execução é feita com:
-
-`python3 descobreDispositivos.py <IPBroker>`
-
-Onde \<ipBroker\> é o mesmo IP do broker inserido no arquivo Conf.h.
-
-#### 3.4.2. difereAtivosInativos.sh
-
-Esse script simplesmente vai ler o arquivo dispositivos.txt, e, para cada IP dentro dele, ou seja, para cada dispositivo, ele vai pingar nesse IP. Se o IP responder, o dispositivo está ativo naquele momento, e será inserido em um arquivo ativos.json, no formato JSON. Se não, ele irá ser inserido em um arquivo inativos.txt. Ambos esses arquivos estarão na pasta Relatorios. O script pode ser executado com:
-
-`bash difereAtivosInativos.sh`
-
-#### 3.4.3. enviaCodigo.sh e enviaTodos.sh
-
-Esses dois scripts realizam de fato o envio do código para o dispositivo via OTA. O enviaTodos.sh é simplesmente um loop que chama o enviaCodigo.sh. O script enviaCodigo.sh compila e envia o código para o dispositivo escolhido.
-
-O script enviaCodigo.sh é parâmetrizado e deve ser executado na linha de comando na forma:
-
-`bash Scripts/enviaCodigo.sh <id> <nomeProjeto>`
-
-Onde \<id\> é o id do dispositivo em ativos.json para o qual o código está sendo enviado e \<nomeProjeto\> é o nome do projeto do usuário, por exemplo, OTABlink.
-
-Ao final do script, existirá uma pasta com o nome do projeto definido pelo usuário.
-  
-Caso seja escolhido o script enviaTodos.sh, basta passar somente o nome do projeto como parâmetro.
+Note que caso o código-fonte faça uso de uma biblioteca de terceiros, esta deve estar instalada no arduino-cli do servidor!.
 
 ### 4. Próximos Passos
 
-O sistema ainda está incompleto. Os próximos passos são:
+O sistema ainda está em desenvolvimento e algumas coisas ainda devem ser implementadas.
 
 <!--ts-->
 * Realizar uma validação do código antes do envio
-* Testar fisicamente o sistema assim como adicionar novos dispositivos suportados
-* Elaborar uma interface gráfica (web) com o usuário
-* Atualizar os scripts para que a biblioteca seja instalada, retirando a obrigação do código do usuário estar no mesmo diretório que ela
+* Testar fisicamente o sistema assim como adicionar novos dispositivos suportados que não sejam da família ESP
 * Automatizar o processo de instalação da aplicação
-* Implementar de fato o MQTT para gerenciar os sensores que estão acoplados nos dispositivos
-* Resolver a questão do arquivo de configuração para dados pessoais do usuário
-* Fazer com que o upload do usuário vá parar no servidor
+* Automatizar o processo de instalação das bibliotecas de terceiros
+* Elaborar melhor o cadastro dos sensores
 <!--te-->

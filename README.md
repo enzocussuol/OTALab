@@ -1,14 +1,24 @@
-# (ATUALIZAR!) Upload Over the Air de código fonte para uma rede IoT
+# OTANetwork - Um ambiente para experimentação e atualização Over-The-Air em dispositivos IoT
 
 ## 1. Introdução
 
-Este repositório tem a finalidade de fornecer um conjunto de ferramentas para possibilitar, controlar e monitorar remotamente o envio e a execução de códigos fontes .ino ou .cpp para microprocessadores/microcontroladores que suportem o acoplamento de sensores. O sistema é desenvolvido para ser executado em um ambiente Linux.
+Este é um projeto de Iniciação Científica na área de Internet das Coisas. O objetivo desse sistema é prover um ambiente de rápido funcionamento e baixo custo para gerenciamento de dispositivos IoT ([veja quais dispositivos são atualmente suportados](https://github.com/enzocussuol/OTANetwork/blob/main/dispositivosSuportados.txt)). A idéia é que um administrador posicione, sob uma mesma rede Wi-Fi, vários dispositivos com vários sensores acoplados e, com o uso da OTANetwork, seja capaz de gerenciá-los, tanto os monitorando quanto eventualmente atualizando seus códigos-fonte. Note que o uso pode ser extendido para usuários comúns, que não teriam privilégios de administrador, mas que seriam capazes de fazer upload para os dispositivos.
 
-## 2. Instalação / Dependências
+O software é uma mistura de várias linguagens, as quais se destacam: Java e seu framework Spring Boot, para a criação da interface Web; Python, para realização de alguns scripts, entre eles o [espota](https://github.com/esp8266/Arduino/blob/master/tools/espota.py), cuja autoria está no link disponibilizado; Shell, também para realização de alguns scripts essenciais.
 
-### 2.1. Softwares Necessários
+O sistema deve rodar em um ambiente Linux para que funcione corretamente.
 
-Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [arduino-cli](https://github.com/arduino/arduino-cli), uma ferramenta disponibilizada pela própria marca que possibilita a gerência de placas Arduino a partir da linha de comando; 2) [espota](https://github.com/esp8266/Arduino/blob/master/tools/espota.py), um script python que realiza o envio de código via Over the Air para ESPs. O arquivo espota.py já está incluso na forma de uma cópia do original nesse repositório, logo, o usuário não precisa se preocupar com isso.
+## 2. Dependências e Instalação
+
+Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [arduino-cli](https://github.com/arduino/arduino-cli), uma ferramenta disponibilizada pela própria marca que possibilita a gerência de placas Arduino a partir da linha de comando; 2) espota, um script python que realiza o envio de código via Over the Air para ESPs. O arquivo espota.py já está incluso na forma de uma cópia do original nesse repositório.
+
+Para iniciar a instalação simplesmente execute:
+
+`git clone https://github.com/enzocussuol/OTANetwork`
+
+Isto irá copiar todos os arquivos deste repositório para seu repositório local. Depois disso, basta instalar algumas poucas dependências.
+
+### 2.1. Arduino-cli
 
 É necessário que o arduino-cli seja instalado, ver [instalação arduino-cli](https://arduino.github.io/arduino-cli/latest/installation/). Tendo instalado o software, deve-se realizar alguns passos adicionais. O ESP8266 e o ESP32 não são placas originalmente suportadas pelo arduino-cli, logo, devem ainda ser instalados núcleos para essas placas, visto que elas são de produções de terceiros (recomenda-se ver [instalação placas terceirizadas no arduino-cli](https://create.arduino.cc/projecthub/B45i/getting-started-with-arduino-cli-7652a5)).
 
@@ -42,51 +52,27 @@ Para checar as placas instaladas, basta rodar:
 
 O resultado deve ser uma série de placas para o ESP8266 e para o ESP32.
 
-Além disso, outro software utilizado foi o [jq](https://stedolan.github.io/jq/), um processador de json para linha de comando. Para instalá-lo, basta rodar:
+### 2.2. JQ
+
+Outro software utilizado foi o [jq](https://stedolan.github.io/jq/), um processador de json para linha de comando. Ele está presente em alguns scripts e para instalá-lo basta rodar:
 
 `sudo apt-get install jq`
 
-### 2.2. Instalação de Bibliotecas
+### 2.3. Maven
 
-O arduino-cli também permite a instalação de bibliotecas externas, assim como a Arduino IDE. Essas bibliotecas vão parar no mesmo repositório (.arduino15/staging/libraries). Para obter ajuda sobre como gerenciar bibliotecas com o arduino-cli, rode:
-
-`arduino-cli lib --help`
-
-Com relação a implementação da biblioteca fornecida nesse repositório, apenas uma biblioteca externa foi utilizada, a que fornece os mecanismos para implementação do protocolo MQTT. Caso esta já não esteja instalada, basta executar:
-
-`arduino-cli lib install "PubSubClient"`
-
-Bibliotecas adicionais irão depender de cada projeto e cabe ao usuário instalá-las quando for necessário. Lembrando que isso pode ser feito tanto pela Arduino IDE quanto pelo arduino-cli.
-
-### 2.3. Broker MQTT
-
-Como já dito, o sistema faz uso do [protocolo MQTT](https://www.hitecnologia.com.br/blog/o-que-e-protocolo-mqtt/) para se comunicar com os dispositivos. Para isso, é necessário que exista um broker no qual tanto os dispositivos quanto os scripts se conectarão. No presente momento, qualquer broker público irá servir, mas, é recomendável a utilização do [mosquitto](https://mosquitto.org/).
-
-Tudo que o usuário precisa é saber o IP do broker. No caso do mosquitto, o IP será o da própria máquina (127.0.0.1).
-
-### 2.4. Diretório
-
-Para que o sistema funcione corretamente, é recomendável que o usuário baixe os arquivos deste repositório na forma de um .zip, pelo próprio GitHub. Feito isso, basta descompactar o .zip em sua pasta pessoal no Linux.
-
-É importante que o usuário não faça alterações nos nomes das pastas, pois isso pode acarretar em problemas no sistema em geral.
-
-Uma outra opção seria clonar esse repositório em uma pasta com o nome OTA-Multiplos-Dispositivos, localizada na pasta pessoal. Isso poderia ser feito com o comando:
-
-`git clone https://github.com/enzocussuol/OTA-Multiplos-Dispositivos/`
+Para organizar as aplicações Java, foi utilizado o [Maven](https://maven.apache.org/). Para instalá-lo basta seguir o tutorial disponível [aqui](https://maven.apache.org/install.html).
 
 ## 3. Uso
 
-### 3.1. O arquivo de Configuração Conf.h
+O sistema no momento é controlado via duas interfaces web, uma para o administrador, e outra para usuários. Também é possível executar tudo via linha de comando, mas este procedimento ainda está em desenvolvimento e deve ser evitado por enquanto.
 
-O primeiro passo para o usuário utilizar o sistema é inserir seus dados internos dentro do arquivo de configuração. Futuramente, pretende-se melhorar essa parte para tornar a experiência do usuário mais agradável.
+### 3.1. Cadastro dos dispositivos
 
-Esse arquivo está dentro da pasta Biblioteca. Aqui, o usuário deve inserir o nome da sua rede WiFi, a senha dessa rede e o IP do broker escolhido. Todos os campos devem estar entre aspas duplas, pois serão interpretados como strings. Por exemplo, se a minha rede WiFi se chama teste, a senha é 123 e o IP do meu broker é 123.123.123.123, o arquivo Conf.h deve ser modificado para:
+O primeiro passo é cadastrar os dispositivos, para isso, deve-se subir o site do administrador. Dentro da pasta OTANetworkAdministrator, rode:
 
-```
-  NOME_WIFI "teste"
-  SENHA_WIFI "123"
-  IP_BROKER "123.123.123.123"
-```
+`mvn clean spring-boot:run`
+
+Esse comando irá colocar o site do administrador no ar. Ele pode ser acessado pela url *localhost:8888*.
 
 ### 3.2. Utilizando as Bibliotecas
 

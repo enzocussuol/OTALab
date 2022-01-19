@@ -76,6 +76,12 @@ Esse comando irá colocar o site do administrador no ar. Ele pode ser acessado p
 
 ![Página de administração vazia](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaAdministracaoVazia.png)
 
+Primeiro, deve-se preencher o formulário da esquerda com os dados locais da sua rede Wi-Fi. Note que o sistema utiliza o [protocólo MQTT](https://mqtt.org/) para comunicação entre os dispositivos e o servidor, logo, deve haver um [broker MQTT](https://engprocess.com.br/mqtt-broker/). Esse broker pode ser local, via instalação do [mosquitto](https://mosquitto.org/), ou externo. Essa opção fica aberta ao usuário, o importante é que o IP seja inserido corretamente no formulário.
+
+Feito isso, o formulário da direita deve ser preenchido para cada dispositivo a ser cadastrado. Note que nesse momento o dispositivo deve estar conectado à máquina fisicamente via um cabo USB. Segue um exemplo de como os campos devem ser preenchidos:
+
+![Página de administração preenchida](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaAdministracaoPreenchida.png)
+
 ### 3.2. Utilizando as Bibliotecas
 
 Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca e inclui todos os arquivos .h e .cpp necessários.

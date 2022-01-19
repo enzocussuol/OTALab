@@ -82,6 +82,20 @@ Feito isso, o formulário da direita deve ser preenchido para cada dispositivo a
 
 ![Página de administração preenchida](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaAdministracaoPreenchida.png)
 
+Ao cadastrar um dispositivo, um código-fonte padrão que implementa a biblioteca disponibilizada neste repositório na pasta OTANetworkDevice será enviado à ele via arduino-cli. Mais detalhes sobre essa biblioteca serão dados à frente.
+
+Tendo cadastrado todos os dispositivos, seus dados estarão armazenados na pasta Dispositivos em formato JSON e eles já podem ser desconectados da máquina para serem reconhecidos via Over-The-Air (OTA).
+
+### 3.2. Acesso aos dispositivos
+
+Os dispositivos ativos serão mostrados na página do usuário, para isso, deve-se subir o segundo site. Dentro da pasta OTANetworkClient, rode:
+
+`mvn clean spring-boot:run`
+
+Esse comando irá colocar o site do usuário no ar. Ele pode ser acessado pela url *localhost:9999*.
+
+![Página de usuário vazia]()
+
 ### 3.2. Utilizando as Bibliotecas
 
 Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca e inclui todos os arquivos .h e .cpp necessários.

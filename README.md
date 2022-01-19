@@ -104,33 +104,13 @@ Esse script irá atualizar os dispositivos ativos e os inserir dentro da pasta R
 
 ![Página de usuário preenchida](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaClientePreenchida.png)
 
-### 3.2. Utilizando as Bibliotecas
+### 3.2. Utilizando a biblioteca OTANetworkDevice
 
-Para que o código fonte esteja apto a ser enviado/monitorado remotamente a partir dos scripts deste repositório, é necessário que ele inclua e utilize as funções da biblioteca disponibilizada aqui. Essa biblioteca está na pasta Biblioteca e inclui todos os arquivos .h e .cpp necessários.
+É essencial que qualquer código enviado para um dispositivo dentro desse sistema implemente a biblioteca OTANetworkDevice. Ela está disponibilizada neste repositório, basta que seja instalada. Para isso, empacote a pasta OTANetworkDevice em um arquivo .zip e rode:
 
-Para utilizar a biblioteca, o usuário deve inserir em seu código:
+`arduino-cli lib install --zip-path OTANetworkDevice.zip`
 
-`#include "Dispositivo"`
-
-Os scripts garantirão que os arquivos .h e .cpp irão parar na mesma pasta do código. Futuramente, essa questão será repensada para que seja possível instalar a biblioteca.
-
-Feito isso, é necessário criar um objeto para representar um dispositivo. Isso pode ser feito com:
-
-`Dispositivo* dispositivo = new Dispositivo(<nome do dispositivo>);`
-
-Obviamente, o nome do dispositivo irá variar de acordo com o dispositivo que o usuário deseja utilizar. Uma lista com os dispositivos suportados e como chamá-los por seu nome na hora da criação do objeto encontra-se no arquivo [dispositivosSuportados.txt](https://github.com/enzocussuol/OTA-Multiplos-Dispositivos/blob/main/dispositivosSuportados.txt).
-
-Tendo criado o objeto, basta, na função setup, chamar:
-
-`dispositivo->start();`
-
-E na função loop, chamar:
-
-`dispositivo->handle();`
-
-Essas duas funções irão lidar com os procedimentos de conexão e processamento por baixo dos panos. Outras funções serão futuramente implementadas, tais como funções para obter quais sensores estão conectados ao dispositivo, etc.
-
-Na pasta Exemplos estão arquivos que implementam a biblioteca corretamente, assim, o usuário pode se basear neles para implementar seu próprio código.
+Feito isso, o código-fonte deve conter o seguinte template:
 
 ### 3.3. O Primeiro Envio
 

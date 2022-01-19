@@ -96,7 +96,7 @@ Esse comando irá colocar o site do usuário no ar. Ele pode ser acessado pela u
 
 ![Página de usuário vazia](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaClienteVazia.png)
 
-Note que nenhum dispositivo aparece. Isso se deve ao fato de que eles devem ser reconhecidos antes. Dentro da pasta Scripts, basta rodar:
+Note que nenhum dispositivo aparece. Isso se deve ao fato de que eles devem ser reconhecidos como ativos pelo sistema. Dentro da pasta Scripts, basta rodar:
 
 `bash atualizaDispositivos.sh <IP_BROKER>`
 
@@ -116,7 +116,7 @@ Feito isso, o código-fonte deve conter o seguinte template:
 
 As macros em maiúsculo serão substituidas de acordo com o dispositivo escolhido em tempo de compilação pelo sistema.
 
-Note que caso o código-fonte faça uso de uma biblioteca de terceiros, esta deve estar instalada no arduino-cli do servidor!.
+Note que caso o código-fonte faça uso de uma biblioteca de terceiros, esta deve estar instalada no arduino-cli localizado no servidor.
 
 ### 4. Próximos Passos
 

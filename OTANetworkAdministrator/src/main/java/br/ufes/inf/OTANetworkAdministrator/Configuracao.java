@@ -13,9 +13,15 @@ public class Configuracao {
 		try {
 			Scanner scanner = new Scanner(new File("/home/enzo/OTANetwork/configuracaoGeralRede.conf"));
 			
-			this.nomeWiFi = scanner.next();
-			this.senhaWiFi = scanner.next();
-			this.ipBroker = scanner.next();
+			if(scanner.hasNext()) {
+				this.nomeWiFi = scanner.next();
+				this.senhaWiFi = scanner.next();
+				this.ipBroker = scanner.next();
+			}else {
+				this.nomeWiFi = "";
+				this.senhaWiFi = "";
+				this.ipBroker = "";
+			}
 			
 			scanner.close();
 		} catch (FileNotFoundException e) {

@@ -1,13 +1,13 @@
-package br.ufes.inf.OTANetworkAdministrator;
+package br.ufes.inf.OTANetworkClient;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OtaNetworkAdministratorApplication {
+public class OTANetworkClientApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OtaNetworkAdministratorApplication.class, args);
+		SpringApplication.run(OTANetworkClientApplication.class, args);
 	}
 
 }

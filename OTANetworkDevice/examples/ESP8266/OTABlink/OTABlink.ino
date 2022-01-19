@@ -3,14 +3,14 @@
 OTANetworkDevice* device = new OTANetworkDevice();
 
 void setup(){
+    Serial.begin(115200);
+    Serial.println("Comecando...");
+
     device->setWiFiNetworkName(WIFI_NETWORK_NAME);
     device->setWiFiNetworkPassword(WIFI_NETWORK_PASSWORD);
     device->setBrokerIP(BROKER_IP);
     device->setName(DEVICE_NAME);
     device->setup();
-
-    Serial.begin(115200);
-    Serial.println("Comecando...");
     
     pinMode(2, OUTPUT);
 }

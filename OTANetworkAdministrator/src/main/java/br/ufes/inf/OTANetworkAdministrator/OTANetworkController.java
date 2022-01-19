@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,8 +78,15 @@ public class OTANetworkController {
 	
 	@PostMapping("/OTANetworkAdmin")
 	public String handleRegistro(@ModelAttribute Dispositivo dispositivo, Model model) throws IOException, InterruptedException{
+		StopWatch cronometroGeral = new StopWatch();
+		StopWatch cronometroEspecifico = new StopWatch();
+		
 		System.out.println("Iniciando cadastro do dispositivo...");
 		System.out.println("Nome: " + dispositivo.getNome());
+		cronometroGeral.start();
+		
+		System.out.println("Gerando arquivo .json do dispositivo...");
+		cronometroEspecifico.start();
 		
 		Gson gson = new Gson();
 		FileWriter writer = new FileWriter("/home/enzo/OTANetwork/Dispositivos/" + dispositivo.getNome() + ".json");
@@ -88,7 +96,13 @@ public class OTANetworkController {
 		writer.flush();
 		writer.close();
 		
+		cronometroEspecifico.stop();
+		System.out.println("############# Arquivo gerado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		
 		ArrayList<String> command = new ArrayList<String>();
+		
+		System.out.println("Injetando informacoes do dispositivo no codigo fonte...");
+		cronometroEspecifico.start();
 		
 		command.add("cp");
 		command.add("OTATemplate.ino");
@@ -105,6 +119,12 @@ public class OTANetworkController {
 		command.add("OTADefault/OTADefault.ino");
 		this.runProcess(command);
 		
+		cronometroEspecifico.stop();
+		System.out.println("############# Informacoes injetadas. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		
+		System.out.println("Compilando codigo fonte via arduino-cli...");
+		cronometroEspecifico.start();
+		
 		command.clear();
 		command.add("arduino-cli");
 		command.add("compile");
@@ -112,6 +132,12 @@ public class OTANetworkController {
 		command.add(dispositivo.getPlaca());
 		command.add("OTADefault");
 		this.runProcess(command);
+		
+		cronometroEspecifico.stop();
+		System.out.println("############# Codigo compilado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		
+		System.out.println("Enviando codigo fonte para o dispositivo via arduino-cli...");
+		cronometroEspecifico.start();
 		
 		command.clear();
 		command.add("arduino-cli");
@@ -122,6 +148,12 @@ public class OTANetworkController {
 		command.add("/dev/" + dispositivo.getPorta());
 		command.add("OTADefault");
 		this.runProcess(command);
+		
+		cronometroEspecifico.stop();
+		System.out.println("############# Codigo enviado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		
+		cronometroGeral.stop();
+		System.out.println("############# Fim do cadastro. Tempo gasto (ms) = " + cronometroGeral.getTotalTimeMillis() + " #############");
 		
 		return this.getIndex(model);
 	}

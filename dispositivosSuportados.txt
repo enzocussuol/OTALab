@@ -1,2 +1,2 @@
-ESP8266 Wemos D1 Mini (esp8266D1Mini)
-ESP8266 NodeMCU V3 (esp8266NodeMcu)
+ESP8266
+ESP32

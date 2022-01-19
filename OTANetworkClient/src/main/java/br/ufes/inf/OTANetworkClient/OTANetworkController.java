@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,8 @@ public class OTANetworkController {
 			Gson gson = new Gson();
 			this.catalogo = gson.fromJson(stringJSON, Catalogo.class);
 		}catch(IOException e) {
-			e.printStackTrace();
+			System.out.println("Nenhum arquivo ativo encontrado!");
+			this.catalogo = new Catalogo();
 		}
 		
 		model.addAttribute("dispositivos", this.catalogo.dispositivos);
@@ -72,7 +74,11 @@ public class OTANetworkController {
 	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file,
 											@RequestParam("idDispositivo") String idDispositivo,
 											@RequestParam("nomeDispositivo") String nomeDispositivo) throws IOException, InterruptedException{
-		System.out.println("Upload realizado!");
+		StopWatch cronometroGeral = new StopWatch();
+		StopWatch cronometroEspecifico = new StopWatch();
+		
+		System.out.println("Codigo fonte recebido. Iniciando processo de upload para o dispositivo...");
+		cronometroGeral.start();
 		
 		String fileName = file.getOriginalFilename();
 		String fileNameNoExtension = fileName.substring(0, fileName.indexOf('.'));
@@ -90,6 +96,9 @@ public class OTANetworkController {
 		
 		ArrayList<String> command = new ArrayList<String>();
 		
+		System.out.println("Injetando informacoes do dispositivo no codigo fonte...");
+		cronometroEspecifico.start();
+		
 		command.add("bash");
 		command.add("Scripts/injetaInformacoes.sh");
 		
@@ -103,11 +112,17 @@ public class OTANetworkController {
 		command.add("Uploads/" + fileName);
 		this.runProcess(command);
 		
+		cronometroEspecifico.stop();
+		System.out.println("############# Informacoes injetadas. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		
 		command.clear();
 		command.add("cp");
 		command.add("Uploads/" + fileName);
 		command.add(".");
 		this.runProcess(command);
+		
+		System.out.println("Enviando codigo fonte via OTA para o dispositivo...");
+		cronometroEspecifico.start();
 		
 		command.clear();
 		command.add("bash");
@@ -115,6 +130,9 @@ public class OTANetworkController {
 		command.add(idDispositivo);
 		command.add(fileNameNoExtension);
 		this.runProcess(command);
+		
+		cronometroEspecifico.stop();
+		System.out.println("############# Envio realizado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
 		
 		command.clear();
 		command.add("rm");
@@ -127,7 +145,8 @@ public class OTANetworkController {
 		command.add(fileNameNoExtension);
 		this.runProcess(command);
 		
-		System.out.println("Envio realizado com sucesso!");
+		cronometroGeral.stop();
+		System.out.println("############# Fim do envio. Tempo gasto (ms) = " + cronometroGeral.getTotalTimeMillis() + " #############");
 		
 		return ResponseEntity.ok("File Uploaded Successfully");
 	}

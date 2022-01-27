@@ -26,7 +26,7 @@ void reconnect() {
     while (!clienteMQTT.connected()) {
         Serial.print("Attempting MQTT connection...");
         // Attempt to connect
-        if (clienteMQTT.connect(clienteWiFi.localIP().toString().c_str())) {
+        if (clienteMQTT.connect(WiFi.macAddress().c_str())) {
             Serial.println("connected");
 
             clienteMQTT.subscribe("Inicializacao/outTopic");

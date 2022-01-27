@@ -1,0 +1,13 @@
+[env]
+framework = arduino
+monitor_speed = 115200
+lib_deps = 
+	knolleary/PubSubClient@^2.8
+
+[env:d1_mini]
+platform = espressif8266
+board = d1_mini
+
+[env:esp32doit-devkit-v1]
+platform = espressif32
+board = esp32doit-devkit-v1

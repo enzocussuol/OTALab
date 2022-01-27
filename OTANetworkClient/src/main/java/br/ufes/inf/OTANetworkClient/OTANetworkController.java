@@ -2,6 +2,7 @@ package br.ufes.inf.OTANetworkClient;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -68,6 +69,28 @@ public class OTANetworkController {
 			System.out.println("Process failed (exit code: " + exitCode + ")");
 			System.exit(0);
 		}
+	}
+	
+	@PostMapping("/atualizaDispositivos")
+	public ResponseEntity<?> handleAtualizaDispositivos(Model model) throws IOException, InterruptedException {
+		Scanner scanner = new Scanner(new File("/home/enzo/OTANetwork/configuracaoGeralRede.conf"));
+		
+		if(scanner.hasNextLine()) {
+			scanner.nextLine();
+			scanner.nextLine();
+			
+			ArrayList<String> command = new ArrayList<String>();
+			
+			command.add("bash");
+			command.add("Scripts/atualizaDispositivosVivos.sh");
+			command.add(scanner.nextLine());
+			
+			this.runProcess(command);
+		}
+
+		scanner.close();
+		
+		return ResponseEntity.ok("Dispositivos ativos atualizados... recarregue a página!");
 	}
 	
 	@PostMapping("/upload")

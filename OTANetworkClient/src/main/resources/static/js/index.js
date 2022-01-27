@@ -16,3 +16,13 @@ async function uploadFile(){
 		alert("File sucessfully uploaded");
 	}
 }
+
+async function atualizaDispositivos(){
+	let response = await fetch("/atualizaDispositivos", {
+		method: "POST"
+	});
+	
+	if(response.status == 200){
+		document.location.reload(true);
+	}
+}

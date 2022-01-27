@@ -13,12 +13,15 @@
   </head>
   <body>
   	<div class="caixaPrincipal">
-  		<h1 class="selecioneArquivo">Selecione um arquivo com a extensão .ino ou .cpp!</h1>
+  		<h1>Página de cliente da OTA Network!</h1>
+  		<h3 class="selecioneArquivo">Selecione um arquivo com a extensão .ino ou .cpp para ser enviado</h3>
+  		<h3 class="selecioneArquivo">Clique no botão com a lupa para atualizar a lista de dispositivos ativos no momento</h3>
   		<div class="input-group mb-3 caixaUpload">
 		  <input type="file" class="form-control" id="fileUpload" name="fileUpload">
+		  <button onclick="atualizaDispositivos()" class="botaoProcurarDispositivos"><i class="fas fa-search"></i></button>
 		</div>
   		
-  		<h3 class="selecioneDispositivos">Agora, selecione para quais dispositivos deseja fazer o upload</h3>
+  		<h3 class="selecioneDispositivos">Agora, selecione para qual dispositivos deseja fazer o upload</h3>
   		
   		<div class="container">
   			<div class="row d-flex justify-content-center caixaDispositivos">
@@ -40,6 +43,7 @@
   	</div>
 	
 	<script src="js/index.js"></script>
+	<script src="https://kit.fontawesome.com/5cdaf0dc04.js" crossorigin="anonymous"></script>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

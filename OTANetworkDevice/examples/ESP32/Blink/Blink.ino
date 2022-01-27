@@ -8,9 +8,10 @@
 
 OTANetworkDevice* device = new OTANetworkDevice();
 
-int LED_BUILTIN = 2;
-
 void setup() {
+    Serial.begin(115200);
+    Serial.println("Comecando...");
+
     device->setWiFiNetworkName(WIFI_NETWORK_NAME);
     device->setWiFiNetworkPassword(WIFI_NETWORK_PASSWORD);
     device->setBrokerIP(BROKER_IP);

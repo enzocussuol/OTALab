@@ -52,6 +52,16 @@ public class Configuracao {
 	public void setIpBroker(String ipBroker) {
 		this.ipBroker = ipBroker;
 	}
+	public String escondeSenha() {
+		int tam = this.senhaWiFi.length();
+		if(tam == 0) return "";
+		
+		char[] senhaEscondida = new char[tam];
+		
+		for(int i = 0; i < tam; i++) senhaEscondida[i] = '*';
+				
+		return new String(senhaEscondida);
+	}
 	
 	@Override
 	public String toString() {

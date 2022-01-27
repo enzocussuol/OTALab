@@ -12,6 +12,11 @@
     <title>OTA Network Admin</title>
   </head>
   <body>
+  	<script th:inline="javascript">
+	    let status = [[${status}]];
+	    if(status != "") alert(status);
+	</script>
+  
   	<div class="caixaPrincipal">
   		<h1 class="cadastreDispositivo">Página de administração da OTA Network!</h1>
   		<div class="container">
@@ -36,7 +41,7 @@
 	  				<h3>Configuração atual</h3>
 	  				<div class="caixaConfiguracoesAtuais">
 	  					<h5>Nome da rede WiFi: <span th:text="${configuracao.nomeWiFi}"></span></h5>
-	  					<h5>Senha da rede WiFi: <span th:text="${configuracao.senhaWiFi}"></span></h5>
+	  					<h5>Senha da rede WiFi: <span th:text="${senhaWiFi}"></span></h5>
 	  					<h5>IP do Broker MQTT: <span th:text="${configuracao.ipBroker}"></span></h5 >
 	  				</div>
 	  			</div>
@@ -55,12 +60,14 @@
 						  <option th:value="Placa" th:text="Placa" selected></option>
 						  <option th:value="'esp8266:esp8266:d1_mini'" th:text="'esp8266:esp8266:d1_mini'"></option>
 						  <option th:value="'esp8266:esp8266:nodemcuv2'" th:text="'esp8266:esp8266:nodemcuv2'"></option>
+						  <option th:value="'esp32:esp32:esp32doit-devkit-v1'" th:text="'esp32:esp32:esp32doit-devkit-v1'"></option>
 						</select>
 						<select th:field=*{sensores} class="form-select seletorSensores" multiple aria-label="multiple select example">
 						  <option th:value="Sensores" th:text="Sensores" selected></option>
 						  <option th:value="DTH11" th:text="DHT11"></option>
-						  <option th:value="Dsm501a" th:text="Dsm501a"></option>
+						  <option th:value="DSM501A" th:text="DSM501A"></option>
 						  <option th:value="TCS34725" th:text="TCS34725"></option>
+						  <option th:value="BMP280" th:text="BMP280"></option>
 						</select>
 						<select th:field=*{porta} class="form-select" aria-label="Default select example">
 						  <option th:value="Porta" th:text="Porta" selected></option>

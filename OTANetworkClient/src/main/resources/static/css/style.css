@@ -18,6 +18,16 @@ body{
 	margin: 20px;
 }
 
+.botaoProcurarDispositivos{
+	border: 1px solid #ced4da;
+	border-radius: 0px 0.25rem 0.25rem 0px;
+	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.botaoProcurarDispositivos:hover{
+	background-color: #E0E0E0;
+}
+
 .caixaDispositivos{
 	margin-bottom: 20px;
 	padding: 10px;

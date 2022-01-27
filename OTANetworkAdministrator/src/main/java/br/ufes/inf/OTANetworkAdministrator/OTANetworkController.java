@@ -14,6 +14,7 @@ import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.google.gson.Gson;
@@ -23,14 +24,16 @@ public class OTANetworkController {
 	Configuracao configuracao = new Configuracao();
 	
 	@GetMapping("/OTANetworkAdmin")
-	public String getIndex(Model model) {
+	public String getIndex(Model model, @RequestParam(defaultValue="") String status) {
 		SerialPort[] portas = SerialPort.getCommPorts();
 		ArrayList<String> nomesPortas = new ArrayList<String>();
 		
 		for(SerialPort porta: portas) nomesPortas.add(porta.getSystemPortName());
 		
+		model.addAttribute("status", status);
 		model.addAttribute("novaConfiguracao", new Configuracao(true));
 		model.addAttribute("configuracao", this.configuracao);
+		model.addAttribute("senhaWiFi", this.configuracao.escondeSenha());
 		model.addAttribute("dispositivo", new Dispositivo());
 		model.addAttribute("portas", nomesPortas);
 		
@@ -46,10 +49,10 @@ public class OTANetworkController {
 		writer.flush();
 		writer.close();
 		
-		return this.getIndex(model);
+		return this.getIndex(model, "Configuracoes atualizadas");
 	}
 	
-	private void runProcess(ArrayList<String> command) throws IOException, InterruptedException {
+	private boolean runProcess(ArrayList<String> command) throws IOException, InterruptedException {
 		System.out.print("Rodando comando: ");
 		for(int i = 0; i < command.size(); i++) System.out.print(command.get(i) + " ");
 		System.out.println();
@@ -69,10 +72,14 @@ public class OTANetworkController {
 		
 		int exitCode = process.waitFor();
 		
-		if(exitCode == 0) System.out.println("Process succeeded (exit code: 0)");
+		if(exitCode == 0) {
+			System.out.println("Process succeeded (exit code: 0)");
+			return true;
+		}
 		else {
 			System.out.println("Process failed (exit code: " + exitCode + ")");
-			System.exit(0);
+			System.out.println("Abortando...");
+			return false;
 		}
 	}
 	
@@ -107,7 +114,7 @@ public class OTANetworkController {
 		command.add("cp");
 		command.add("OTATemplate.ino");
 		command.add("OTADefault/OTADefault.ino");
-		this.runProcess(command);
+		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao copiar o template");
 		
 		command.clear();
 		command.add("bash");
@@ -117,7 +124,7 @@ public class OTANetworkController {
 		command.add(this.configuracao.getIpBroker());
 		command.add(dispositivo.getNome());
 		command.add("OTADefault/OTADefault.ino");
-		this.runProcess(command);
+		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao injetar informacoes no codigo padrao");
 		
 		cronometroEspecifico.stop();
 		System.out.println("############# Informacoes injetadas. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
@@ -131,7 +138,7 @@ public class OTANetworkController {
 		command.add("-b");
 		command.add(dispositivo.getPlaca());
 		command.add("OTADefault");
-		this.runProcess(command);
+		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao compilar o codigo com o arduino-cli");
 		
 		cronometroEspecifico.stop();
 		System.out.println("############# Codigo compilado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
@@ -147,7 +154,7 @@ public class OTANetworkController {
 		command.add("-p");
 		command.add("/dev/" + dispositivo.getPorta());
 		command.add("OTADefault");
-		this.runProcess(command);
+		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao enviar o codigo com o arduino-cli");
 		
 		cronometroEspecifico.stop();
 		System.out.println("############# Codigo enviado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
@@ -155,6 +162,6 @@ public class OTANetworkController {
 		cronometroGeral.stop();
 		System.out.println("############# Fim do cadastro. Tempo gasto (ms) = " + cronometroGeral.getTotalTimeMillis() + " #############");
 		
-		return this.getIndex(model);
+		return this.getIndex(model, "Dispositivo cadastrado com sucesso");
 	}
 }

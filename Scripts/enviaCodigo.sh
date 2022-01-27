@@ -29,7 +29,9 @@ cp $2.ino $2/ # Move o arquivo para dentro da pasta do projeto
 
 echo "Compilando..."
 
+SECONDS=0
 arduino-cli compile --fqbn $placa $2/ --build-path $PWD/$2/build # Compila o projeto
+echo "Elapsed Time (using \$SECONDS): $SECONDS seconds"
 
 mv $2/build/$2.ino.bin $2/ # Move o .bin da pasta de build para a pasta do projeto
 

@@ -1,8 +1,8 @@
 #include "ThingSpeak.h"
-#include <OTANetworkDevice.h>
+#include "OTANetworkDevice.h"
 
-unsigned long myChannelNumber = 0;
-const char * myWriteAPIKey = "";
+unsigned long myChannelNumber = 1641730;
+const char * myWriteAPIKey = "M3FIXJCLS43H1UGE";
 
 #include <ESP8266WiFi.h>
 
@@ -13,8 +13,8 @@ unsigned long starttime;
 unsigned long sampletime_ms = 30000;
 long lowpulseoccupancy = 0;
 
-char ssid[] = "";   // your network SSID (name)
-char pass[] = "";  // your network password
+char ssid[] = "Claudio";   // your network SSID (name)
+char pass[] = "adgj1234";  // your network password
 int keyIndex = 0;          // your network key index number (needed only for WEP)
 
 WiFiClient  client;
@@ -23,10 +23,10 @@ OTANetworkDevice* device = new OTANetworkDevice();
 
 void setup() {
     Serial.begin(115200);
-    device->setWiFiNetworkName(WIFI_NETWORK_NAME);
-    device->setWiFiNetworkPassword(WIFI_NETWORK_PASSWORD);
-    device->setBrokerIP(BROKER_IP);
-    device->setName(DEVICE_NAME);
+    device->setWiFiNetworkName(ssid);
+    device->setWiFiNetworkPassword(pass);
+    device->setBrokerIP("192.168.86.41");
+    device->setName("teste");
     device->setup();
 
     delay(100);

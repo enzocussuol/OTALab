@@ -20,10 +20,10 @@ async function atualizaDispositivos(){
 async function uploadFile(element){
 	caixaDispositivos.style.display = "none";
 	gifCarregando.style.display = "initial";
-	
+		
 	let fileUpload = document.getElementById("fileUpload");
-	let idDispositivo = element.parentElement.querySelector("#idDispositivo");
-	let nomeDispositivo = element.parentElement.querySelector("#nomeDispositivo");
+	let idDispositivo = element.parentElement.children[1];
+	let nomeDispositivo = element.parentElement.parentElement.children[0].children[0];
 	
 	let formData = new FormData();
 	

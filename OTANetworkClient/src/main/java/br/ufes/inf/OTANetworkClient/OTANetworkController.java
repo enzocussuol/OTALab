@@ -102,7 +102,7 @@ public class OTANetworkController {
 		StopWatch cronometroGeral = new StopWatch();
 		StopWatch cronometroEspecifico = new StopWatch();
 		
-		System.out.println("Codigo fonte recebido. Iniciando processo de upload para o dispositivo...");
+		System.out.println("\n\n\n\n\n\nCodigo fonte recebido. Iniciando processo de upload para o dispositivo...");
 		cronometroGeral.start();
 		
 		String fileName = file.getOriginalFilename();

@@ -88,7 +88,7 @@ public class OTANetworkController {
 		StopWatch cronometroGeral = new StopWatch();
 		StopWatch cronometroEspecifico = new StopWatch();
 		
-		System.out.println("Iniciando cadastro do dispositivo...");
+		System.out.println("\n\n\n\n\n\nIniciando cadastro do dispositivo...");
 		System.out.println("Nome: " + dispositivo.getNome());
 		cronometroGeral.start();
 		

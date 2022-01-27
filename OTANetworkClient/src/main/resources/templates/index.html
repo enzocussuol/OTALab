@@ -23,23 +23,26 @@
   		
   		<h3 class="selecioneDispositivos">Agora, selecione para qual dispositivos deseja fazer o upload</h3>
   		
-  		<div class="container">
-  			<div class="row d-flex justify-content-center caixaDispositivos">
-  				<div class="col-3" th:each="dispositivo: ${dispositivos}">
-  					<div class="card bg-light mb-3 caixaDispositivo" style="max-width: 18rem;">
-					  <div class="card-header"><h5 id="nomeDispositivo" th:text="${dispositivo.nome}"></h5></div>
-					  <div class="card-body">
-					    <h5 class="card-title" th:text="${dispositivo.ip}"></h5>
-					    <p class="card-text" id="idDispositivo" th:text="${dispositivo.id}"></p>
-					    <p class="card-text" th:text="${dispositivo.descricao}"></p>
-					    <p class="card-text" th:text="${dispositivo.placa}"></p>
-					    <button onclick="uploadFile()" class="btn btn-secondary">Upload</button>
-					  </div>
-					</div>
-  				</div>
-  			</div>
-  		</div>
+  		<img src="imgs/loading.gif" class="gifCarregando"><div>
   		
+  		<div class="caixaDispositivos">
+  			<div class="container">
+	  			<div class="row d-flex justify-content-center">
+	  				<div class="col-3" th:each="dispositivo: ${dispositivos}">
+	  					<div class="card bg-light mb-3 caixaDispositivo" style="max-width: 18rem;">
+						  <div class="card-header"><h5 id="nomeDispositivo" th:text="${dispositivo.nome}"></h5></div>
+						  <div class="card-body">
+						    <h5 class="card-title" th:text="${dispositivo.ip}"></h5>
+						    <p class="card-text" id="idDispositivo" th:text="${dispositivo.id}"></p>
+						    <p class="card-text" th:text="${dispositivo.descricao}"></p>
+						    <p class="card-text" th:text="${dispositivo.placa}"></p>
+						    <button onclick="uploadFile(this)" class="btn btn-secondary">Upload</button>
+						  </div>
+						</div>
+	  				</div>
+	  			</div>
+	  		</div>
+  		</div>
   	</div>
 	
 	<script src="js/index.js"></script>

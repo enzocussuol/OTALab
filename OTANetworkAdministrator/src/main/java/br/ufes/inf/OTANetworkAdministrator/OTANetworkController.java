@@ -104,7 +104,7 @@ public class OTANetworkController {
 		writer.close();
 		
 		cronometroEspecifico.stop();
-		System.out.println("############# Arquivo gerado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		System.out.println("############# Arquivo gerado. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
 		
 		ArrayList<String> command = new ArrayList<String>();
 		
@@ -127,7 +127,7 @@ public class OTANetworkController {
 		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao injetar informacoes no codigo padrao");
 		
 		cronometroEspecifico.stop();
-		System.out.println("############# Informacoes injetadas. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		System.out.println("############# Informacoes injetadas. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
 		
 		System.out.println("Compilando codigo fonte via arduino-cli...");
 		cronometroEspecifico.start();
@@ -141,7 +141,7 @@ public class OTANetworkController {
 		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao compilar o codigo com o arduino-cli");
 		
 		cronometroEspecifico.stop();
-		System.out.println("############# Codigo compilado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		System.out.println("############# Codigo compilado. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
 		
 		System.out.println("Enviando codigo fonte para o dispositivo via arduino-cli...");
 		cronometroEspecifico.start();
@@ -157,7 +157,7 @@ public class OTANetworkController {
 		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao enviar o codigo com o arduino-cli");
 		
 		cronometroEspecifico.stop();
-		System.out.println("############# Codigo enviado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		System.out.println("############# Codigo enviado. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
 		
 		cronometroGeral.stop();
 		System.out.println("############# Fim do cadastro. Tempo gasto (ms) = " + cronometroGeral.getTotalTimeMillis() + " #############");

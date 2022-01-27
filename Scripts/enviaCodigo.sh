@@ -37,4 +37,6 @@ mv $2/build/$2.ino.bin $2/ # Move o .bin da pasta de build para a pasta do proje
 
 echo "Enviando..."
 
+SECONDS=0
 python $espotaPath -d -i $IP -f $2/$2.ino.bin # Carrega o codigo para o microcontrolador via OTA
+echo "Elapsed Time (using \$SECONDS): $SECONDS seconds"

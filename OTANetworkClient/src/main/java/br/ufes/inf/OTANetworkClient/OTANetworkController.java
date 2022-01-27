@@ -44,7 +44,7 @@ public class OTANetworkController {
 		return "index";
 	}
 	
-	private void runProcess(ArrayList<String> command) throws IOException, InterruptedException {
+	private boolean runProcess(ArrayList<String> command) throws IOException, InterruptedException {
 		System.out.print("Rodando comando: ");
 		for(int i = 0; i < command.size(); i++) System.out.print(command.get(i) + " ");
 		System.out.println();
@@ -64,10 +64,13 @@ public class OTANetworkController {
 		
 		int exitCode = process.waitFor();
 		
-		if(exitCode == 0) System.out.println("Process succeeded (exit code: 0)");
+		if(exitCode == 0) {
+			System.out.println("Process succeeded (exit code: 0)");
+			return true;
+		}
 		else {
 			System.out.println("Process failed (exit code: " + exitCode + ")");
-			System.exit(0);
+			return false;
 		}
 	}
 	
@@ -84,17 +87,16 @@ public class OTANetworkController {
 			command.add("bash");
 			command.add("Scripts/atualizaDispositivosVivos.sh");
 			command.add(scanner.nextLine());
+			scanner.close();
 			
-			this.runProcess(command);
+			this.runProcess(command); // Por algum motivo o script python descobreDispositivos.py nos da exit code != 0... Por enquanto considerar que o script nao falhou!
 		}
-
-		scanner.close();
 		
-		return ResponseEntity.ok("Dispositivos ativos atualizados... recarregue a página!");
+		return ResponseEntity.ok("Ok");
 	}
 	
 	@PostMapping("/upload")
-	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file,
+	public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
 											@RequestParam("idDispositivo") String idDispositivo,
 											@RequestParam("nomeDispositivo") String nomeDispositivo) throws IOException, InterruptedException{
 		StopWatch cronometroGeral = new StopWatch();
@@ -133,16 +135,16 @@ public class OTANetworkController {
 		
 		command.add(nomeDispositivo);
 		command.add("Uploads/" + fileName);
-		this.runProcess(command);
+		if(!this.runProcess(command)) return new ResponseEntity<>("Falha ao injetar informacoes no dispositivo", HttpStatus.BAD_REQUEST);
 		
 		cronometroEspecifico.stop();
-		System.out.println("############# Informacoes injetadas. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		System.out.println("############# Informacoes injetadas. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
 		
 		command.clear();
 		command.add("cp");
 		command.add("Uploads/" + fileName);
 		command.add(".");
-		this.runProcess(command);
+		if(!this.runProcess(command)) return new ResponseEntity<>("Falha ao copiar arquivo da pasta de uploads para o lugar correto", HttpStatus.BAD_REQUEST);
 		
 		System.out.println("Enviando codigo fonte via OTA para o dispositivo...");
 		cronometroEspecifico.start();
@@ -152,10 +154,10 @@ public class OTANetworkController {
 		command.add("Scripts/enviaCodigo.sh");
 		command.add(idDispositivo);
 		command.add(fileNameNoExtension);
-		this.runProcess(command);
+		if(!this.runProcess(command)) return new ResponseEntity<>("Falha ao enviar codigo para o dispositivo (erro de compilacao ou envio)", HttpStatus.BAD_REQUEST);
 		
 		cronometroEspecifico.stop();
-		System.out.println("############# Envio realizado. Tempo gasto (ms) = " + cronometroEspecifico.getTotalTimeMillis() + " #############");
+		System.out.println("############# Envio realizado. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
 		
 		command.clear();
 		command.add("rm");
@@ -171,6 +173,6 @@ public class OTANetworkController {
 		cronometroGeral.stop();
 		System.out.println("############# Fim do envio. Tempo gasto (ms) = " + cronometroGeral.getTotalTimeMillis() + " #############");
 		
-		return ResponseEntity.ok("File Uploaded Successfully");
+		return new ResponseEntity<>("Sucesso", HttpStatus.OK);
 	}
 }

@@ -28,6 +28,10 @@ body{
 	background-color: #E0E0E0;
 }
 
+.gifCarregando{
+	display: none;
+}
+
 .caixaDispositivos{
 	margin-bottom: 20px;
 	padding: 10px;

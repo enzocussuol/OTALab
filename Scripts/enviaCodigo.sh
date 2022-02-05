@@ -29,14 +29,18 @@ cp $2.ino $2/ # Move o arquivo para dentro da pasta do projeto
 
 echo "Compilando..."
 
-SECONDS=0
+start=`date +%s%N`
 arduino-cli compile --fqbn $placa $2/ --build-path $PWD/$2/build # Compila o projeto
-echo "Elapsed Time (using \$SECONDS): $SECONDS seconds"
+end=`date +%s%N`
+runtime=$(((end-start)/1000000))
+echo $runtime
 
 mv $2/build/$2.ino.bin $2/ # Move o .bin da pasta de build para a pasta do projeto
 
 echo "Enviando..."
 
-SECONDS=0
+start=`date +%s%N`
 python $espotaPath -d -i $IP -f $2/$2.ino.bin # Carrega o codigo para o microcontrolador via OTA
-echo "Elapsed Time (using \$SECONDS): $SECONDS seconds"
+end=`date +%s%N`
+runtime=$(((end-start)/1000000))
+echo $runtime

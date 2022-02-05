@@ -1,0 +1,1 @@
+{"nome":"ESP8266_D1Mini_1","descricao":"Um ESP8266 D1 Mini com sensor DSM501A acoplado","placa":"esp8266:esp8266:d1_mini","sensores":["DSM501A"],"porta":"ttyUSB0"}

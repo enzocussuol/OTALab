@@ -1,0 +1,9 @@
+{"dispositivos":[
+{ "nome": "ESP8266_D1Mini_2", "descricao": "Um ESP8266 D1 Mini com DHT11 acoplado", "placa": "esp8266:esp8266:d1_mini", "sensores": [ "DTH11" ], "porta": "ttyUSB1", "id": 0, "ip": "192.168.86.36" }
+,
+{ "nome": "ESP8266_NodeMCU", "descricao": "Um ESP8266 NodeMCU sem sensores", "placa": "esp8266:esp8266:nodemcuv2", "sensores": [], "porta": "ttyUSB2", "id": 1, "ip": "192.168.86.37" }
+,
+{ "nome": "ESP32_DevKit", "descricao": "Um ESP32 sem sensores", "placa": "esp32:esp32:esp32doit-devkit-v1", "sensores": [], "porta": "ttyUSB3", "id": 2, "ip": "192.168.86.38" }
+,
+{ "nome": "ESP8266_D1Mini_1", "descricao": "Um ESP8266 D1 Mini com sensor DSM501A acoplado", "placa": "esp8266:esp8266:d1_mini", "sensores": [ "DSM501A" ], "porta": "ttyUSB0", "id": 3, "ip": "192.168.86.28" }
+]}

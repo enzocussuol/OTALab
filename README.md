@@ -1,8 +1,8 @@
-# OTANetwork - Um ambiente para experimentação e atualização Over-The-Air em dispositivos IoT
+# OTALab - Um ambiente para experimentação e atualização Over-The-Air em dispositivos IoT
 
 ## 1. Introdução
 
-Este é um projeto de Iniciação Científica pela UFES na área de Internet das Coisas. O objetivo desse sistema é prover um ambiente de rápido funcionamento e baixo custo para gerenciamento de dispositivos IoT ([veja quais dispositivos são atualmente suportados](https://github.com/enzocussuol/OTANetwork/blob/main/dispositivosSuportados.txt)). A idéia é que um administrador posicione, sob uma mesma rede Wi-Fi, vários dispositivos com vários sensores acoplados e, com o uso da OTANetwork, seja capaz de gerenciá-los, tanto os monitorando quanto eventualmente atualizando seus códigos-fonte. Note que o uso pode ser extendido para usuários comúns, que não teriam privilégios de administrador, mas que seriam capazes de fazer upload para os dispositivos.
+Este é um projeto de Iniciação Científica pela UFES na área de Internet das Coisas. O objetivo desse sistema é prover um ambiente de rápido funcionamento e baixo custo para gerenciamento de dispositivos IoT ([veja quais dispositivos são atualmente suportados](https://github.com/enzocussuol/OTANetwork/blob/main/dispositivosSuportados.txt)). A idéia é que um administrador posicione, sob uma mesma rede Wi-Fi, vários dispositivos com vários sensores acoplados e, com o uso do OTALab, seja capaz de gerenciá-los, tanto os monitorando quanto eventualmente atualizando seus códigos-fonte. Note que o uso pode ser extendido para usuários comúns, que não teriam privilégios de administrador, mas que seriam capazes de fazer upload para os dispositivos.
 
 O software é uma mistura de várias linguagens, as quais se destacam: Java e seu framework Spring Boot, para a criação da interface Web; Python, para realização de alguns scripts, entre eles o [espota](https://github.com/esp8266/Arduino/blob/master/tools/espota.py), cuja autoria está no link disponibilizado; Shell, também para realização de alguns scripts essenciais; C++, para desenvolvimento de uma biblioteca Arduino.
 
@@ -10,13 +10,13 @@ O sistema deve rodar em um ambiente Linux para que funcione corretamente.
 
 ## 2. Dependências e Instalação
 
-Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [arduino-cli](https://github.com/arduino/arduino-cli), uma ferramenta disponibilizada pela própria marca que possibilita a gerência de placas Arduino a partir da linha de comando; 2) espota, um script python que realiza o envio de código via Over the Air para ESPs. O arquivo espota.py já está incluso na forma de uma cópia do original nesse repositório.
+Essa aplicação é desenvolvida a partir de dois principais softwares: 1) [arduino-cli](https://github.com/arduino/arduino-cli), uma ferramenta disponibilizada pela própria Arduino que possibilita a gerência de placas Arduino a partir da linha de comando; 2) espota, um script python que realiza o envio de código via Over the Air para ESPs. O arquivo espota.py já está incluso na forma de uma cópia do original nesse repositório.
 
-Para iniciar a instalação simplesmente execute:
+Para iniciar a instalação simplesmente execute dentro do seu diretório /home/$USER:
 
-`git clone https://github.com/enzocussuol/OTANetwork`
+`git clone https://github.com/enzocussuol/OTALab`
 
-Isto irá copiar todos os arquivos deste repositório para seu repositório local. Depois disso, basta instalar algumas poucas dependências.
+Isto irá copiar todos os arquivos deste repositório remoto para seu repositório local. Depois disso, basta instalar algumas poucas dependências.
 
 ### 2.1. Arduino-cli
 
@@ -64,15 +64,15 @@ Para organizar as aplicações Java, foi utilizado o [Maven](https://maven.apach
 
 ## 3. Uso
 
-O sistema no momento é controlado via duas interfaces web, uma para o administrador, e outra para usuários. Também é possível executar tudo via linha de comando, mas este procedimento ainda está em desenvolvimento e deve ser evitado por enquanto.
+O sistema no momento é controlado via duas interfaces web, uma para o administrador, e outra para experimentadores. Também é possível executar tudo via linha de comando, mas este procedimento ainda está em desenvolvimento e deve ser evitado por enquanto.
 
 ### 3.1. Cadastro dos dispositivos
 
-O primeiro passo é cadastrar os dispositivos, para isso, deve-se subir o site do administrador. Dentro da pasta OTANetworkAdministrator, rode:
+O primeiro passo é cadastrar os dispositivos, para isso, deve-se subir o site do administrador. Dentro da pasta AdminWebViewer, rode:
 
 `mvn clean spring-boot:run`
 
-Esse comando irá colocar o site do administrador no ar. Ele pode ser acessado pela url *localhost:8888*.
+Esse comando irá colocar o site do administrador no ar. Ele pode ser acessado pela url *localhost:8888/OTALabAdmin*.
 
 ![Página de administração vazia](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaAdministracaoVazia.png)
 
@@ -82,37 +82,58 @@ Feito isso, o formulário da direita deve ser preenchido para cada dispositivo a
 
 ![Página de administração preenchida](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaAdministracaoPreenchida.png)
 
-Ao cadastrar um dispositivo, um código-fonte padrão que implementa a biblioteca disponibilizada neste repositório na pasta OTANetworkDevice será enviado à ele via arduino-cli. Mais detalhes sobre essa biblioteca serão dados à frente.
+Ao cadastrar um dispositivo, um código-fonte padrão que implementa a biblioteca disponibilizada neste repositório na pasta OTALabDevice será enviado à ele via arduino-cli. Mais detalhes sobre essa biblioteca serão dados à frente.
 
 Tendo cadastrado todos os dispositivos, seus dados estarão armazenados na pasta Dispositivos em formato JSON e eles já podem ser desconectados da máquina para serem reconhecidos via Over-The-Air (OTA).
 
 ### 3.2. Acesso aos dispositivos
 
-Os dispositivos ativos serão mostrados na página do usuário, para isso, deve-se subir o segundo site. Dentro da pasta OTANetworkClient, rode:
+Os dispositivos ativos serão mostrados na página do usuário, para isso, deve-se subir o segundo site. Dentro da pasta ExperimentadorWebViewer, rode:
 
 `mvn clean spring-boot:run`
 
-Esse comando irá colocar o site do usuário no ar. Ele pode ser acessado pela url *localhost:9999*.
+Esse comando irá colocar o site do experimentador no ar. Ele pode ser acessado pela url *localhost:9999/OTALabExperimentador*.
 
 ![Página de usuário vazia](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaClienteVazia.png)
 
-Note que nenhum dispositivo aparece. Isso se deve ao fato de que eles devem ser reconhecidos como ativos pelo sistema. Dentro da pasta Scripts, basta rodar:
+Note que nenhum dispositivo aparece. Isso se deve ao fato de que eles devem ser reconhecidos como ativos pelo sistema. Nessa mesma página, existe um botão com uma lupa que, ao ser acionado, dispara uma sequência de scripts que reconhece os dispositivos que estão ativos naquele momento, isto é, aqueles que estão rodando um código que implementa a biblioteca do OTA Lab. Esse reconhecimento é realizado via MQTT e, ao final, os dispositivos aparecerão da seguinte forma:
 
-`bash atualizaDispositivos.sh <IP_BROKER>`
+![Página de experimentador preenchida](https://github.com/enzocussuol/OTALab/blob/main/Imagens/telaExperimentador.png)
 
-Esse script irá atualizar os dispositivos ativos e os inserir dentro da pasta Relatorios. A ideia é que o administrador programe esse script para rodar a cada x unidades de tempo. Agora, ao atualizar a página o usuário deve ser capaz de ver os dispositivos que estão vivos:
+### 3.2. Utilizando a biblioteca OTALabDevice
 
-![Página de usuário preenchida](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaClientePreenchida.png)
+É essencial que qualquer código enviado para um dispositivo dentro desse sistema implemente a biblioteca OTALabDevice. Ela está disponibilizada neste repositório, basta que seja instalada. Para isso, empacote a pasta OTALabDevice em um arquivo .zip e rode:
 
-### 3.2. Utilizando a biblioteca OTANetworkDevice
+`arduino-cli lib install --zip-path OTALabDevice.zip`
 
-É essencial que qualquer código enviado para um dispositivo dentro desse sistema implemente a biblioteca OTANetworkDevice. Ela está disponibilizada neste repositório, basta que seja instalada. Para isso, empacote a pasta OTANetworkDevice em um arquivo .zip e rode:
+A biblioteca OTALabDevice contém como dependência a biblioteca [PubSubClient](https://github.com/knolleary/pubsubclient), necessária para comunicações MQTT. Algumas versões do arduino-cli instalam ela automaticamente ao instalar a OTALabDevice, contudo, em algumas outras versões isso não é feito. Para saber se a biblioteca PubSubClient foi instalada, rode:
 
-`arduino-cli lib install --zip-path OTANetworkDevice.zip`
+`arduino-cli lib list`
+
+Caso a PubSubClient apareça, ela foi instalada. Caso contrário:
+
+`arduino-cli lib install PubSubClient`
 
 Feito isso, o código-fonte deve conter o seguinte template:
 
-![Template para envio de código-fonte](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/OTATemplate.png)
+```
+#include <OTALabDevice.h>
+
+OTALabDevice* device = new OTALabDevice();
+
+void setup(){
+    device->setWiFiNetworkName(WIFI_NETWORK_NAME);
+    device->setWiFiNetworkPassword(WIFI_NETWORK_PASSWORD);
+    device->setBrokerIP(BROKER_IP);
+    device->setName(DEVICE_NAME);
+
+    device->setup();
+}
+
+void loop(){
+    device->handle();
+}
+```
 
 As macros em maiúsculo serão substituidas de acordo com o dispositivo escolhido em tempo de compilação pelo sistema.
 

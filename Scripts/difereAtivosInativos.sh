@@ -1,10 +1,10 @@
 #!/bin/bash
 # Gera os arquivos de dispositivos ativos e inativos na rede
 
-AtivosPath="/home/${USER}/OTANetwork/Relatorios/ativos.json"
-InativosPath="/home/${USER}/OTANetwork/Relatorios/inativos.txt"
-DispPath="/home/${USER}/OTANetwork/Relatorios/dispositivos.txt"
-DispsPath="/home/${USER}/OTANetwork/Dispositivos/"
+AtivosPath="$HOME/OTALab/Relatorios/ativos.json"
+InativosPath="$HOME/OTALab/Relatorios/inativos.txt"
+DispPath="$HOME/OTALab/Relatorios/dispositivos.txt"
+DispsPath="$HOME/OTALab/Dispositivos/"
 
 rm $AtivosPath
 rm $InativosPath

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "" > /home/enzo/OTANetwork/configuracaoGeralRede.conf
-rm /home/enzo/OTANetwork/Dispositivos/*
-rm /home/enzo/OTANetwork/OTADefault/*
-rm /home/enzo/OTANetwork/Relatorios/*
-rm /home/enzo/OTANetwork/Uploads/*
+echo "" > $HOME/OTALab/configuracaoGeralRede.conf
+rm $HOME/OTALab/Dispositivos/*
+rm $HOME/OTALab/OTADefault/*
+rm $HOME/OTALab/Relatorios/*
+rm $HOME/OTALab/Uploads/*

@@ -4,8 +4,8 @@
 # $1 representa o indice do dispositivo no arquivo ativos.json
 # $2 representa o nome do projeto (escolhido pelo usuario)
 
-AtivosPath="/home/${USER}/OTANetwork/Relatorios/ativos.json"
-espotaPath="/home/${USER}/OTANetwork/Scripts/espota.py"
+AtivosPath="$HOME/OTALab/Relatorios/ativos.json"
+espotaPath="$HOME/OTALab/Scripts/espota.py"
 
 cat $AtivosPath | jq .[] > aux.json
 

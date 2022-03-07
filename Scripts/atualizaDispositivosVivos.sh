@@ -1,4 +1,4 @@
 #!/bin/bash
 
-python3 /home/enzo/OTANetwork/Scripts/descobreDispositivos.py $1
-bash /home/enzo/OTANetwork/Scripts/difereAtivosInativos.sh
+python3 $HOME/OTALab/Scripts/descobreDispositivos.py $1
+bash $HOME/OTALab/Scripts/difereAtivosInativos.sh

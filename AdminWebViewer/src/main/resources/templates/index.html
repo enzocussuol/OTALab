@@ -62,14 +62,7 @@
 						  <option th:value="'esp8266:esp8266:nodemcuv2'" th:text="'esp8266:esp8266:nodemcuv2'"></option>
 						  <option th:value="'esp32:esp32:esp32doit-devkit-v1'" th:text="'esp32:esp32:esp32doit-devkit-v1'"></option>
 						</select>
-						<select th:field=*{sensores} class="form-select seletorSensores" multiple aria-label="multiple select example">
-						  <option th:value="Sensores" th:text="Sensores" selected></option>
-						  <option th:value="DTH11" th:text="DHT11"></option>
-						  <option th:value="DSM501A" th:text="DSM501A"></option>
-						  <option th:value="TCS34725" th:text="TCS34725"></option>
-						  <option th:value="BMP280" th:text="BMP280"></option>
-						</select>
-						<select th:field=*{porta} class="form-select" aria-label="Default select example">
+						<select th:field=*{porta} class="form-select seletorPortas" aria-label="Default select example">
 						  <option th:value="Porta" th:text="Porta" selected></option>
 						  <option th:each="porta: ${portas}" th:value="${porta}" th:text="${porta}"></option>
 						</select>

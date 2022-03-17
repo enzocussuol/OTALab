@@ -1,12 +1,9 @@
 package br.ufes.inf.AdminWebViewer;
 
-import java.util.ArrayList;
-
 public class Dispositivo {
 	private String nome;
 	private String descricao;
 	private String placa;
-	private ArrayList<String> sensores = new ArrayList<String>();
 	private String porta;
 	
 	public String getNome() {
@@ -27,12 +24,6 @@ public class Dispositivo {
 	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
-	public ArrayList<String> getSensores() {
-		return sensores;
-	}
-	public void setSensores(ArrayList<String> sensores) {
-		this.sensores = sensores;
-	}
 	
 	@Override
 	public String toString() {
@@ -40,12 +31,7 @@ public class Dispositivo {
 		
 		str += this.nome + "\n";
 		str += this.descricao + "\n";
-		str += "\n" + this.placa + "\n";	
-		
-		for(int i = 0; i < this.sensores.size(); i++) {
-			str += this.sensores.get(i) + " ";
-		}
-		
+		str += "\n" + this.placa + "\n";
 		str += "\n";
 		
 		return str;

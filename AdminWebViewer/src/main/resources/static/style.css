@@ -17,11 +17,6 @@ body{
 	text-align: start;
 }
 
-.seletorSensores{
-	margin-top: 15px;
-	margin-bottom: 15px;
-}
-
 .botaoCadastrar{
 	margin-top: 15px;
 	margin-bottom: 15px;
@@ -31,4 +26,8 @@ body{
 	text-align: start;
 	padding: 10px;
 	margin-top: 10px;
+}
+
+.seletorPortas{
+	margin-top: 20px;
 }

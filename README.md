@@ -123,7 +123,11 @@ O sistema no momento é controlado via duas interfaces web, uma para o administr
 
 ### 5.1. Cadastro dos dispositivos
 
-O primeiro passo é cadastrar os dispositivos, para isso, deve-se subir o site do administrador. Dentro da pasta AdminWebViewer, rode:
+Antes de qualquer coisa, para cadastrar os dispositivos é necessário privilégios de superusuário do Linux, uma vez que os scripts são responsáveis por dar permissão para as portas USB às quais os dispositivos estão conectados. Portanto, forneça sua senha com:
+
+`sudo su`
+
+Agora sim é possível cadastrar os dispositivos, para isso, deve-se subir o site do administrador. Dentro da pasta AdminWebViewer, rode:
 
 `mvn clean spring-boot:run`
 

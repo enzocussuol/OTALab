@@ -194,6 +194,13 @@ public class OTANetworkController {
 		System.out.println("Enviando codigo fonte para o dispositivo via arduino-cli...");
 		cronometroEspecifico.start();
 		
+		System.out.println("Dando permissao para a porta USB escolhida...");
+		command.clear();
+		command.add("chmod");
+		command.add("777");
+		command.add("/dev/" + dispositivo.getPorta());
+		if(!this.runProcess(command)) return new ResponseEntity<>("Erro ao dar permissao a porta escolhida", HttpStatus.BAD_REQUEST);
+		
 		command.clear();
 		command.add("arduino-cli");
 		command.add("upload");

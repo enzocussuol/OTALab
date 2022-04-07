@@ -140,8 +140,13 @@ public class OTANetworkController {
 		
 		System.out.println("Iniciando processo de envio de codigo...");
 		
+		String pathUploads = System.getProperty("user.home") + "/OTALab/Uploads";
+		
+		File diretorioUploads = new File(pathUploads);
+		if(!diretorioUploads.exists()) diretorioUploads.mkdir();
+		
 		try {
-			file.transferTo(new File(System.getProperty("user.home") + "/OTALab/Uploads/" + fileName));
+			file.transferTo(new File(pathUploads + "/" + fileName));
 		} catch (Exception e) {
 			System.out.println("Nao foi possivel fazer a transferencia do arquivo " + fileName);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

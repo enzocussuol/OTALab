@@ -22,6 +22,10 @@ body{
 	margin-bottom: 15px;
 }
 
+.gifCarregando{
+	display: none;
+}
+
 .caixaConfiguracoesAtuais{
 	text-align: start;
 	padding: 10px;

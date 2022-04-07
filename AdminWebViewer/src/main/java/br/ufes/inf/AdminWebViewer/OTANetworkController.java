@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StopWatch;
@@ -28,7 +30,9 @@ public class OTANetworkController {
 		SerialPort[] portas = SerialPort.getCommPorts();
 		ArrayList<String> nomesPortas = new ArrayList<String>();
 		
-		for(SerialPort porta: portas) nomesPortas.add(porta.getSystemPortName());
+		for(SerialPort porta: portas) {
+			nomesPortas.add(porta.getSystemPortName());
+		}
 		
 		model.addAttribute("status", status);
 		model.addAttribute("novaConfiguracao", new Configuracao(true));
@@ -41,7 +45,7 @@ public class OTANetworkController {
 	}
 	
 	@PostMapping("/handleConfiguracaoRede")
-	public String handleConfiguracaoRede(@ModelAttribute Configuracao novaConfiguracao, Model model) {
+	public ResponseEntity<String> handleConfiguracaoRede(@ModelAttribute Configuracao novaConfiguracao, Model model) {
 		this.configuracao = novaConfiguracao;
 		
 		BufferedWriter writer;
@@ -56,9 +60,11 @@ public class OTANetworkController {
 			// TODO Auto-generated catch block
 			System.out.println("Nao foi possivel encontrar o arquivo configuracaoGeralRede.conf");
 			e.printStackTrace();
+			
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 		
-		return this.getIndex(model, "Configuracoes atualizadas");
+		return new ResponseEntity<>("Sucesso", HttpStatus.OK);
 	}
 	
 	private boolean runProcess(ArrayList<String> command) {
@@ -112,7 +118,7 @@ public class OTANetworkController {
 	}
 	
 	@PostMapping("/handleRegistro")
-	public String handleRegistro(@ModelAttribute Dispositivo dispositivo, Model model) {
+	public ResponseEntity<String> handleRegistro(@ModelAttribute Dispositivo dispositivo, Model model) {
 		StopWatch cronometroGeral = new StopWatch();
 		StopWatch cronometroEspecifico = new StopWatch();
 		
@@ -123,10 +129,15 @@ public class OTANetworkController {
 		System.out.println("Gerando arquivo .json do dispositivo...");
 		cronometroEspecifico.start();
 		
+		String pathDispositivos = System.getProperty("user.home") + "/OTALab/Dispositivos";
+		
+		File diretorioDispositivos = new File(pathDispositivos);
+		if(!diretorioDispositivos.exists()) diretorioDispositivos.mkdir();
+		
 		Gson gson = new Gson();
 		FileWriter writer;
 		try {
-			writer = new FileWriter(System.getProperty("user.home") + "/OTALab/Dispositivos/" + dispositivo.getNome() + ".json");
+			writer = new FileWriter(pathDispositivos + "/" + dispositivo.getNome() + ".json");
 			
 			gson.toJson(dispositivo, writer);
 			
@@ -136,6 +147,8 @@ public class OTANetworkController {
 			// TODO Auto-generated catch block
 			System.out.println("Nao foi possivel encontrar o arquivo " + dispositivo.getNome() + ".json");
 			e.printStackTrace();
+			
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 		
 		cronometroEspecifico.stop();
@@ -149,7 +162,7 @@ public class OTANetworkController {
 		command.add("cp");
 		command.add("OTATemplate.ino");
 		command.add("OTADefault/OTADefault.ino");
-		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao copiar o template");
+		if(!this.runProcess(command)) return new ResponseEntity<>("Erro na copia do template", HttpStatus.BAD_REQUEST);
 		
 		command.clear();
 		command.add("bash");
@@ -159,7 +172,7 @@ public class OTANetworkController {
 		command.add(this.configuracao.getIpBroker());
 		command.add(dispositivo.getNome());
 		command.add("OTADefault/OTADefault.ino");
-		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao injetar informacoes no codigo padrao");
+		if(!this.runProcess(command)) return new ResponseEntity<>("Erro ao injetar as informacoes do dispositivo no codigo fonte do usuario", HttpStatus.BAD_REQUEST);
 		
 		cronometroEspecifico.stop();
 		System.out.println("############# Informacoes injetadas. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
@@ -173,7 +186,7 @@ public class OTANetworkController {
 		command.add("-b");
 		command.add(dispositivo.getPlaca());
 		command.add("OTADefault");
-		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao compilar o codigo com o arduino-cli");
+		if(!this.runProcess(command)) return new ResponseEntity<>("Erro ao compilar o codigo do usuario com o arduino-cli", HttpStatus.BAD_REQUEST);
 		
 		cronometroEspecifico.stop();
 		System.out.println("############# Codigo compilado. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
@@ -189,7 +202,7 @@ public class OTANetworkController {
 		command.add("-p");
 		command.add("/dev/" + dispositivo.getPorta());
 		command.add("OTADefault");
-		if(!this.runProcess(command)) return this.getIndex(model, "Erro ao enviar o codigo com o arduino-cli");
+		if(!this.runProcess(command)) return new ResponseEntity<>("Erro ao enviar ao fazer upload do codigo do usuario com o arduino-cli", HttpStatus.BAD_REQUEST);
 		
 		cronometroEspecifico.stop();
 		System.out.println("############# Codigo enviado. Tempo gasto (ms) = " + cronometroEspecifico.getLastTaskTimeMillis() + " #############");
@@ -197,6 +210,6 @@ public class OTANetworkController {
 		cronometroGeral.stop();
 		System.out.println("############# Fim do cadastro. Tempo gasto (ms) = " + cronometroGeral.getTotalTimeMillis() + " #############");
 		
-		return this.getIndex(model, "Dispositivo cadastrado com sucesso");
+		return new ResponseEntity<>("Sucesso", HttpStatus.OK);
 	}
 }

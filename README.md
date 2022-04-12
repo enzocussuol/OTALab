@@ -123,9 +123,9 @@ O sistema no momento é controlado via duas interfaces web, uma para o administr
 
 ### 5.1. Cadastro dos dispositivos
 
-Antes de qualquer coisa, para cadastrar os dispositivos é necessário privilégios de superusuário do Linux, uma vez que os scripts são responsáveis por dar permissão para as portas USB às quais os dispositivos estão conectados. Portanto, adicione o usuário atual como administrador com:
+Antes de qualquer coisa, para cadastrar os dispositivos é necessário privilégios de superusuário do Linux, uma vez que os scripts são responsáveis por dar permissão para as portas USB às quais os dispositivos estão conectados. Portanto, certifique-se de dar permissão para as portas USB que serão utilizadas para cadastrar os dispositivos antes de prosseguir. Por exemplo, para dar permissão à porta ttyUSB0, rode:
 
-`sudo usermod -aG sudo $USER`
+`sudo chmod 777 /dev/ttyUSB0`
 
 Agora sim é possível cadastrar os dispositivos, para isso, deve-se subir o site do administrador. Dentro da pasta AdminWebViewer, rode:
 

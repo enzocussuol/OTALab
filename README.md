@@ -171,4 +171,4 @@ O sistema ainda está em desenvolvimento e algumas coisas ainda devem ser implem
 * Elaborar melhor o cadastro dos sensores
 <!--te-->
 
-Trabalho sob a licença Creative Commons 4.0, que permite copiar, distribuir e transmitir o trabalho em qualquer suporte ou formato desde que sejam citados a autoria e o licenciante. Está licença não permite o uso para fins comerciais e permite adaptações da obra desde que suas contribuições mantenham a mesma licença que o trabalho original.
+Trabalho sob a [licença Creative Commons 4.0](creativecommons.org), que permite copiar, distribuir e transmitir o trabalho em qualquer suporte ou formato desde que sejam citados a autoria e o licenciante. Está licença não permite o uso para fins comerciais e permite adaptações da obra desde que suas contribuições mantenham a mesma licença que o trabalho original.

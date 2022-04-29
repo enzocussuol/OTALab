@@ -1,5 +1,9 @@
 # OTALab - Um ambiente para experimentação e atualização Over-The-Air em dispositivos IoT
 
+## 0. Importante - SBRC2022
+
+Para os usuários que chegaram à este repositório pelo Salão de Ferramentas do SBRC2022, recomenda-se que ao invés de realizar o git clone, faça o download da release SBRC2022, uma vez que novas atualizações foram realizadas no repositório desde o envio para à conferência.
+
 ## 1. Introdução
 
 Este é um projeto de Iniciação Científica pela UFES na área de Internet das Coisas. O objetivo desse sistema é prover um ambiente de rápido funcionamento e baixo custo para gerenciamento de dispositivos IoT ([veja quais dispositivos são atualmente suportados](https://github.com/enzocussuol/OTANetwork/blob/main/dispositivosSuportados.txt)). A idéia é que um administrador posicione, sob uma mesma rede Wi-Fi, vários dispositivos com vários sensores acoplados e, com o uso do OTALab, seja capaz de gerenciá-los, tanto os monitorando quanto eventualmente atualizando seus códigos-fonte. Note que o uso pode ser extendido para usuários comúns, que não teriam privilégios de administrador, mas que seriam capazes de fazer upload para os dispositivos.

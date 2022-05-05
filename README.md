@@ -125,17 +125,21 @@ Note que caso o código-fonte faça uso de uma biblioteca de terceiros, esta dev
 
 O sistema no momento é controlado via duas interfaces web, uma para o administrador, e outra para experimentadores. Também é possível executar tudo via linha de comando, mas este procedimento ainda está em desenvolvimento e deve ser evitado por enquanto.
 
+Para subir o servidor web, entre na pasta OTALabWebViewer e rode:
+
+`mvn clean spring-boot:run`
+
+O servidor rodará localmente na porta 8888.
+
 ### 5.1. Cadastro dos dispositivos
 
 Antes de qualquer coisa, para cadastrar os dispositivos é necessário privilégios de superusuário do Linux, uma vez que os scripts são responsáveis por dar permissão para as portas USB às quais os dispositivos estão conectados. Portanto, certifique-se de dar permissão para as portas USB que serão utilizadas para cadastrar os dispositivos antes de prosseguir. Por exemplo, para dar permissão à porta ttyUSB0, rode:
 
 `sudo chmod 777 /dev/ttyUSB0`
 
-Agora sim é possível cadastrar os dispositivos, para isso, deve-se subir o site do administrador. Dentro da pasta AdminWebViewer, rode:
+Agora sim é possível cadastrar os dispositivos, para isso, no navegador entre em:
 
-`mvn clean spring-boot:run`
-
-Esse comando irá colocar o site do administrador no ar. Ele pode ser acessado pela url *localhost:8888/OTALabAdmin*.
+*http://localhost:8888/OTALabAdmin*
 
 ![Página de administração vazia](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaAdministracaoVazia.png)
 
@@ -151,11 +155,9 @@ Tendo cadastrado todos os dispositivos, seus dados estarão armazenados na pasta
 
 ### 5.2. Acesso aos dispositivos
 
-Os dispositivos ativos serão mostrados na página do usuário, para isso, deve-se subir o segundo site. Dentro da pasta ExperimentadorWebViewer, rode:
+Os dispositivos ativos serão mostrados na página do usuário. Para acessá-la, entre em:
 
-`mvn clean spring-boot:run`
-
-Esse comando irá colocar o site do experimentador no ar. Ele pode ser acessado pela url *localhost:9999/OTALabExperimentador*.
+*localhost:9999/OTALabExperimentador*
 
 ![Página de usuário vazia](https://github.com/enzocussuol/OTANetwork/blob/main/Imagens/paginaClienteVazia.png)
 

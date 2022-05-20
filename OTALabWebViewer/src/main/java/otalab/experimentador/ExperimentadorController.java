@@ -62,10 +62,8 @@ public class ExperimentadorController {
 				
 				ProcessoBash.runProcess(command); // Por algum motivo o script python descobreDispositivos.py nos da exit code != 0... Por enquanto considerar que o script nao falhou!
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Nao foi possivel encontrar o arquivo configuracaoGeralRede.conf");
-			e.printStackTrace();
+		} catch (Exception e) {
+			return new ResponseEntity<>("Arquivo de configuracao da rede nao encontrado ou mal formatado!", HttpStatus.BAD_REQUEST);
 		}
 		
 		return ResponseEntity.ok("Ok");

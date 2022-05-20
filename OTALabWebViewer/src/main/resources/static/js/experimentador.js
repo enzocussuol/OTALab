@@ -5,6 +5,7 @@ function exibeGifCarregando(){
 	caixaDispositivos.style.display = "none";
 	gifCarregando.style.display = "initial";
 }
+
 async function atualizaDispositivos(){
 	exibeGifCarregando();
 	
@@ -12,8 +13,9 @@ async function atualizaDispositivos(){
 		method: "POST"
 	});
 	
+	document.location.reload(true);
+
 	if(response.status == 200){
-		document.location.reload(true);
 		alert("Dispositivos atualizados");
 	}else{
 		alert("Ocorreu um erro ao tentar atualizar os dispositivos vivos");

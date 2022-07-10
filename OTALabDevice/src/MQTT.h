@@ -6,6 +6,6 @@
 
     #include "OTALabDevice.h"
 
-    void setupMQTT(String);
+    void setupMQTT();
     void handleMQTT();
 #endif

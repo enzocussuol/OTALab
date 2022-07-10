@@ -1,0 +1,7 @@
+{"dispositivos":[
+{ "nome": "ESP8266_D1Mini_2", "descricao": "Um ESP8266 modelo D1 Mini sem sensores acoplados.", "placa": "esp8266:esp8266:d1_mini", "porta": "ttyUSB1", "id": 0, "ip": "192.168.86.36" }
+,
+{ "nome": "ESP8266_D1Mini_1", "descricao": "Um ESP8266 modelo D1 Mini com um sensor de temperatura e umidade DHT11 acoplado. A conexão de dados está no pino D1.", "placa": "esp8266:esp8266:d1_mini", "porta": "ttyUSB0", "id": 1, "ip": "192.168.86.37" }
+,
+{ "nome": "ESP32_DevKit", "descricao": "Um ESP32 modelo DevKit sem sensores acoplados.", "placa": "esp32:esp32:esp32doit-devkit-v1", "porta": "ttyUSB2", "id": 2, "ip": "192.168.86.43" }
+]}

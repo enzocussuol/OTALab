@@ -18,10 +18,10 @@ WiFiClient client;
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup(){
-    device->setWiFiNetworkName(WIFI_NETWORK_NAME);
-    device->setWiFiNetworkPassword(WIFI_NETWORK_PASSWORD);
-    device->setBrokerIP(BROKER_IP);
-    device->setName(DEVICE_NAME);
+    device->setWiFiNetworkName("Claudio");
+    device->setWiFiNetworkPassword("adgj1234");
+    device->setBrokerIP("192.168.86.41");
+    device->setName("ESP8266_D1Mini_1");
     device->setup();
 
     Serial.begin(115200);

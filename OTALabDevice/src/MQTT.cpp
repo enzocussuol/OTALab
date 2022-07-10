@@ -11,13 +11,17 @@ void callback(char* topic, byte* payload, unsigned int length) {
     if(!mensagem.compare("Are you alive?")){
         Serial.println("Recebi um sinal de vida!");
 
-        String ipString = clienteWiFi.localIP().toString();
-        int tamIpString = ipString.length();
-        
-        char ipCharArray[tamIpString+1];
-        ipString.toCharArray(ipCharArray, tamIpString+1);
+        String resposta = clienteWiFi.localIP().toString();
+        resposta = resposta + " " + DEVICE_ID;
 
-        clienteMQTT.publish("Inicializacao/inTopic", ipCharArray);
+        Serial.println(resposta);
+
+        int tamResposta = resposta.length();
+        
+        char respostaAsCharArray[tamResposta+1];
+        resposta.toCharArray(respostaAsCharArray, tamResposta+1);
+
+        clienteMQTT.publish("Inicializacao/inTopic", respostaAsCharArray);
     }
 }
 
@@ -40,8 +44,8 @@ void reconnect() {
     }
 }
 
-void setupMQTT(String brokerIP){
-    broker.fromString(brokerIP);
+void setupMQTT(){
+    broker.fromString(BROKER_IP);
     clienteMQTT.setServer(broker, 1883);
     clienteMQTT.setCallback(callback);
 }

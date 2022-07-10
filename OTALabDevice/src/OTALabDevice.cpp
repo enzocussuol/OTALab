@@ -2,7 +2,7 @@
 
 void OTALabDevice::setup(){
     WiFi.mode(WIFI_STA);
-    WiFi.begin(this->WiFiNetworkName, this->WiFiNetworkPassword);
+    WiFi.begin(WIFI_NETWORK_NAME, WIFI_NETWORK_PASSWORD);
 
     while (WiFi.waitForConnectResult() != WL_CONNECTED) {
         Serial.println("Connection Failed! Rebooting...");
@@ -12,37 +12,15 @@ void OTALabDevice::setup(){
 
     Serial.println("");
     Serial.print("Connected to ");
-    Serial.println(this->WiFiNetworkName);
+    Serial.println(WIFI_NETWORK_NAME);
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
 
     setupOTA();
-    setupWebServer();
-    setupMQTT(this->brokerIP);
+    setupMQTT();
 }
 
 void OTALabDevice::handle(){
     handleOTA();
-    handleWebServer(this);
     handleMQTT();
-}
-
-void OTALabDevice::setWiFiNetworkName(const char* WiFiNetworkName){
-    this->WiFiNetworkName = WiFiNetworkName;
-}
-
-void OTALabDevice::setWiFiNetworkPassword(const char* WifiNetworkPassword){
-    this->WiFiNetworkPassword = WifiNetworkPassword;
-}
-
-void OTALabDevice::setBrokerIP(String brokerIP){
-    this->brokerIP = brokerIP;
-}
-
-void OTALabDevice::setName(String name){
-    this->name = name;
-}
-
-String OTALabDevice::getName() const{
-    return this->name;
 }

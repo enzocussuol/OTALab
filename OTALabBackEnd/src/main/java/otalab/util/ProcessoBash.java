@@ -5,21 +5,22 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ProcessoBash {
-	public static boolean runProcess(ArrayList<String> command) {
-		System.out.print("Rodando comando: ");
-		for(int i = 0; i < command.size(); i++) System.out.print(command.get(i) + " ");
-		System.out.println();
+	public static boolean runProcess(String command){
+		System.out.println("Executando comando:");
+		System.out.println(command);
+
+		ArrayList<String> commandAsArray = new ArrayList<String>(Arrays.asList(command.trim().split("\\s+")));
 		
-		ProcessBuilder processBuilder = new ProcessBuilder(command);
+		ProcessBuilder processBuilder = new ProcessBuilder(commandAsArray);
 		processBuilder.directory(new File(System.getProperty("user.home") + "/OTALab/"));
 		
 		Process process = null;
 		try {
 			process = processBuilder.start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Nao foi possivel iniciar o processo no diretorio fornecido");
 			e.printStackTrace();
 		}
@@ -33,7 +34,6 @@ public class ProcessoBash {
 				System.out.println(line);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Ocorreu um erro ao ler o resultado do processo");
 			e.printStackTrace();
 		}
@@ -42,7 +42,6 @@ public class ProcessoBash {
 		try {
 			exitCode = process.waitFor();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Erro: o processo terminou com uma excessao de interrupcao");
 			e.printStackTrace();
 		}

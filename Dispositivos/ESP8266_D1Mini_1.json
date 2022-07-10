@@ -1,0 +1,1 @@
+{"nome":"ESP8266_D1Mini_1","descricao":"Um ESP8266 modelo D1 Mini com um sensor de temperatura e umidade DHT11 acoplado. A conexão de dados está no pino D1.","placa":"esp8266:esp8266:d1_mini","porta":"ttyUSB0","id":0}

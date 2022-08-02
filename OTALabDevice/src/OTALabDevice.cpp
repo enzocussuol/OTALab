@@ -1,6 +1,6 @@
 #include "OTALabDevice.h"
 
-void OTALabDevice::setup(){
+void OTALabDevice::setup(String id){
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_NETWORK_NAME, WIFI_NETWORK_PASSWORD);
 
@@ -15,6 +15,8 @@ void OTALabDevice::setup(){
     Serial.println(WIFI_NETWORK_NAME);
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
+
+    DEVICE_ID = id.toInt();
 
     setupOTA();
     setupMQTT();

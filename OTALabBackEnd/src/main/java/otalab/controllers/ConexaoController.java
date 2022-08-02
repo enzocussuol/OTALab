@@ -34,7 +34,7 @@ public class ConexaoController {
 
     @GetMapping("/conexoes/read/{idConexao}")
     public ResponseEntity<Conexao> readConexaoById(@PathVariable long idConexao){
-        Conexao conexao = conexaoRepo.getById(idConexao);
+        Conexao conexao = conexaoRepo.findById(idConexao).orElse(null);
 
         if(conexao == null) return ResponseEntity.badRequest().body(null);
         return ResponseEntity.ok(conexao);

@@ -21,6 +21,9 @@ public class Configuracao {
     @Column
 	public String ipBroker;
 
+    @Column
+    public boolean ativa;
+
     public Configuracao(){
 
     }
@@ -29,6 +32,7 @@ public class Configuracao {
         this.nomeWiFi = nomeWiFi;
         this.senhaWiFi = senhaWiFi;
         this.ipBroker = ipBroker;
+        this.ativa = false;
     }
 
     public long getIdConfiguracao(){
@@ -57,5 +61,13 @@ public class Configuracao {
 
     public void setIpBroker(String ipBroker){
         this.ipBroker = ipBroker;
+    }
+
+    public boolean getAtiva(){
+        return this.ativa;
+    }
+
+    public void setAtiva(boolean ativa){
+        this.ativa = ativa;
     }
 }

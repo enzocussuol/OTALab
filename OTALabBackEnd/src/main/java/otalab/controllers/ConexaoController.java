@@ -1,23 +1,27 @@
 package otalab.controllers;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import otalab.models.Conexao;
+import otalab.models.Configuracao;
+import otalab.models.Dispositivo;
 import otalab.repo.ConexaoRepo;
 import otalab.repo.ConfiguracaoRepo;
+import otalab.repo.DispositivoRepo;
 import otalab.util.ProcessoBash;
+
 
 @RestController
 public class ConexaoController {
@@ -26,6 +30,9 @@ public class ConexaoController {
 
     @Autowired
     ConfiguracaoRepo configRepo;
+
+    @Autowired
+    DispositivoRepo dispRepo;
 
     @GetMapping("/conexoes/read")
     public List<Conexao> readConexoes(){
@@ -41,14 +48,7 @@ public class ConexaoController {
     }
 
     @PutMapping("/conexoes/update")
-    public ResponseEntity<String> updateConexoes(int segundosEsperaRespostas, long idConfiguracao) throws MqttException{
-        /*
-            0 - Testar se as conexoes existentes ainda estao vivas (se nao, exclui-las)
-            1 - Publicar no topico MQTT e receber todos os IPs dos dispositivos vivos
-            2 - Pingar em cada um desses IPs e receber os nomes dos dispositivos
-            3 - A partir do nome, criar uma conexao
-            IDEAL: Dispositivos retornarem mais informacoes alem do ip a partir do MQTT!
-        */
+    public ResponseEntity<String> updateConexoes(int segundosEsperaRespostas, long idConfiguracao) throws MqttSecurityException, MqttException, InterruptedException{
         List<Conexao> conexoes = conexaoRepo.findAll();
         for(Conexao conexao: conexoes){
             if(!ProcessoBash.runProcess("ping -c 1 " + conexao.getIp())){
@@ -56,31 +56,37 @@ public class ConexaoController {
             }
         }
 
-        List<String> respostas = Arrays.asList();
+        Configuracao config = configRepo.findById(idConfiguracao).orElse(null);
+        if(config == null) return ResponseEntity.badRequest().body("Configuração não encontrada");
 
-        try (IMqttClient client = new MqttClient("tcp://" + configRepo.getById(idConfiguracao).getIpBroker(), UUID.randomUUID().toString())) {
-            client.connect();
+        String clientId = UUID.randomUUID().toString();
+        IMqttClient client = new MqttClient("tcp://" + config.getIpBroker(), clientId);
 
-            client.subscribe("Inicializacao/inTopic", (topic, msg) -> {
-                byte[] payload = msg.getPayload();
-                respostas.add(payload.toString());
-            });
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setAutomaticReconnect(true);
+        options.setCleanSession(true);
+        options.setConnectionTimeout(10);
+        client.connect(options);
 
-            client.publish("Inicializacao/outTopic", new MqttMessage("Are you alive?".getBytes()));
+        client.subscribe("Inicializacao/inTopic", (topic, msg) -> {
+            String payload = new String(msg.getPayload());
 
-            try {
-                Thread.sleep(segundosEsperaRespostas * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>("Erro na espera por respostas dos dispositivos", HttpStatus.INTERNAL_SERVER_ERROR);
+            String ip = payload.substring(0, payload.indexOf(" "));
+            long idDispositivo = Long.valueOf(payload.substring(payload.indexOf(" ") + 1, payload.length()));
+
+            Dispositivo disp = dispRepo.findById(idDispositivo).orElse(null);
+
+            if(disp != null){
+                Conexao conexao = new Conexao(disp, ip);
+                conexaoRepo.save(conexao);
             }
+        });
 
-            client.disconnect();
-        }
+        client.publish("Inicializacao/outTopic", new MqttMessage("Are you alive?".getBytes()));
 
-        for(String resposta: respostas){
-            System.out.println(resposta);
-        }
+        Thread.sleep(segundosEsperaRespostas * 1000);
+        client.disconnect();
+        client.close();
 
         return ResponseEntity.ok("Conexões atualizadas com sucesso");
     }

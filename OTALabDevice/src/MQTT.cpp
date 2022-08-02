@@ -12,7 +12,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
         Serial.println("Recebi um sinal de vida!");
 
         String resposta = clienteWiFi.localIP().toString();
-        resposta = resposta + " " + DEVICE_ID;
+        resposta = resposta + " " + MY_DEVICE_ID;
 
         Serial.println(resposta);
 
@@ -20,6 +20,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
         
         char respostaAsCharArray[tamResposta+1];
         resposta.toCharArray(respostaAsCharArray, tamResposta+1);
+
+        Serial.println(respostaAsCharArray);
 
         clienteMQTT.publish("Inicializacao/inTopic", respostaAsCharArray);
     }

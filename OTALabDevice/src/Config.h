@@ -5,5 +5,5 @@
     #define WIFI_NETWORK_PASSWORD ""
     #define BROKER_IP ""
 
-    long DEVICE_ID;
+    extern long MY_DEVICE_ID;
 #endif

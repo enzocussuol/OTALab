@@ -15,7 +15,7 @@ public class ProcessoBash {
 		ArrayList<String> commandAsArray = new ArrayList<String>(Arrays.asList(command.trim().split("\\s+")));
 		
 		ProcessBuilder processBuilder = new ProcessBuilder(commandAsArray);
-		processBuilder.directory(new File(System.getProperty("user.home") + "/OTALab/"));
+		processBuilder.directory(new File("src/main/resources"));
 		
 		Process process = null;
 		try {

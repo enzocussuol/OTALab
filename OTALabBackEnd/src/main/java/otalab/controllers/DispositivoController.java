@@ -58,7 +58,7 @@ public class DispositivoController {
         disp = dispRepo.save(disp);
         if(disp == null) return ResponseEntity.badRequest().body("Não foi possível criar o dispositivo");
 
-		if(!ProcessoBash.runProcess("bash Scripts/copiaTemplate.sh " + disp.getId())){
+		if(!ProcessoBash.runProcess("bash scripts/copiaTemplate.sh " + disp.getId())){
             dispRepo.delete(disp);
             return new ResponseEntity<>("Erro na cópia do template", HttpStatus.INTERNAL_SERVER_ERROR);
         }

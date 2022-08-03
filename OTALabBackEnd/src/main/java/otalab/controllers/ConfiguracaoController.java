@@ -55,7 +55,7 @@ public class ConfiguracaoController {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setPassword("wifi");
 
-        if(!ProcessoBash.runProcess("bash Scripts/injetaConfigLib.sh " + config.getNomeWiFi() + " " +
+        if(!ProcessoBash.runProcess("bash scripts/injetaConfigLib.sh " + config.getNomeWiFi() + " " +
                                     encryptor.decrypt(config.getSenhaWiFi()) + " " + config.getIpBroker()))
             return new ResponseEntity<>("Erro ao injetar a configuração na biblioteca", HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -68,7 +68,7 @@ public class ConfiguracaoController {
             if(cfg.getAtiva() && cfg.getIdConfiguracao() != idConfiguracao){
                 cfg.setAtiva(false);
                 configRepo.save(cfg);
-            } 
+            }
         }
 
         return ResponseEntity.ok("Configuração atualizada como ativa com sucesso");

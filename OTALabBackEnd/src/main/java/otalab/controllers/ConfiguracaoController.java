@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import otalab.models.Configuracao;
 import otalab.repo.ConfiguracaoRepo;
-import otalab.util.ProcessoBash;
-
+import otalab.util.Processo;
 
 @RestController
 public class ConfiguracaoController {
@@ -55,9 +54,11 @@ public class ConfiguracaoController {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setPassword("wifi");
 
-        if(!ProcessoBash.runProcess("bash scripts/injetaConfigLib.sh " + config.getNomeWiFi() + " " +
-                                    encryptor.decrypt(config.getSenhaWiFi()) + " " + config.getIpBroker()))
-            return new ResponseEntity<>("Erro ao injetar a configuração na biblioteca", HttpStatus.INTERNAL_SERVER_ERROR);
+        Processo processo = new Processo();
+
+        processo.executa("bash scripts/injetaConfigLib.sh " + config.getNomeWiFi() + " " +
+                        encryptor.decrypt(config.getSenhaWiFi()) + " " + config.getIpBroker());
+        if(!processo.getExitCode()) return new ResponseEntity<>("Erro ao injetar a configuração na biblioteca", HttpStatus.INTERNAL_SERVER_ERROR);
 
         config.setAtiva(true);
         configRepo.save(config);

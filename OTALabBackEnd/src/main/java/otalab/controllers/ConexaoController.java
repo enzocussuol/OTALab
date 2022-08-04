@@ -29,8 +29,7 @@ import otalab.models.Dispositivo;
 import otalab.repo.ConexaoRepo;
 import otalab.repo.ConfiguracaoRepo;
 import otalab.repo.DispositivoRepo;
-import otalab.util.ProcessoBash;
-
+import otalab.util.Processo;
 
 @RestController
 public class ConexaoController {
@@ -61,8 +60,7 @@ public class ConexaoController {
 
     @PutMapping("/conexoes/update")
     public ResponseEntity<String> updateConexoes(int segundosEsperaRespostas, long idConfiguracao) throws MqttSecurityException, MqttException, InterruptedException{
-        List<Conexao> conexoes = conexaoRepo.findAll();
-        for(Conexao conexao: conexoes) conexaoRepo.delete(conexao);
+        conexaoRepo.deleteAll();
 
         Configuracao config = configRepo.findById(idConfiguracao).orElse(null);
         if(config == null) return ResponseEntity.badRequest().body("Configuração não encontrada");
@@ -105,7 +103,7 @@ public class ConexaoController {
         if(conexao == null) return ResponseEntity.badRequest().body("Conexão não encontrada");
 
         String fileName = file.getOriginalFilename();
-		String fileNameNoExtension = fileName.substring(0, fileName.indexOf('.'));
+		String fileNameNoExtention = fileName.substring(0, fileName.indexOf('.'));
 
         File myFile = new File(FILE_DIRECTORY + fileName);
         myFile.createNewFile();
@@ -114,9 +112,31 @@ public class ConexaoController {
         fos.close();
 
         String ip = conexao.getIp();
-        String placa = conexao.getDispositivo().getPlaca();
+        Dispositivo disp = conexao.getDispositivo();
 
-        if(!ProcessoBash.runProcess("bash scripts/enviaCodigo.sh " + ip + " " + placa + " " + fileNameNoExtension)) return new ResponseEntity<>("Erro ao realizar o upload do código enviado à conexão selecionada", HttpStatus.INTERNAL_SERVER_ERROR);
+        Processo processo = new Processo();
+
+        processo.executa("mkdir " + fileNameNoExtention);
+        processo.executa("mkdir " + fileNameNoExtention + "/build");
+        processo.executa("cp uploads/" + fileName + " " + fileNameNoExtention + "/");
+
+        String dir = System.getProperty("user.dir");
+
+        processo.executa("arduino-cli compile --fqbn " + disp.getPlaca() + " " + fileNameNoExtention + " --build-path " + dir + "/src/main/resources/" + fileNameNoExtention + "/build");
+        if(!processo.getExitCode()) return new ResponseEntity<>("Erro ao compilar o código submetido com o arduino-cli:\n\n" +
+                                                                processo.getStdErr(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        processo.executa("mv " + fileNameNoExtention + "/build/" + fileName + ".bin " + fileNameNoExtention + "/");
+
+        processo.executa("python scripts/espota.py -d -i " + ip + " -f " + fileNameNoExtention + "/" + fileName + ".bin");
+        if(!processo.getExitCode()) return new ResponseEntity<>("Erro ao enviar o código submetido via OTA:\n\n" +
+                                                                processo.getStdErr(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        processo.executa("rm uploads/" + fileName);
+        processo.executa("rm -r " + fileNameNoExtention);
+
+        disp.setFirmware(fileName);
+        dispRepo.save(disp);
 
         return ResponseEntity.ok("Arquivo enviado com sucesso");
     }

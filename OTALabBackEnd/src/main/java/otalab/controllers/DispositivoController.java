@@ -1,6 +1,5 @@
 package otalab.controllers;
 
-import java.io.File;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +12,7 @@ import otalab.models.Configuracao;
 import otalab.models.Dispositivo;
 import otalab.repo.ConfiguracaoRepo;
 import otalab.repo.DispositivoRepo;
-import otalab.util.ProcessoBash;
-
-
-
-
+import otalab.util.Processo;
 
 @RestController
 public class DispositivoController {
@@ -42,35 +37,33 @@ public class DispositivoController {
 
     @PostMapping("/dispositivos/create")
     public ResponseEntity<String> createDispositivo(String nome, String descricao, String placa, String portaCadastro){
-        boolean existeConfigAtiva = false;
-        List<Configuracao> configs = configRepo.findAll();
-        for(Configuracao cfg: configs){
-            if(cfg.getAtiva()) existeConfigAtiva = true;
-        }
-
-        if(!existeConfigAtiva) return ResponseEntity.badRequest().body("Impossível criar um dispositivo sem que haja uma configuração ativa");
-
-		String pathOTADefault = System.getProperty("user.home") + "/OTALab/OTADefault";
-		File diretorioOTADefault = new File(pathOTADefault); 
-		if(!diretorioOTADefault.exists()) diretorioOTADefault.mkdir();
+        Configuracao config = configRepo.findByAtiva(true);
+        if(config == null) return ResponseEntity.badRequest().body("Impossível criar um dispositivo sem que haja uma configuração ativa");
 
         Dispositivo disp = new Dispositivo(nome, descricao, placa, portaCadastro);
         disp = dispRepo.save(disp);
         if(disp == null) return ResponseEntity.badRequest().body("Não foi possível criar o dispositivo");
 
-		if(!ProcessoBash.runProcess("bash scripts/copiaTemplate.sh " + disp.getId())){
+        Processo processo = new Processo();
+
+        processo.executa("bash scripts/copiaTemplate.sh " + disp.getIdDispositivo());
+		if(!processo.getExitCode()){
             dispRepo.delete(disp);
             return new ResponseEntity<>("Erro na cópia do template", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-		if(!ProcessoBash.runProcess("arduino-cli compile -b " + placa + " OTADefault")){
+        processo.executa("arduino-cli compile -b " + placa + " OTADefault");
+		if(!processo.getExitCode()){
             dispRepo.delete(disp);
-            return new ResponseEntity<>("Erro ao compilar o código de cadastro com o arduino-cli", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Erro ao compilar o código de cadastro com o arduino-cli:\n\n" +
+                                        processo.getStdErr(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-		if(!ProcessoBash.runProcess("arduino-cli upload -b " + placa + " -p /dev/" + portaCadastro + " OTADefault")){
+        processo.executa("arduino-cli upload -b " + placa + " -p /dev/" + portaCadastro + " OTADefault");
+		if(!processo.getExitCode()){
             dispRepo.delete(disp);
-            return new ResponseEntity<>("Erro ao fazer upload do código de cadastro com o arduino-cli", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Erro ao fazer upload do código de cadastro com o arduino-cli:\n\n" +
+                                        processo.getStdErr(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
         return ResponseEntity.ok("Dispositivo criado com sucesso");

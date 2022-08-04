@@ -1,5 +1,7 @@
 # OTALab - Um ambiente para experimentação e atualização Over-The-Air em dispositivos IoT
 
+[DESATUALIZADO]
+
 ## 0. Importante - SBRC2022
 
 Para os usuários que chegaram à este repositório pelo Salão de Ferramentas do SBRC2022, recomenda-se que ao invés de realizar o git clone, faça o download da release SBRC2022, uma vez que novas atualizações foram realizadas no repositório desde o envio para à conferência.

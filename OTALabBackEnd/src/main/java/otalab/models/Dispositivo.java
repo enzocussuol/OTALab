@@ -3,13 +3,12 @@ package otalab.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Dispositivo {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	public long idDispositivo;
 
 	@Column
@@ -23,6 +22,9 @@ public class Dispositivo {
 
 	@Column
 	public String portaCadastro;
+
+	@Column
+	public String firmware;
 	
 	public Dispositivo(){
 
@@ -33,9 +35,10 @@ public class Dispositivo {
 		this.descricao = descricao;
 		this.placa = placa;
 		this.portaCadastro = portaCadastro;
+		this.firmware = "OTADefault.ino";
 	}
 
-	public long getId(){
+	public long getIdDispositivo(){
 		return this.idDispositivo;
 	}
 
@@ -69,5 +72,13 @@ public class Dispositivo {
 
 	public void setPortaCadastro(String portaCadastro){
 		this.portaCadastro = portaCadastro;
+	}
+
+	public String getFirmware() {
+		return this.firmware;
+	}
+
+	public void setFirmware(String firmware) {
+		this.firmware = firmware;
 	}
 }

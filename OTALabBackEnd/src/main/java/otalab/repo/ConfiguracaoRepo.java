@@ -5,5 +5,5 @@ import otalab.models.Configuracao;
 
 
 public interface ConfiguracaoRepo extends JpaRepository<Configuracao, Long>{
-    
+    public Configuracao findByAtiva(boolean ativa);
 }

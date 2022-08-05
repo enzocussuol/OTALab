@@ -3,6 +3,7 @@ package otalab.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,15 +11,15 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Conexao {
     @Id
-    @GeneratedValue
-    public long idConexao;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idConexao;
 
     @ManyToOne
-	@JoinColumn(name = "id")
-    public Dispositivo dispositivo;
+	@JoinColumn(name = "idDispositivo")
+    private Dispositivo dispositivo;
 
     @Column
-    public String ip;
+    private String ip;
 
     public Conexao(){
 

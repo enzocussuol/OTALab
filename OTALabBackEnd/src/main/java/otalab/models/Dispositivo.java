@@ -1,30 +1,38 @@
 package otalab.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Dispositivo {
 	@Id
-	@GeneratedValue
-	public long idDispositivo;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long idDispositivo;
 
 	@Column
-	public String nome;
+	private String nome;
 
 	@Column
-	public String descricao;
+	private String descricao;
 
 	@Column
-	public String placa;
+	private String placa;
 
 	@Column
-	public String portaCadastro;
+	private String portaCadastro;
 
 	@Column
-	public String firmware;
+	private String firmware;
+
+	@OneToMany(mappedBy = "dispositivo")
+	private List<Servico> servicos = new ArrayList<>();
 	
 	public Dispositivo(){
 
@@ -80,5 +88,13 @@ public class Dispositivo {
 
 	public void setFirmware(String firmware) {
 		this.firmware = firmware;
+	}
+
+	public List<Servico> getServicos() {
+		return this.servicos;
+	}
+
+	public void setServicos(List<Servico> servicos) {
+		this.servicos = servicos;
 	}
 }

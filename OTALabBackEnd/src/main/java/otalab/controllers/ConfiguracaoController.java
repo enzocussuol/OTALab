@@ -18,7 +18,7 @@ import otalab.util.Processo;
 @RestController
 public class ConfiguracaoController {
     @Autowired
-    private ConfiguracaoRepo configRepo;
+    ConfiguracaoRepo configRepo;
 
     @GetMapping("/configuracoes/read")
     public List<Configuracao> readConfiguracoes(){

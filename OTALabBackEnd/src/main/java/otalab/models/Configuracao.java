@@ -3,25 +3,26 @@ package otalab.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Configuracao {
     @Id
-    @GeneratedValue
-    public long idConfiguracao;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idConfiguracao;
 
     @Column
-    public String nomeWiFi;
+    private String nomeWiFi;
 
     @Column
-	public String senhaWiFi;
+	private String senhaWiFi;
 
     @Column
-	public String ipBroker;
+	private String ipBroker;
 
     @Column
-    public boolean ativa;
+    private boolean ativa;
 
     public Configuracao(){
 

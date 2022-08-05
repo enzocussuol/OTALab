@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,5 +38,14 @@ public class SensorController {
 
         if(sensor == null) return ResponseEntity.badRequest().body("Não foi possível criar o sensor");
         return ResponseEntity.ok().body("Sensor criado com sucesso");
+    }
+
+    @DeleteMapping("/sensores/delete/{idSensor}")
+    public ResponseEntity<String> deleteSensor(@PathVariable long idSensor){
+        Sensor sensor = sensorRepo.findById(idSensor).orElse(null);
+        if(sensor == null) return ResponseEntity.badRequest().body("Sensor não existe");
+
+        sensorRepo.delete(sensor);
+        return ResponseEntity.ok().body("Sensor deletado com sucesso");
     }
 }

@@ -1,16 +1,22 @@
 #include <OTALabDevice.h>
 
+// Insira o id do dispositivo escolhido
+String id = ""
 OTALabDevice* device = new OTALabDevice();
 
 #include <ESP8266WiFi.h>
 #include <DHT.h>
 
+// Selecione a pinagem cadastrada para o dispositivo escolhido no OTALab
 #define DHTPIN D1
+
 #define DHTTYPE DHT11
 #define INTERVALO_ENVIO_THINGSPEAK 5000
 
-char enderecoAPIThingspeak[] = "api.thingspeak.com";
-String channelAPIKey = "80MAN6MJ7CTQZ06S";
+// Insira os dados do seu canal ThingSpeak
+char enderecoAPIThingspeak[] = "";
+String channelAPIKey = "";
+
 unsigned long tempoUltimoEnvio = 0;
 
 WiFiClient client;
@@ -18,14 +24,7 @@ WiFiClient client;
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup(){
-    device->setWiFiNetworkName(WIFI_NETWORK_NAME);
-    device->setWiFiNetworkPassword(WIFI_NETWORK_PASSWORD);
-    device->setBrokerIP(BROKER_IP);
-    device->setName(DEVICE_NAME);
-    device->setup();
-
-    Serial.begin(115200);
-    Serial.println("Comecando...");
+    device->setup(id);
     
     dht.begin();
 }
@@ -43,7 +42,6 @@ void enviaDadosThingspeak(String dados){
       client.print(dados);
         
       tempoUltimoEnvio = millis();
-      Serial.println("- Informações enviadas ao ThingSpeak!");
     }
 }
 

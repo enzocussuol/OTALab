@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Pinagem {
     @Id
@@ -22,15 +24,17 @@ public class Pinagem {
 
     @ManyToOne
 	@JoinColumn(name = "idServico")
+    @JsonBackReference
     private Servico servico;
 
     public Pinagem(){
 
     }
 
-    public Pinagem(String pinoDispositivo, String pinoSensor){
+    public Pinagem(String pinoDispositivo, String pinoSensor, Servico servico){
         this.pinoDispositivo = pinoDispositivo;
         this.pinoSensor = pinoSensor;
+        this.servico = servico;
     }
 
 	public long getIdPinagem() {

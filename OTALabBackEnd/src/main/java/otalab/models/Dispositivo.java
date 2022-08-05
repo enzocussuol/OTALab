@@ -3,12 +3,15 @@ package otalab.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Dispositivo {
@@ -31,8 +34,21 @@ public class Dispositivo {
 	@Column
 	private String firmware;
 
-	@OneToMany(mappedBy = "dispositivo")
+	@OneToMany(
+		mappedBy = "dispositivo",
+		cascade = CascadeType.ALL,
+		orphanRemoval = true
+	)
+	@JsonManagedReference
 	private List<Servico> servicos = new ArrayList<>();
+
+	@OneToMany(
+		mappedBy = "dispositivo",
+		cascade = CascadeType.ALL,
+		orphanRemoval = true
+	)
+	@JsonManagedReference
+	private List<Conexao> conexoes = new ArrayList<>();
 	
 	public Dispositivo(){
 
@@ -96,5 +112,13 @@ public class Dispositivo {
 
 	public void setServicos(List<Servico> servicos) {
 		this.servicos = servicos;
+	}
+
+	public List<Conexao> getConexoes() {
+		return this.conexoes;
+	}
+
+	public void setConexoes(List<Conexao> conexoes) {
+		this.conexoes = conexoes;
 	}
 }

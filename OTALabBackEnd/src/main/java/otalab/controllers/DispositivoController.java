@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,5 +68,14 @@ public class DispositivoController {
         }
         
         return ResponseEntity.ok("Dispositivo criado com sucesso");
+    }
+
+    @DeleteMapping("/dispositivos/delete/{idDispositivo}")
+    public ResponseEntity<String> deleteDispositivo(@PathVariable long idDispositivo){
+        Dispositivo disp = dispRepo.findById(idDispositivo).orElse(null);
+        if(disp == null) return ResponseEntity.badRequest().body("Dispositivo não existe");
+
+        dispRepo.delete(disp);
+        return ResponseEntity.ok().body("Dispositivo deletado com sucesso");
     }
 }

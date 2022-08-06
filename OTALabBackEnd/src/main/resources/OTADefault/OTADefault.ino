@@ -1,6 +1,6 @@
 #include <OTALabDevice.h>
 
-String id = "1";
+String id = "2";
 OTALabDevice* device = new OTALabDevice();
 
 void setup(){

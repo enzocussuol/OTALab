@@ -17,19 +17,6 @@ import otalab.util.Processo;
 
 @RestController
 public class RecursosController {
-    @PostMapping("/recursos/setup")
-    public ResponseEntity<String> setupRecursos(){
-        Processo processo = new Processo();
-        processo.executa("which arduino-cli");
-
-        if(processo.getExitCode()) return new ResponseEntity<>("Recursos já estão configurados", HttpStatus.INTERNAL_SERVER_ERROR);
-
-        processo.executa("scripts/install.sh");
-        if(!processo.getExitCode()) return new ResponseEntity<>("Ocorreu um erro durante a execução do script de inicialização", HttpStatus.INTERNAL_SERVER_ERROR);
-
-        return ResponseEntity.ok().body("Setup dos recursos completo com sucesso");
-    }
-
     @GetMapping("/recursos/bibliotecas/read")
     public ResponseEntity<String> readBibliotecas(){
         Processo processo = new Processo();

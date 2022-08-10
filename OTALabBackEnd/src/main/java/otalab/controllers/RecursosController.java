@@ -1,5 +1,8 @@
 package otalab.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -72,14 +75,14 @@ public class RecursosController {
     }
 
     @GetMapping("/recursos/portas/read")
-    public ResponseEntity<String> readPortas(){
+    public List<String> readPortas(){
         SerialPort[] portas = SerialPort.getCommPorts();
-        String portasAsStr = "";
+        List<String> portasAsStr = new ArrayList<>();
 
         for(SerialPort porta: portas){
-            portasAsStr += porta.getSystemPortName() + "\n";
+            portasAsStr.add(porta.getSystemPortName());
         }
 
-        return ResponseEntity.ok().body(portasAsStr);
+        return portasAsStr;
     }
 }

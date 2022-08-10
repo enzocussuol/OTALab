@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  mysqldb:
+    container_name: otalab-db
+    image: "mysql:5.7"
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_DATABASE=OTALabDB
+      - MYSQL_USER=OTALab
+      - MYSQL_PASSWORD=OTALab
+      - MYSQL_ROOT_PASSWORD=OTALab
+    volumes:
+      - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
+  spring-boot-app:
+    build:
+      context: "./"
+      dockerfile: "OTALabBackEnd/Dockerfile"
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/OTALabDB?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: "OTALab"
+      SPRING_DATASOURCE_PASSWORD: "OTALab"
+    restart: on-failure
+    depends_on:
+      - mysqldb

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.v3.oas.annotations.Operation;
 import otalab.models.Configuracao;
 import otalab.repo.ConfiguracaoRepo;
 import otalab.util.Processo;
@@ -20,11 +22,13 @@ public class ConfiguracaoController {
     @Autowired
     ConfiguracaoRepo configRepo;
 
+    @Operation(summary = "Lê todas as configurações existentes no momento.")
     @GetMapping("/configuracoes/read")
     public List<Configuracao> readConfiguracoes(){
         return configRepo.findAll();
     }
 
+    @Operation(summary = "Lê uma configuração com um dado id.")
     @GetMapping("/configuracoes/read/{idConfiguracao}")
     public ResponseEntity<Configuracao> readConfiguracaoById(@PathVariable long idConfiguracao){
         Configuracao config = configRepo.findById(idConfiguracao).orElse(null);
@@ -33,6 +37,7 @@ public class ConfiguracaoController {
         return ResponseEntity.ok(config);
     }
 
+    @Operation(summary = "Cria uma configuração.")
     @PostMapping("/configuracoes/create")
     public ResponseEntity<String> createConfiguracao(String nomeWiFi, String senhaWiFi, String ipBroker){
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
@@ -45,6 +50,8 @@ public class ConfiguracaoController {
         return ResponseEntity.ok("Configuração criada com sucesso");
     }
 
+    @Operation(summary = "Define a configuração com um dado id como ativa. Apenas uma configuração pode estar ativa por vez." +
+                    " Todos os dispositivos cadastrados utilizam a configuração que estiver ativa no momento do cadastro.")
     @PutMapping("/configuracoes/setAsActive/{idConfiguracao}")
     public ResponseEntity<String> ativaConfiguracao(@PathVariable long idConfiguracao){
         Configuracao config = configRepo.findById(idConfiguracao).orElse(null);
@@ -75,6 +82,7 @@ public class ConfiguracaoController {
         return ResponseEntity.ok("Configuração atualizada como ativa com sucesso");
     }
 
+    @Operation(summary = "Deleta uma configuração com um dado id.")
     @DeleteMapping("/configuracoes/delete/{idConfiguracao}")
     public ResponseEntity<String> deleteConfiguracao(@PathVariable long idConfiguracao){
         Configuracao config = configRepo.findById(idConfiguracao).orElse(null);

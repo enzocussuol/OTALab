@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.v3.oas.annotations.Operation;
 import otalab.models.Configuracao;
 import otalab.models.Dispositivo;
 import otalab.repo.ConfiguracaoRepo;
@@ -23,11 +25,13 @@ public class DispositivoController {
     @Autowired
     ConfiguracaoRepo configRepo;
 
+    @Operation(summary = "Lê todos os dispositivos existentes no momento.")
     @GetMapping("/dispositivos/read")
     public List<Dispositivo> readDispositivos(){
         return dispRepo.findAll();
     }
 
+    @Operation(summary = "Lê um dispositivo com um dado id.")
     @GetMapping("/dispositivos/read/{idDispositivo}")
     public ResponseEntity<Dispositivo> readDispositivoById(@PathVariable long idDispositivo){
         Dispositivo disp = dispRepo.findById(idDispositivo).orElse(null);
@@ -36,6 +40,7 @@ public class DispositivoController {
         return ResponseEntity.ok().body(disp);
     }
 
+    @Operation(summary = "Cria um dispositivo. O dispositivo deve estar conectado à maquina hospedeira do OTALab via USB para ser cadastrado.")
     @PostMapping("/dispositivos/create")
     public ResponseEntity<String> createDispositivo(String nome, String descricao, String placa, String portaCadastro){
         Configuracao config = configRepo.findByAtiva(true);
@@ -70,6 +75,7 @@ public class DispositivoController {
         return ResponseEntity.ok("Dispositivo criado com sucesso");
     }
 
+    @Operation(summary = "Deleta um dispositivo com um dado id.")
     @DeleteMapping("/dispositivos/delete/{idDispositivo}")
     public ResponseEntity<String> deleteDispositivo(@PathVariable long idDispositivo){
         Dispositivo disp = dispRepo.findById(idDispositivo).orElse(null);

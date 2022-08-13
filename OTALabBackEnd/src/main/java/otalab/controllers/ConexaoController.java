@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.v3.oas.annotations.Operation;
 import otalab.models.Conexao;
 import otalab.models.Configuracao;
 import otalab.models.Dispositivo;
@@ -45,11 +47,13 @@ public class ConexaoController {
     @Value("${file.upload-dir}")
     String FILE_DIRECTORY;
 
+    @Operation(summary = "Lê todas as conexões existentes no momento.")
     @GetMapping("/conexoes/read")
     public List<Conexao> readConexoes(){
         return conexaoRepo.findAll();
     }
 
+    @Operation(summary = "Lê uma conexão com um dado id.")
     @GetMapping("/conexoes/read/{idConexao}")
     public ResponseEntity<Conexao> readConexaoById(@PathVariable long idConexao){
         Conexao conexao = conexaoRepo.findById(idConexao).orElse(null);
@@ -58,6 +62,7 @@ public class ConexaoController {
         return ResponseEntity.ok(conexao);
     }
 
+    @Operation(summary = "Atualiza a lista de conexões a partir do protocolo MQTT.")
     @PutMapping("/conexoes/update")
     public ResponseEntity<String> updateConexoes(int segundosEsperaRespostas, long idConfiguracao) throws MqttSecurityException, MqttException, InterruptedException{
         conexaoRepo.deleteAll();
@@ -97,6 +102,7 @@ public class ConexaoController {
         return ResponseEntity.ok("Conexões atualizadas com sucesso");
     }
 
+    @Operation(summary = "Realiza o upload de um código-fonte que implementa a biblioteca OTALabDevice para uma conexão via Over-The-Air.")
     @PostMapping(value = "/conexoes/upload/{idConexao}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String> uploadToConexao(@PathVariable long idConexao, @RequestPart("file") MultipartFile file) throws IOException{
         Conexao conexao = conexaoRepo.findById(idConexao).orElse(null);

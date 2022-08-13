@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import otalab.models.Pinagem;
 import otalab.models.Servico;
 import otalab.repo.PinagemRepo;
@@ -23,11 +24,13 @@ public class PinagemController {
     @Autowired
     ServicoRepo servRepo;
 
+    @Operation(summary = "Lê todas as pinagens existentes no momento.")
     @GetMapping("/pinagens/read")
     public List<Pinagem> readPinagens(){
         return pinRepo.findAll();
     }
 
+    @Operation(summary = "Lê uma pinagem com um dado id.")
     @GetMapping("/pinagens/read/{idPinagem}")
     public ResponseEntity<Pinagem> readPinagemById(@PathVariable long idPinagem){
         Pinagem pin = pinRepo.findById(idPinagem).orElse(null);
@@ -36,6 +39,7 @@ public class PinagemController {
         return ResponseEntity.ok().body(pin);
     }
 
+    @Operation(summary = "Cria uma pinagem.")
     @PostMapping("/pinagens/create")
     public ResponseEntity<String> createPinagem(String pinoDispositivo, String pinoSensor, long idServico){
         Servico serv = servRepo.findById(idServico).orElse(null);
@@ -48,6 +52,7 @@ public class PinagemController {
         return ResponseEntity.ok().body("Pinagem criada com sucesso");
     }
 
+    @Operation(summary = "Deleta uma pinagem com um dado id.")
     @DeleteMapping("/pinagens/delete/{idPinagem}")
     public ResponseEntity<String> deletePinagem(@PathVariable long idPinagem){
         Pinagem pin = pinRepo.findById(idPinagem).orElse(null);

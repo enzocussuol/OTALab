@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import io.swagger.v3.oas.annotations.Operation;
 import otalab.util.Processo;
 
 @RestController
 public class RecursosController {
+    @Operation(summary = "Lê todas as bibliotecas instaladas no momento.")
     @GetMapping("/recursos/bibliotecas/read")
     public ResponseEntity<String> readBibliotecas(){
         Processo processo = new Processo();
@@ -27,6 +29,7 @@ public class RecursosController {
         return ResponseEntity.ok().body(processo.getStdOut());
     }
 
+    @Operation(summary = "Instala uma biblioteca com um dado nome. A biblioteca deve estar no repositório oficial Arduino.")
     @PostMapping("/recursos/bibliotecas/install/{nomeBiblioteca}")
     public ResponseEntity<String> installBiblioteca(@PathVariable String nomeBiblioteca){
         Processo processo = new Processo();
@@ -39,6 +42,7 @@ public class RecursosController {
         return ResponseEntity.ok().body("Biblioteca instalada com sucesso");
     }
 
+    @Operation(summary = "Desinstala uma biblioteca com um dado nome.")
     @DeleteMapping("/recursos/bibliotecas/uninstall/{nomeBiblioteca}")
     public ResponseEntity<String> uninstallBiblioteca(@PathVariable String nomeBiblioteca){
         Processo processo = new Processo();
@@ -51,6 +55,7 @@ public class RecursosController {
         return ResponseEntity.ok().body("Biblioteca desinstalada com sucesso");
     }
 
+    @Operation(summary = "Lê todas as placas instaladas no momento.")
     @GetMapping("/recursos/placas/read")
     public ResponseEntity<String> readPlacas(){
         Processo processo = new Processo();
@@ -61,6 +66,7 @@ public class RecursosController {
         return ResponseEntity.ok().body(processo.getStdOut());
     }
 
+    @Operation(summary = "Lê todas as portas USB conectadas no momento.")
     @GetMapping("/recursos/portas/read")
     public List<String> readPortas(){
         SerialPort[] portas = SerialPort.getCommPorts();

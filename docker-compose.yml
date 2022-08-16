@@ -12,7 +12,7 @@ services:
       - MYSQL_ROOT_PASSWORD=OTALab
     volumes:
       - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
-      - db-data:/var/lib/mysql
+      - "db-data:/var/lib/mysql"
   spring-boot-app:
     build:
       context: "./"
@@ -27,8 +27,8 @@ services:
     depends_on:
       - mysqldb
     volumes:
-      - spring-boot-data:/root/.m2
+      - "/dev:/dev"
+    privileged: true
 
 volumes:
   db-data:
-  spring-boot-data:

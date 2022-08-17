@@ -3,6 +3,8 @@
 
     class OTALabDevice;
 
+    #include <ESP8266WiFi.h>
+
     #include "OTA.h"
     #include "MQTT.h"
     #include "Config.h"

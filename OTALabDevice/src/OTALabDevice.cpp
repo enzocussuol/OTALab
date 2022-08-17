@@ -6,10 +6,11 @@ void OTALabDevice::setup(String id){
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_NETWORK_NAME, WIFI_NETWORK_PASSWORD);
 
-    while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED) {
+        Serial.print("Trying to connect to: ");
+        Serial.println(WIFI_NETWORK_NAME);
         Serial.println("Connection Failed! Rebooting...");
         delay(5000);
-        ESP.restart();
     }
 
     Serial.println("");

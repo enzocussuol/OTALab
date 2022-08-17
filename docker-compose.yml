@@ -19,6 +19,7 @@ services:
       dockerfile: "OTALabBackEnd/Dockerfile"
     ports:
       - 8080:8080
+      - 20000:20000
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/OTALabDB?autoReconnect=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: "OTALab"

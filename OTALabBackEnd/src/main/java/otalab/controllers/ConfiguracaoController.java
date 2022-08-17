@@ -37,7 +37,7 @@ public class ConfiguracaoController {
         return ResponseEntity.ok(config);
     }
 
-    @Operation(summary = "Cria uma configuração.")
+    @Operation(summary = "Cria uma configuração. No momento, o broker não pode ser conectado via DNS. IP do broker público HiveMQ para testes: 18.158.239.107.")
     @PostMapping("/configuracoes/create")
     public ResponseEntity<String> createConfiguracao(String nomeWiFi, String senhaWiFi, String ipBroker){
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();

@@ -2,6 +2,9 @@
 
 echo "Running initialization script..."
 
+apt-get update
+apt install python3
+
 curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
 
 arduino-cli config init
@@ -13,7 +16,6 @@ arduino-cli core update-index
 arduino-cli core install esp8266:esp8266
 arduino-cli core install esp32:esp32
 
-apt-get update
 apt install zip
 
 zip -r OTALabDevice.zip OTALabDevice

@@ -3,6 +3,7 @@ package otalab.controllers;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.List;
 import java.util.UUID;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
@@ -134,7 +135,7 @@ public class ConexaoController {
 
         processo.executa("mv " + fileNameNoExtention + "/build/" + fileName + ".bin " + fileNameNoExtention + "/");
 
-        processo.executa("python scripts/espota.py -d -i " + ip + " -f " + fileNameNoExtention + "/" + fileName + ".bin");
+        processo.executa("python3 scripts/espota.py -d -i " + ip + " -P 20000 -f " + fileNameNoExtention + "/" + fileName + ".bin");
         if(!processo.getExitCode()) return new ResponseEntity<>("Erro ao enviar o código submetido via OTA:\n\n" +
                                                                 processo.getStdErr(), HttpStatus.INTERNAL_SERVER_ERROR);
 

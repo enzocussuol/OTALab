@@ -3,7 +3,9 @@
 echo "Running initialization script..."
 
 apt-get update
-apt install python3
+apt install python3 -y
+apt install python3-serial -y
+apt install python-is-python3 -y
 
 curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
 

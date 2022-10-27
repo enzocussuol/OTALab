@@ -12,6 +12,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -66,40 +67,48 @@ public class ConexaoController {
     @Operation(summary = "Atualiza a lista de conexões a partir do protocolo MQTT.")
     @PutMapping("/conexoes/update")
     public ResponseEntity<String> updateConexoes(int segundosEsperaRespostas, long idConfiguracao) throws MqttSecurityException, MqttException, InterruptedException{
+        
         conexaoRepo.deleteAll();
-
+	    System.out.println("Starting ...");
         Configuracao config = configRepo.findById(idConfiguracao).orElse(null);
         if(config == null) return ResponseEntity.badRequest().body("Configuração não encontrada");
 
         String clientId = UUID.randomUUID().toString();
-        IMqttClient client = new MqttClient("tcp://" + config.getIpBroker(), clientId);
-
+        System.out.println("clientId: "+clientId);
+        MemoryPersistence persistence = new MemoryPersistence();
+        IMqttClient client = new MqttClient("tcp://" + config.getIpBroker(), clientId, persistence);
+        
+	    System.out.println("client: "+client);	
         MqttConnectOptions options = new MqttConnectOptions();
+        System.out.println("options: "+options);
         options.setAutomaticReconnect(true);
         options.setCleanSession(true);
         options.setConnectionTimeout(10);
         client.connect(options);
+	    System.out.println("client.subscribe ...");
 
-        client.subscribe("Inicializacao/inTopic", (topic, msg) -> {
-            String payload = new String(msg.getPayload());
+		client.subscribe("Inicializacao/inTopic", (topic, msg) -> {
+		    String payload = new String(msg.getPayload());
+		    System.err.println("payload: "+payload);
 
-            String ip = payload.substring(0, payload.indexOf(" "));
-            long idDispositivo = Long.valueOf(payload.substring(payload.indexOf(" ") + 1, payload.length()));
-
-            Dispositivo disp = dispRepo.findById(idDispositivo).orElse(null);
-
-            if(disp != null){
+		    String ip = payload.substring(0, payload.indexOf(" "));
+		    System.err.println("ip: "+ip);
+		    long idDispositivo = Long.valueOf(payload.substring(payload.indexOf(" ") + 1, payload.length()));
+		    System.err.println("idDispositivo: "+idDispositivo);
+		    Dispositivo disp = dispRepo.findById(idDispositivo).orElse(null);
+		    System.out.println("disp: "+disp);
+		    if(disp != null){
+                System.err.println("Entrou no IF");
                 Conexao conexao = new Conexao(disp, ip);
                 conexaoRepo.save(conexao);
-            }
-        });
+		    }
+		});
 
         client.publish("Inicializacao/outTopic", new MqttMessage("Are you alive?".getBytes()));
-
         Thread.sleep(segundosEsperaRespostas * 1000);
         client.disconnect();
         client.close();
-
+	    System.out.println("FIM ...");
         return ResponseEntity.ok("Conexões atualizadas com sucesso");
     }
 
@@ -109,9 +118,13 @@ public class ConexaoController {
         Conexao conexao = conexaoRepo.findById(idConexao).orElse(null);
         if(conexao == null) return ResponseEntity.badRequest().body("Conexão não encontrada");
 
+        Processo processo = new Processo();
+	    processo.executa("mkdir uploads");
+        
         String fileName = file.getOriginalFilename();
-		String fileNameNoExtention = fileName.substring(0, fileName.indexOf('.'));
-
+	    String fileNameNoExtention = fileName.substring(0, fileName.indexOf('.'));
+        
+        
         File myFile = new File(FILE_DIRECTORY + fileName);
         myFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(myFile);
@@ -120,8 +133,6 @@ public class ConexaoController {
 
         String ip = conexao.getIp();
         Dispositivo disp = conexao.getDispositivo();
-
-        Processo processo = new Processo();
 
         processo.executa("mkdir " + fileNameNoExtention);
         processo.executa("mkdir " + fileNameNoExtention + "/build");

@@ -1,8 +1,11 @@
 version: "3.3"
 services:
+### ----------------------------------------------------------- ###
+## compose MySQL
   mysqldb:
     container_name: otalab-db
     image: "mysql:5.7"
+    restart: always
     ports:
       - 3307:3306
     environment:
@@ -13,6 +16,10 @@ services:
     volumes:
       - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
       - "db-data:/var/lib/mysql"
+    networks:
+      - "otalab"
+### ----------------------------------------------------------- ###
+## compose Spring boot app
   spring-boot-app:
     build:
       context: "./"
@@ -29,7 +36,17 @@ services:
       - mysqldb
     volumes:
       - "/dev:/dev"
+      - "spring-boot-data:/root/.m2"
     privileged: true
-
+    networks:
+      - "otalab"
+### ----------------------------------------------------------- ###
+## Volumes
 volumes:
   db-data:
+  spring-boot-data:
+
+## Networks
+networks:
+  otalab:
+    driver: "bridge"
